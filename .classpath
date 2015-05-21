@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="/Users/stevevisinand/CloudStation/Cloud/Documents/HE-ARC/Annee2/Java/SationMeteoJava"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/Users/stevevisinand/CloudStation/Cloud/Documents/HE-ARC/Annee2/Java/SationMeteoJava/ext/RXTXcomm.jar">
-		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="StationMeteo_Java/deploy/ext"/>
-		</attributes>
-	</classpathentry>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="ext/BilatRmiTools.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.junit.JUNIT_CONTAINER/4"/>
+	<classpathentry kind="lib" path="ext/RXTX/RXTXcomm.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
