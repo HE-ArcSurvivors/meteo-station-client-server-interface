@@ -27,9 +27,9 @@ public interface AfficheurServiceWrapper_I extends Remote
 	public void printTemperature(MeteoEvent event) throws RemoteException;
 
 	/**
-	 * Utile pour l'update du GUI du pc-central (slider ...) de dt, a distance si slider est changé depuis pc local
+	 * Utile pour l'update du GUI du pc-central (slider ...) de dt, a distance si slider est changï¿½ depuis pc local
 	 */
-	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions);
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions) throws RemoteException;
 
 
 	}

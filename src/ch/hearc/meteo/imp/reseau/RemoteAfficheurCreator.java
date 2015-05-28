@@ -58,8 +58,8 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 			AfficheurService_I afficheurService = createAfficheurService(affichageOptions, meteoServiceRemote);
 			
 			// Building RmiURL
-			// RmiURL afficheurServicermiURL = rmiUrl();
-			RmiURL afficheurServicermiURL = rmiUrl(PC_CENTRAL_IP, PREFIXE);
+			 RmiURL afficheurServicermiURL = rmiUrl();
+//			RmiURL afficheurServicermiURL = rmiUrl(PC_CENTRAL_IP, PREFIXE);
 			
 			// Share Object afficheurService
 			AfficheurServiceWrapper_I afficheurServiceWrapper = new AfficheurServiceWrapper(afficheurService);
@@ -127,8 +127,8 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 	{
 		String id = IdTools.createID(PREFIXE);
 
-		//return new RmiURL(id);
-		return new RmiURL(id, RMI_PORT);
+		return new RmiURL(id);
+//		return new RmiURL(id, RMI_PORT);
 	}
 
 	/**
@@ -171,6 +171,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 
 	// Tools
 	public static int RMI_PORT = RmiTools.PORT_RMI_DEFAUT;
+	public static RmiURL RMI_URL = new RmiURL(RMI_ID,RMI_PORT);
 	private static RemoteAfficheurCreator_I INSTANCE = null;
 	private static String PC_CENTRAL_IP = LOCALHOST_IP;
 	private static InetAddress inetConvertedIPAddress;
