@@ -16,7 +16,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import ch.hearc.meteo.imp.afficheur.real.AfficheurService;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreatorFactory;
 import ch.hearc.meteo.imp.use.remote.PC_I;
 import ch.hearc.meteo.spec.reseau.RemoteAfficheurCreator_I;
@@ -63,7 +62,7 @@ public class PCCentral extends JFrame implements PC_I {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 
-				new AfficheurService();
+//				new AfficheurService();
 
 				try {
 					setRemoteAfficheurCreator(RemoteAfficheurCreatorFactory

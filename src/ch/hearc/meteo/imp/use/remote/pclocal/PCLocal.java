@@ -4,7 +4,6 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.UnknownHostException;
 
-import ch.hearc.meteo.imp.afficheur.real.AfficheurService;
 import ch.hearc.meteo.imp.afficheur.simulateur.AfficheurSimulateurFactory;
 import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreator;
@@ -52,19 +51,19 @@ public class PCLocal implements PC_I {
 			e.printStackTrace();
 		}
 
-		try {
-			client(); // aprÃ¨s
-		} catch (RemoteException | MeteoServiceException e) {
-			System.err.println("[PCLocal :  run : client : failed");
-			e.printStackTrace();
-		}
+//		try {
+//			client(); // après
+//		} catch (RemoteException | MeteoServiceException e) {
+//			System.err.println("[PCLocal :  run : client : failed");
+//			e.printStackTrace();
+//		}
 	}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
-	
-	
+
+
 	/*------------------------------*\
 	|*			  Static			*|
 	\*------------------------------*/
@@ -86,22 +85,22 @@ public class PCLocal implements PC_I {
 		}
 		return new RmiURL(id, inetConvertedIPAddress, RMI_PORT);
 	}
-	
-	
+
+
 
 	/*------------------------------*\
 	|*				server			*|
 	\*------------------------------*/
 
 	private void server() throws MeteoServiceException, RemoteException {
-		
+
 		//get data
-		
+
 		afficheurService = (new AfficheurSimulateurFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
-		
+
 		meteoService.addMeteoListener(new MeteoListener_I()
 			{
-				
+
 				@Override
 				public void temperaturePerformed(MeteoEvent event)
 					{
@@ -116,7 +115,7 @@ public class PCLocal implements PC_I {
 						e.printStackTrace();
 						}
 					}
-				
+
 				@Override
 				public void pressionPerformed(MeteoEvent event)
 					{
@@ -130,7 +129,7 @@ public class PCLocal implements PC_I {
 						e.printStackTrace();
 						}
 					}
-				
+
 				@Override
 				public void altitudePerformed(MeteoEvent event)
 					{
@@ -154,44 +153,44 @@ public class PCLocal implements PC_I {
 	\*------------------------------*/
 
 	private void client() throws RemoteException, MeteoServiceException {
-		new AfficheurService();
-		
+//		new AfficheurService();
+
 		//Connect au PC central via remoteafficheur
-		
+
 		//Il lui demande de creer un remoteafficheur
-		
+
 		//il recoit l'url de l'afficheur
-		
-		
+
+
 		//create meteoServiceWrapper
 		meteoService = (new MeteoServiceSimulatorFactory()).create(portCom);
 		meteoService.connect();
 		meteoService.start(meteoServiceOptions);
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
-		
+
 		//create afficheurServiceWrapper
 		String titre = RmiTools.getLocalHost() + " " + meteoService.getPort();
 		AffichageOptions affichageOptions = new AffichageOptions(3, titre);
 		AfficheurService_I afficheurService = (new AfficheurSimulateurFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
 		afficheurServiceWrapper = new AfficheurServiceWrapper(afficheurService);
-		
+
 		//share
 		rmiURLMeteoService = rmiUrl(LOCALHOST_IP,PREFIXE_METEO_SERVICE);
 		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
 //		rmiURLAfficheurService = rmiUrl(LOCALHOST_IP,PREFIXE_AFFICHEUR_SERVICE);
-		
+
 		//set remotes
 		remoteAfficheurCreator = (RemoteAfficheurCreator_I) RmiTools.connectionRemoteObjectBloquant(RemoteAfficheurCreator.RMI_URL);
 		rmiURLafficheurManager = remoteAfficheurCreator.createRemoteAfficheurService(affichageOptions, rmiURLMeteoService);
-		
+
 		afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools.connectionRemoteObjectBloquant(rmiURLafficheurManager);
-	
+
 	}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-		
+
 	// Inputs
 	private MeteoServiceOptions meteoServiceOptions;
 	private String portCom = null;
@@ -199,19 +198,19 @@ public class PCLocal implements PC_I {
 	private RmiURL rmiURLAfficheurService;
 	private RmiURL rmiURLMeteoService;
 	private RmiURL rmiURLafficheurManager;
-	
-	
-	
+
+
+
 	// Tools PRIVATE final
 	private static final String LOCALHOST_IP = "127.0.0.1";
 	private static final String PREFIXE = "METEO_SERVICE";
 	private static final String PREFIXE_METEO_SERVICE = "METEO_SERVICE";
 	private static final String PREFIXE_AFFICHEUR_SERVICE = "AFFICHEUR_SERVICE";
-	
-	
+
+
 	// Tools PUBLIC final
 	public static final String RMI_ID = PREFIXE;
-	
+
 
 	// Tools
 	public static int RMI_PORT = RmiTools.PORT_RMI_DEFAUT;
