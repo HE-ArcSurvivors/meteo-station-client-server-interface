@@ -1,6 +1,8 @@
 
 package ch.hearc.meteo.imp.afficheur.simulateur.vue.atome;
 
+import java.text.DecimalFormat;
+
 public class MathTools
 	{
 
@@ -13,7 +15,8 @@ public class MathTools
 		int valueINT = (int)(value * 100);
 		float arrondi = valueINT / (float)100;
 
-		return "" + arrondi;
+		DecimalFormat df = new DecimalFormat("0.00");
+		return df.format(arrondi);
 		}
 
 	/*------------------------------------------------------------------*\

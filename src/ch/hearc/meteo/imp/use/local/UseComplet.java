@@ -66,20 +66,23 @@ public class UseComplet
 		meteoService.addMeteoListener(new MeteoAdapter()
 			{
 
-				@Override public void temperaturePerformed(MeteoEvent event)
-					{
-					afficheurService.printTemperature(event);
-					}
+//				@Override
+//				public void temperaturePerformed(MeteoEvent event)
+//					{
+//					afficheurService.printTemperature(event);
+//					}
+//
+//				@Override
+//				public void altitudePerformed(MeteoEvent event)
+//					{
+//					afficheurService.printAltitude(event);
+//					}
 
-				//				@Override public void altitudePerformed(MeteoEvent event)
-				//					{
-				//					afficheurService.printAltitude(event);
-				//					}
-				//
-				//				@Override public void pressionPerformed(MeteoEvent event)
-				//					{
-				//					afficheurService.printPression(event);
-				//					}
+				@Override
+				public void pressionPerformed(MeteoEvent event)
+					{
+					afficheurService.printPression(event);
+					}
 
 			});
 
@@ -87,7 +90,8 @@ public class UseComplet
 		Thread threadSimulationChangementDt = new Thread(new Runnable()
 			{
 
-				@Override public void run()
+				@Override
+				public void run()
 					{
 					double x = 0;
 					double dx = Math.PI / 10;
@@ -112,7 +116,8 @@ public class UseComplet
 		Thread threadPoolingOptions = new Thread(new Runnable()
 			{
 
-				@Override public void run()
+				@Override
+				public void run()
 					{
 
 					while(true)
