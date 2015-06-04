@@ -1,41 +1,30 @@
-package ch.hearc.meteo.imp.afficheur.real.vue.layout.tab;
+package ch.hearc.meteo.imp.afficheur.real.vue.layout;
 
 import java.awt.FlowLayout;
 
 import javax.swing.JPanel;
 
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.altitude.JPanelAltitude;
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.barometre.JPanelBarometre;
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.thermometre.JPanelThermometre;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 
-public class JPanelTabOverview extends JPanel
+public class JPanelCentral extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelTabOverview(AfficheurServiceMOO afficheurServiceMOO)
+	public JPanelCentral(AfficheurServiceMOO afficheurServiceMOO)
 		{
-		jpanelthermometre = new JPanelThermometre(afficheurServiceMOO.getStatTemperature(), afficheurServiceMOO.getListTemperature());
-		jpanelaltitude = new JPanelAltitude(afficheurServiceMOO.getStatAltitude(), afficheurServiceMOO.getListAltitude());
-		jpanelbarometre = new JPanelBarometre(afficheurServiceMOO.getStatPression(), afficheurServiceMOO.getListPression());
+		this.afficheurServiceMOO = afficheurServiceMOO;
+
 		geometry();
 		control();
 		appearance();
 		}
 
 	/*------------------------------------------------------------------*\
-	|*						Methodes Public							*|
+	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
-
-	public void update()
-		{
-		jpanelthermometre.update();
-		jpanelaltitude.update();
-		jpanelbarometre.update();
-		}
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -51,13 +40,13 @@ public class JPanelTabOverview extends JPanel
 
 	private void geometry()
 		{
+			// JComponent : Instanciation
+
 			// Layout : Specification
 			{
 			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
 			setLayout(flowlayout);
-			add(jpanelthermometre);
-			add(jpanelaltitude);
-			add(jpanelbarometre);
+
 			// flowlayout.setHgap(20);
 			// flowlayout.setVgap(20);
 			}
@@ -76,13 +65,20 @@ public class JPanelTabOverview extends JPanel
 		// rien
 		}
 
+	public void refresh()
+		{
+		// TODO Auto-generated method stub
+
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JPanelThermometre jpanelthermometre;
-	private JPanelAltitude jpanelaltitude;
-	private JPanelBarometre jpanelbarometre;
+
+	// Inputs
+	private AfficheurServiceMOO afficheurServiceMOO;
+
 
 	}

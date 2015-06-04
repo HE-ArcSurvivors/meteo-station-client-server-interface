@@ -2,6 +2,7 @@
 package ch.hearc.meteo.imp.afficheur.simulateur;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurService;
+import ch.hearc.meteo.imp.afficheur.real.AfficheurServiceCental;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurFactory_I;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -34,7 +35,8 @@ public class AfficheurSimulateurFactory implements AfficheurFactory_I
 
 	@Override public AfficheurService_I createOnCentralPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
-		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
+		return new AfficheurServiceCental(affichageOptions, meteoServiceRemote);
+//		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
 		}
 
 	/*------------------------------------------------------------------*\

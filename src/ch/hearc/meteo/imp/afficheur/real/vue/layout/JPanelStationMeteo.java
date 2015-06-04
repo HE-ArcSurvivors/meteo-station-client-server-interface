@@ -2,18 +2,23 @@ package ch.hearc.meteo.imp.afficheur.real.vue.layout;
 
 import java.awt.BorderLayout;
 
-import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JTabbedPane;
 
+import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
+import ch.hearc.meteo.imp.afficheur.real.vue.layout.menu.JPanelMenu;
+import ch.hearc.meteo.imp.afficheur.real.vue.layout.tab.JPanelTabCharts;
+import ch.hearc.meteo.imp.afficheur.real.vue.layout.tab.JPanelTabOverview;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 
-public class JFrameStationMeteo extends JFrame
+public class JPanelStationMeteo extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JFrameStationMeteo(AfficheurServiceMOO afficheurServiceMOO)
+	public JPanelStationMeteo(AfficheurServiceMOO afficheurServiceMOO)
 		{
 		this.afficheurServiceMOO = afficheurServiceMOO;
 
@@ -28,7 +33,9 @@ public class JFrameStationMeteo extends JFrame
 
 	public void refresh()
 		{
-		jpanelstationmeteo.refresh();
+		jpaneltaboverview.update();
+		jpaneltabchartTemperature.update();
+		jpaneltabchartPression.update();
 		}
 
 	/*------------------------------*\
@@ -46,31 +53,36 @@ public class JFrameStationMeteo extends JFrame
 	private void geometry()
 		{
 			// JComponent : Instanciation
-			jpanelstationmeteo = new JPanelStationMeteo(afficheurServiceMOO);
+			tabbedPane = new JTabbedPane();
+			jpaneltaboverview = new JPanelTabOverview(afficheurServiceMOO);
+			jpaneltabchartTemperature = new JPanelTabCharts(afficheurServiceMOO, DataType.TEMPERATURE);
+			jpaneltabchartPression = new JPanelTabCharts(afficheurServiceMOO, DataType.PRESSION);
+
+			jpanelmenu = new JPanelMenu();
+
+			tabbedPane.addTab("Vue générale",jpaneltaboverview);
+			tabbedPane.addTab("Statistiques de la température",jpaneltabchartTemperature);
+			tabbedPane.addTab("Statistiques de la pression",jpaneltabchartPression);
 
 			// Layout : Specification
 			{
 			BorderLayout borderLayout = new BorderLayout();
 			setLayout(borderLayout);
-
-			// borderLayout.setHgap(20);
-			// borderLayout.setVgap(20);
 			}
 
 			// JComponent : add
-			add(jpanelstationmeteo, BorderLayout.CENTER);
+			add(jpanelmenu, BorderLayout.NORTH);
+			add(tabbedPane, BorderLayout.CENTER);
 		}
 
 	private void control()
 		{
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+
 		}
 
 	private void appearance()
 		{
-		setSize(600, 400);
-		setLocationRelativeTo(null); // frame centrer
-		setVisible(true); // last!
+
 		}
 
 	/*------------------------------------------------------------------*\
@@ -78,7 +90,11 @@ public class JFrameStationMeteo extends JFrame
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JPanelStationMeteo jpanelstationmeteo;
+	private JTabbedPane tabbedPane;
+	private JPanelTabOverview jpaneltaboverview;
+	private JPanelTabCharts jpaneltabchartTemperature;
+	private JPanelTabCharts jpaneltabchartPression;
+	private JPanelMenu jpanelmenu;
 
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;

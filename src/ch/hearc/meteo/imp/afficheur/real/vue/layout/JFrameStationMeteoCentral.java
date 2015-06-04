@@ -6,14 +6,14 @@ import javax.swing.JFrame;
 
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 
-public class JFrameStationMeteo extends JFrame
+public class JFrameStationMeteoCentral extends JFrame
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JFrameStationMeteo(AfficheurServiceMOO afficheurServiceMOO)
+	public JFrameStationMeteoCentral(AfficheurServiceMOO afficheurServiceMOO)
 		{
 		this.afficheurServiceMOO = afficheurServiceMOO;
 
@@ -28,7 +28,7 @@ public class JFrameStationMeteo extends JFrame
 
 	public void refresh()
 		{
-		jpanelstationmeteo.refresh();
+		jpanelstationmeteocentral.refresh();
 		}
 
 	/*------------------------------*\
@@ -46,7 +46,7 @@ public class JFrameStationMeteo extends JFrame
 	private void geometry()
 		{
 			// JComponent : Instanciation
-			jpanelstationmeteo = new JPanelStationMeteo(afficheurServiceMOO);
+			jpanelstationmeteocentral = new JPanelCentral(afficheurServiceMOO);
 
 			// Layout : Specification
 			{
@@ -58,7 +58,7 @@ public class JFrameStationMeteo extends JFrame
 			}
 
 			// JComponent : add
-			add(jpanelstationmeteo, BorderLayout.CENTER);
+			add(jpanelstationmeteocentral, BorderLayout.CENTER);
 		}
 
 	private void control()
@@ -78,7 +78,7 @@ public class JFrameStationMeteo extends JFrame
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JPanelStationMeteo jpanelstationmeteo;
+	private JPanelCentral jpanelstationmeteocentral;
 
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;

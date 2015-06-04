@@ -199,18 +199,14 @@ public class PCLocal implements PC_I {
 	private RmiURL rmiURLMeteoService;
 	private RmiURL rmiURLafficheurManager;
 
-
-
 	// Tools PRIVATE final
 	private static final String LOCALHOST_IP = "127.0.0.1";
 	private static final String PREFIXE = "METEO_SERVICE";
 	private static final String PREFIXE_METEO_SERVICE = "METEO_SERVICE";
 	private static final String PREFIXE_AFFICHEUR_SERVICE = "AFFICHEUR_SERVICE";
 
-
 	// Tools PUBLIC final
 	public static final String RMI_ID = PREFIXE;
-
 
 	// Tools
 	public static int RMI_PORT = RmiTools.PORT_RMI_DEFAUT;

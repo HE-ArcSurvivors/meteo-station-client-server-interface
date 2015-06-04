@@ -54,7 +54,7 @@ public class JPanelMenu extends JPanel
 
 			// Layout : Specification
 			{
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
+			FlowLayout flowlayout = new FlowLayout(FlowLayout.LEFT);
 			setLayout(flowlayout);
 			add(buttonStart);
 			add(buttonStop);
@@ -73,6 +73,7 @@ public class JPanelMenu extends JPanel
 
 		ActionListener actionListenerStartStop = new ActionListener()
 			{
+
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
@@ -85,6 +86,7 @@ public class JPanelMenu extends JPanel
 
 		buttonSettings.addActionListener(new ActionListener()
 			{
+
 				@Override
 				public void actionPerformed(ActionEvent e)
 					{
@@ -92,7 +94,6 @@ public class JPanelMenu extends JPanel
 					jdialogsettings.setVisible(true);
 					}
 			});
-
 		}
 
 	private void startStop(boolean state)
@@ -102,6 +103,15 @@ public class JPanelMenu extends JPanel
 
 		buttonStop.setVisible(state);
 		buttonStop.setEnabled(state);
+
+		if (state)
+			{
+			System.out.println("Start");
+			}
+		else
+			{
+			System.out.println("Stop");
+			}
 		}
 
 	private void appearance()

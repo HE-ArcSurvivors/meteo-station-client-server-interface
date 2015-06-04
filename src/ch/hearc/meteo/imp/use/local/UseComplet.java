@@ -66,17 +66,17 @@ public class UseComplet
 		meteoService.addMeteoListener(new MeteoAdapter()
 			{
 
-//				@Override
-//				public void temperaturePerformed(MeteoEvent event)
-//					{
-//					afficheurService.printTemperature(event);
-//					}
-//
-//				@Override
-//				public void altitudePerformed(MeteoEvent event)
-//					{
-//					afficheurService.printAltitude(event);
-//					}
+				@Override
+				public void temperaturePerformed(MeteoEvent event)
+					{
+					afficheurService.printTemperature(event);
+					}
+
+				@Override
+				public void altitudePerformed(MeteoEvent event)
+					{
+					afficheurService.printAltitude(event);
+					}
 
 				@Override
 				public void pressionPerformed(MeteoEvent event)
