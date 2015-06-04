@@ -30,13 +30,11 @@ public class AfficheurSimulateurFactory implements AfficheurFactory_I
 	@Override public AfficheurService_I createOnLocalPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
 		return new AfficheurService(affichageOptions, meteoServiceRemote);
-//		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
 		}
 
 	@Override public AfficheurService_I createOnCentralPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
 		return new AfficheurServiceCental(affichageOptions, meteoServiceRemote);
-//		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
 		}
 
 	/*------------------------------------------------------------------*\
