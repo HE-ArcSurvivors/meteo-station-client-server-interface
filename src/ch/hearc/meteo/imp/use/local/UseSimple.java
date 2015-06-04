@@ -1,7 +1,14 @@
 
 package ch.hearc.meteo.imp.use.local;
 
-import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
+import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
+
+import gnu.io.CommPortIdentifier;
+
+import ch.hearc.meteo.imp.com.real.MeteoFactory;
+import ch.hearc.meteo.imp.com.real.com.ComOption;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 import ch.hearc.meteo.spec.com.meteo.MeteoService_I;
 import ch.hearc.meteo.spec.com.meteo.exception.MeteoServiceException;
@@ -29,9 +36,33 @@ public class UseSimple
 
 	public static void main() throws MeteoServiceException
 		{
-		MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create("COM1");
+
+		ComOption options = new ComOption(57600, 8, 0, 1);
+		//listPorts();
+		MeteoService_I meteoService = (new MeteoFactory(options)).create("/dev/tty.SLAB_USBtoUART");
 		use(meteoService);
 		}
+
+	static void listPorts()
+		{
+		Enumeration<CommPortIdentifier> portEnum = CommPortIdentifier.getPortIdentifiers();
+		System.out.println("all serials");
+
+		List<String> listSerial = new LinkedList<String>();
+		while(portEnum.hasMoreElements())
+			{
+			CommPortIdentifier portIdentifier = portEnum.nextElement();
+
+			if(portIdentifier.getPortType() == CommPortIdentifier.PORT_SERIAL)
+				{
+				System.out.println(portIdentifier.getName());
+				listSerial.add(portIdentifier.getName());
+				}
+			}
+		}
+
+
+
 
 	public static void use(MeteoService_I meteoService) throws MeteoServiceException
 		{
@@ -39,20 +70,19 @@ public class UseSimple
 
 		meteoService.addMeteoListener(new MeteoListener_I()
 			{
-
 				@Override public void temperaturePerformed(MeteoEvent event)
 					{
-					System.out.println(event);
+					System.out.println("Temperature : \t "+ event.getValue() + " \t at time : " + event.getTime());
 					}
 
 				@Override public void pressionPerformed(MeteoEvent event)
 					{
-					System.out.println(event);
+					System.out.println("Pression : \t "+ event.getValue() + " \t at time : " + event.getTime());
 					}
 
 				@Override public void altitudePerformed(MeteoEvent event)
 					{
-					System.out.println(event);
+					System.out.println("Altitude : \t "+ event.getValue() + " \t at time : " + event.getTime());
 					}
 			});
 
@@ -65,27 +95,33 @@ public class UseSimple
 
 	/**
 	 * <pre>
-	 * Exemple pour mettre à l'épreuve la logique de fonctionnement
+	 * Exemple pour mettre ï¿½ l'ï¿½preuve la logique de fonctionnement
 	 * Checker dans la console que la logique verbeuse afficher est correcte
 	 * </pre>
 	 */
 	private static void scenario(MeteoService_I meteoService) throws MeteoServiceException
 		{
-		MeteoServiceOptions meteoServiceOptions1 = new MeteoServiceOptions(800, 1000, 1200);
-		MeteoServiceOptions meteoServiceOptions2 = new MeteoServiceOptions(100, 100, 100);
+		MeteoServiceOptions meteoServiceOptions1 = new MeteoServiceOptions(100, 100, 100);
 
-		for(int i = 1; i <= 2; i++)
-			{
-			meteoService.start(meteoServiceOptions1);
-			meteoService.start(meteoServiceOptions2);
-			sleep(3000);
-			meteoService.stop();
-			sleep(3000);
-			}
+		//MeteoServiceOptions meteoServiceOptions2 = new MeteoServiceOptions(100, 100, 100);
+
+		meteoService.start(meteoServiceOptions1);
+		sleep(3000);
+		meteoService.stop();
 
 		meteoService.disconnect();
-		sleep(100);
-		meteoService.start(meteoServiceOptions2);
+
+//		sleep(3000);
+//		meteoService.stop();
+//		for(int i = 1; i <= 10; i++)
+//			{
+//			meteoService.start(meteoServiceOptions1);
+//			sleep(3000);
+//			meteoService.stop();
+//			sleep(3000);
+//			}
+
+		//meteoService.disconnect();
 		}
 
 	private static void sleep(long delayMS)
