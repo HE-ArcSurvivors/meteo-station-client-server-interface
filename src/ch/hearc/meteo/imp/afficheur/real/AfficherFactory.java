@@ -9,14 +9,14 @@ import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
 /**
  * On pourrait aussi faire un singleton
  */
-public class AfficheurSimulateurFactory implements AfficheurFactory_I
+public class AfficherFactory implements AfficheurFactory_I
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public AfficheurSimulateurFactory()
+	public AfficherFactory()
 		{
 		// rien
 		}
