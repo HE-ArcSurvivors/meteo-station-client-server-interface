@@ -1,6 +1,8 @@
 
 package ch.hearc.meteo.imp.use.remote.pccentral;
 
+import javax.swing.JFrame;
+
 
 
 
@@ -18,7 +20,9 @@ public class UsePCCentral
 
 	public static void main()
 		{
+		
 		new PCCentral().run();
+		
 		}
 
 	/*------------------------------------------------------------------*\
