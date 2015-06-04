@@ -7,7 +7,7 @@ import ch.hearc.meteo.spec.com.meteo.exception.MeteoServiceException;
 
 /**
  * <pre>
- * Repousse les requêtes sur comConnexion et transforme les Exceptions en MeteoServiceException
+ * Repousse les requï¿½tes sur comConnexion et transforme les Exceptions en MeteoServiceException
  * Aucune trace de javacomm ici, toute cette problematique est encapsuler dans l'objet implementant ComConnexions_I (separation des couches)
  * </pre>
  */
@@ -110,6 +110,7 @@ public class MeteoService extends MeteoService_A
 		try
 			{
 			comConnexion.connect();
+			comConnexion.start();
 			}
 		catch (Exception e)
 			{
@@ -123,6 +124,7 @@ public class MeteoService extends MeteoService_A
 		try
 			{
 			comConnexion.disconnect();
+			comConnexion.stop();
 			}
 		catch (Exception e)
 			{
