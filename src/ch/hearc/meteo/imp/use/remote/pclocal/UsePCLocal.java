@@ -50,11 +50,11 @@ public class UsePCLocal
 			//Get Properties from config file
 			FileInputStream fis = new FileInputStream(FILE_NAME);
 			BufferedInputStream bis = new BufferedInputStream(fis);
-			Properties propertie = new Properties();
-			propertie.load(bis);
-			String ipAddress = propertie.getProperty(IP_ADDRESS);
+			Properties property = new Properties();
+			property.load(bis);
+			String ipAddress = property.getProperty(IP_ADDRESS);
 			InetAddress inetIpAddress = InetAddress.getByName(ipAddress);
-			String moduleName = propertie.getProperty(MODULE_NAME);
+			String moduleName = property.getProperty(MODULE_NAME);
 			bis.close();
 			fis.close();
 
@@ -82,6 +82,8 @@ public class UsePCLocal
 	// Static tools
 	private static final String IP_ADDRESS = "IP_ADDRESS";
 	private static final String MODULE_NAME = "MODULE_NAME";
-	private static final String FILE_NAME = "settings.ini";
+	private static final String FILE_NAME = "settings.properties";
+//	private static final String FILE_NAME = "/Users/Rocla/Clouds/OneDrive/HE-Arc/Java/Meteo/settings.properties";
+//	private static final String FILE_NAME = "/home/timetraveler/Desktop/settings.properties";
 
 	}
