@@ -5,7 +5,7 @@ import java.rmi.RemoteException;
 import java.rmi.UnknownHostException;
 import java.util.List;
 
-import ch.hearc.meteo.imp.afficheur.simulateur.AfficheurSimulateurFactory;
+import ch.hearc.meteo.imp.afficheur.real.AfficherFactory;
 import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreator;
 import ch.hearc.meteo.imp.use.remote.PC_I;
@@ -93,7 +93,7 @@ public class PCLocal implements PC_I {
 		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
 		
 		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3, "PC Local");
-		afficheurService = (new AfficheurSimulateurFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
+		afficheurService = (new AfficherFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
 
 	}
 
@@ -111,7 +111,7 @@ public class PCLocal implements PC_I {
 				.connectionRemoteObjectBloquant(rmiURLRemoteAfficheurCreator);
 		
 		// on PCLocal
-		afficheurService = (new AfficheurSimulateurFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
+		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
 
 		meteoService.addMeteoListener(new MeteoListener_I() {
 

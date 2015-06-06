@@ -5,7 +5,7 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import ch.hearc.meteo.imp.afficheur.simulateur.AfficheurSimulateurFactory;
+import ch.hearc.meteo.imp.afficheur.real.AfficherFactory;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurFactory_I;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -93,7 +93,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			AffichageOptions affichageOptions,
 			MeteoServiceWrapper_I meteoServiceRemote) {
 		// create AfficheurService
-		AfficheurFactory_I afficheurFactory = new AfficheurSimulateurFactory();
+		AfficheurFactory_I afficheurFactory = new AfficherFactory();
 		AfficheurService_I afficheurService = afficheurFactory
 				.createOnCentralPC(affichageOptions, meteoServiceRemote);
 		
