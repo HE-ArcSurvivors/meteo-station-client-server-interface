@@ -17,6 +17,7 @@ public class RemoteAfficheurCreatorFactory {
 
 	public static RemoteAfficheurCreator_I create() throws RemoteException, UnknownHostException {
 		return RemoteAfficheurCreator.getInstance();
+		
 	}
 
 

@@ -3,6 +3,7 @@ package ch.hearc.meteo.imp.use.remote.pccentral;
 import java.rmi.RemoteException;
 import java.net.UnknownHostException;
 
+import ch.hearc.meteo.imp.afficheur.simulateur.AfficheurSimulateurFactory;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreator;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreatorFactory;
 import ch.hearc.meteo.imp.use.remote.PC_I;
@@ -49,7 +50,12 @@ public class PCCentral implements PC_I {
 //			String name = "PC Central";
 //			AffichageOptions affichageOptions = new AffichageOptions(0, name);
 //			remoteAfficheurCreator = RemoteAfficheurCreatorFactory.create();
-//			AfficheurFactory_I.createOnCentralPC(affichageOptions, null);
+//			(new AfficheurSimulateurFactory()).createOnCentralPC(affichageOptions, null);
+			
+//			String name = "PC Central Simulateur";
+//			AffichageOptions affichageOptions = new AffichageOptions(0, name);
+//			remoteAfficheurCreator = RemoteAfficheurCreatorFactory.create();
+//			(new AfficheurSimulateurFactory()).createOnCentralPC(affichageOptions, null);
 			
 			remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
 		} catch (RemoteException e) {

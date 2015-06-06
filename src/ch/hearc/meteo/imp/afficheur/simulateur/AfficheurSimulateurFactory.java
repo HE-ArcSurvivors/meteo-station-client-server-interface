@@ -34,7 +34,8 @@ public class AfficheurSimulateurFactory implements AfficheurFactory_I
 
 	@Override public AfficheurService_I createOnCentralPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
-		return new AfficheurServiceCental(affichageOptions, meteoServiceRemote);
+//		return new AfficheurServiceCental(affichageOptions, meteoServiceRemote);
+		return new AfficheurService(affichageOptions, meteoServiceRemote);
 		}
 
 	/*------------------------------------------------------------------*\
