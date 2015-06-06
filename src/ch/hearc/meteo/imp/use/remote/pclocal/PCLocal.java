@@ -111,7 +111,7 @@ public class PCLocal implements PC_I {
 				.connectionRemoteObjectBloquant(rmiURLRemoteAfficheurCreator);
 		
 		// on PCLocal
-		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
+		afficheurService = (new AfficherFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
 
 		meteoService.addMeteoListener(new MeteoListener_I() {
 
