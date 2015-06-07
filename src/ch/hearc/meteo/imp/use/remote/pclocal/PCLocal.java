@@ -1,13 +1,10 @@
 package ch.hearc.meteo.imp.use.remote.pclocal;
 
-import java.net.InetAddress;
 import java.rmi.RemoteException;
-import java.rmi.UnknownHostException;
 import java.util.List;
 
-import ch.hearc.meteo.imp.afficheur.real.AfficherFactory;
+import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
-import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreator;
 import ch.hearc.meteo.imp.use.remote.PC_I;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -17,11 +14,8 @@ import ch.hearc.meteo.spec.com.meteo.exception.MeteoServiceException;
 import ch.hearc.meteo.spec.com.meteo.listener.MeteoListener_I;
 import ch.hearc.meteo.spec.com.meteo.listener.event.MeteoEvent;
 import ch.hearc.meteo.spec.reseau.RemoteAfficheurCreator_I;
-import ch.hearc.meteo.spec.reseau.rmiwrapper.AfficheurServiceWrapper;
 import ch.hearc.meteo.spec.reseau.rmiwrapper.AfficheurServiceWrapper_I;
 import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper;
-import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
-import ch.hearc.meteo.spec.afficheur.AfficheurFactory_I;
 
 import com.bilat.tools.reseau.rmi.IdTools;
 import com.bilat.tools.reseau.rmi.RmiTools;
@@ -91,9 +85,9 @@ public class PCLocal implements PC_I {
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
 		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
 		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
-		
+
 		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3, "PC Local");
-		afficheurService = (new AfficherFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
+		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
 
 	}
 
@@ -102,21 +96,21 @@ public class PCLocal implements PC_I {
 	\*------------------------------*/
 
 	private void client() throws RemoteException, MeteoServiceException {
-		
+
 		AffichageOptions affichageOptionPCCentral = new AffichageOptions(3, "PC Central");
 		RemoteAfficheurCreator_I remoteAfficheurCreator =(RemoteAfficheurCreator_I)RmiTools.connectionRemoteObjectBloquant(rmiURLafficheurManager);
 		RmiURL rmiURLRemoteAfficheurCreator = remoteAfficheurCreator
 				.createRemoteAfficheurService(affichageOptionPCCentral, rmiURLMeteoService);
 		afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools
 				.connectionRemoteObjectBloquant(rmiURLRemoteAfficheurCreator);
-		
+
 		// on PCLocal
-		afficheurService = (new AfficherFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
+		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
 
 		meteoService.addMeteoListener(new MeteoListener_I() {
 
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -161,8 +155,8 @@ public class PCLocal implements PC_I {
 		meteoService.start(meteoServiceOptions);
 
 	}
-	
-	
+
+
 	private void errorManager()
 	{
 	synchronized (this)

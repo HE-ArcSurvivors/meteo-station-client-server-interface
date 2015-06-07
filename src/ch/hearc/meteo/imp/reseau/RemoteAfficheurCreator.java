@@ -1,11 +1,10 @@
 package ch.hearc.meteo.imp.reseau;
 
-import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import ch.hearc.meteo.imp.afficheur.real.AfficherFactory;
+import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurFactory_I;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -44,7 +43,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	public RmiURL createRemoteAfficheurService(
 			AffichageOptions affichageOptions, RmiURL meteoServiceRmiURL)
 			throws RemoteException {
-		
+
 		try {
 
 			// client
@@ -69,7 +68,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 	}
 
 	/*------------------------------*\
@@ -93,23 +92,23 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			AffichageOptions affichageOptions,
 			MeteoServiceWrapper_I meteoServiceRemote) {
 		// create AfficheurService
-		AfficheurFactory_I afficheurFactory = new AfficherFactory();
+		AfficheurFactory_I afficheurFactory = new AfficheurFactory();
 		AfficheurService_I afficheurService = afficheurFactory
 				.createOnCentralPC(affichageOptions, meteoServiceRemote);
-		
+
 		afficheurServiceList.add(afficheurService);
 		return afficheurService;
-		
+
 	}
 
 	private void server() throws RemoteException, UnknownHostException {
-		
+
 //		PC_CENTRAL_IP = System.getProperty("PC_CENTRAL_IP", LOCALHOST_IP);
 //		PC_CENTRAL_ID = RemoteAfficheurCreator_I.class.getName();
 //		INET_CONVERTED_IP_ADDRESS = InetAddress.getByName(PC_CENTRAL_IP);
 //		RMI_URL = new RmiURL(PC_CENTRAL_ID,INET_CONVERTED_IP_ADDRESS, RMI_PORT);
 //		RmiTools.shareObject(this, RMI_URL);
-		
+
 		RmiTools.shareObject(this, new RmiURL(PREFIXE));
 	}
 
