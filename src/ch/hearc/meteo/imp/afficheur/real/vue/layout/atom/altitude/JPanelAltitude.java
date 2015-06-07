@@ -91,6 +91,6 @@ public class JPanelAltitude extends JPanel
 	//Tools
 	private JLabel jlabelaltitude;
 
-	private static final String ALTITUDE_TITLE = "Altitude de la station météo : ";
+	private static final String ALTITUDE_TITLE = "Altitude de la station mÃ©tÃ©o : ";
 
 	}

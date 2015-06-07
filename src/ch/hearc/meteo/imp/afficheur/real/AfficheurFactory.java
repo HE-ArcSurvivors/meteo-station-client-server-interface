@@ -9,14 +9,14 @@ import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
 /**
  * On pourrait aussi faire un singleton
  */
-public class AfficherFactory implements AfficheurFactory_I
+public class AfficheurFactory implements AfficheurFactory_I
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public AfficherFactory()
+	public AfficheurFactory()
 		{
 		// rien
 		}
@@ -33,8 +33,7 @@ public class AfficherFactory implements AfficheurFactory_I
 
 	@Override public AfficheurService_I createOnCentralPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
-		return new AfficheurServiceCental(affichageOptions, meteoServiceRemote);
-//		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
+		return new AfficheurServiceCentral(affichageOptions, meteoServiceRemote);
 		}
 
 	/*------------------------------------------------------------------*\

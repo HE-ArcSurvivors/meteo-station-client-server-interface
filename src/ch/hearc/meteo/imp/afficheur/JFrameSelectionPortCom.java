@@ -47,8 +47,8 @@ public class JFrameSelectionPortCom extends JFrame
 			// borderLayout.setVgap(20);
 			}
 
-		// JComponent : add
-		//add(TODO,BorderLayout.CENTER);
+			// JComponent : add
+			//add(TODO,BorderLayout.CENTER);
 		}
 
 	private void control()

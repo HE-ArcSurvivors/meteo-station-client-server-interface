@@ -4,6 +4,7 @@ import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.rmi.UnknownHostException;
 
+import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.imp.afficheur.simulateur.AfficheurSimulateurFactory;
 import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreator;
@@ -102,7 +103,7 @@ public class PCLocal implements PC_I {
 		// create afficheurServiceWrapper
 		String titre = RmiTools.getLocalHost() + " " + meteoService.getPort();
 		AffichageOptions affichageOptions = new AffichageOptions(3, titre);
-		AfficheurService_I afficheurService = (new AfficheurSimulateurFactory())
+		AfficheurService_I afficheurService = (new AfficheurFactory())
 				.createOnLocalPC(affichageOptions, meteoServiceWrapper);
 		afficheurServiceWrapper = new AfficheurServiceWrapper(afficheurService);
 
@@ -129,7 +130,7 @@ public class PCLocal implements PC_I {
 	\*------------------------------*/
 
 	private void client() throws RemoteException, MeteoServiceException {
-		
+
 		synchroClientServer();
 		// new AfficheurService();
 
@@ -178,7 +179,7 @@ public class PCLocal implements PC_I {
 
 	private void synchroClientServer() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	// Inputs

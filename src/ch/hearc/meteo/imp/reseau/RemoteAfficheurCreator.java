@@ -6,7 +6,7 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import ch.hearc.meteo.imp.afficheur.simulateur.AfficheurSimulateurFactory;
+import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurFactory_I;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -56,11 +56,11 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 			// server
 			{
 			AfficheurService_I afficheurService = createAfficheurService(affichageOptions, meteoServiceRemote);
-			
+
 			// Building RmiURL
 			 RmiURL afficheurServicermiURL = rmiUrl();
 //			RmiURL afficheurServicermiURL = rmiUrl(PC_CENTRAL_IP, PREFIXE);
-			
+
 			// Share Object afficheurService
 			AfficheurServiceWrapper_I afficheurServiceWrapper = new AfficheurServiceWrapper(afficheurService);
 			RmiTools.shareObject(afficheurServiceWrapper, afficheurServicermiURL);
@@ -90,7 +90,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 	private AfficheurService_I createAfficheurService(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 	{
 		//create AfficheurService
-		AfficheurFactory_I afficheurFactory = new AfficheurSimulateurFactory();
+		AfficheurFactory_I afficheurFactory = new AfficheurFactory();
 		AfficheurService_I afficheurService = afficheurFactory.createOnCentralPC(affichageOptions, meteoServiceRemote);
 		afficheurServiceList.add(afficheurService);
 		return afficheurService;
@@ -154,7 +154,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
-	
+
 	private ArrayList<AfficheurService_I> afficheurServiceList;
 
 
@@ -165,7 +165,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 	// Tools PRIVATE final
 	private static final String LOCALHOST_IP = "127.0.0.1";
 	private static final String PREFIXE = "AFFICHEUR_SERVICE";
-	
+
 	// Tools PUBLIC final
 	public static final String RMI_ID = PREFIXE;
 
@@ -175,6 +175,6 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 	private static RemoteAfficheurCreator_I INSTANCE = null;
 	private static String PC_CENTRAL_IP = LOCALHOST_IP;
 	private static InetAddress inetConvertedIPAddress;
-		
+
 
 	}

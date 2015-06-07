@@ -46,7 +46,7 @@ public class JFrameStationMeteoCentral extends JFrame
 	private void geometry()
 		{
 			// JComponent : Instanciation
-			jpanelstationmeteocentral = new JPanelCentral(afficheurServiceMOO);
+			jpanelstationmeteocentral = new JPanelStationMeteoCentral(afficheurServiceMOO);
 
 			// Layout : Specification
 			{
@@ -73,12 +73,17 @@ public class JFrameStationMeteoCentral extends JFrame
 		setVisible(true); // last!
 		}
 
+	public void addStation(String ip, JPanelStationMeteo newStation)
+		{
+		jpanelstationmeteocentral.addStation(ip, newStation);
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JPanelCentral jpanelstationmeteocentral;
+	private JPanelStationMeteoCentral jpanelstationmeteocentral;
 
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;
