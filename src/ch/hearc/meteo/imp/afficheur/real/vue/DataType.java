@@ -34,7 +34,7 @@ public class DataType
 		switch(type)
 			{
 			case TEMPERATURE:
-				return getString(type) + " [°C]";
+				return getString(type) + " [C]";
 			case ALTITUDE:
 				return getString(type) + " [m]";
 			case PRESSION:

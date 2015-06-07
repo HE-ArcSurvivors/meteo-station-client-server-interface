@@ -39,7 +39,7 @@ public class Chart extends JPanel
         XYSeriesCollection dataCollection= new XYSeriesCollection();
         dataCollection.addSeries(dataset);
 
-//		lineChart = ChartFactory.createTimeSeriesChart(DataType.getString(dataType), "Date", DataType.getLegend(dataType), dataCollection);
+		lineChart = ChartFactory.createTimeSeriesChart(DataType.getString(dataType), "Date", DataType.getLegend(dataType), dataCollection);
 
 		XYPlot plot = (XYPlot) lineChart.getPlot();
 		DateAxis axis = (DateAxis)plot.getDomainAxis();

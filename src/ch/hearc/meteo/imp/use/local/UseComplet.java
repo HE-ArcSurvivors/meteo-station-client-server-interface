@@ -53,7 +53,7 @@ public class UseComplet
 
 		String titre = RmiTools.getLocalHost() + " " + meteoService.getPort();
 		AffichageOptions affichageOption = new AffichageOptions(3, titre);
-		AfficheurService_I afficheurService = new AfficheurFactory().createOnCentralPC(affichageOption, meteoServiceWrapper);
+		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOption, meteoServiceWrapper);
 
 		use(meteoService, afficheurService);
 		}
