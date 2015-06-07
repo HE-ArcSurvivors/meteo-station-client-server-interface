@@ -1,4 +1,3 @@
-
 package ch.hearc.meteo.imp.reseau;
 
 import java.net.InetAddress;
@@ -6,13 +5,12 @@ import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
-import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
+import ch.hearc.meteo.imp.afficheur.real.AfficherFactory;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurFactory_I;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
 import ch.hearc.meteo.spec.reseau.RemoteAfficheurCreator_I;
 import ch.hearc.meteo.spec.reseau.rmiwrapper.AfficheurServiceWrapper;
-import ch.hearc.meteo.spec.reseau.rmiwrapper.AfficheurServiceWrapper_I;
 import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
 
 import com.bilat.tools.reseau.rmi.IdTools;
@@ -25,17 +23,15 @@ import com.bilat.tools.reseau.rmi.RmiURL;
  * RMI-Shared
  * </pre>
  */
-public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
-	{
+public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	private RemoteAfficheurCreator() throws RemoteException
-		{
+	private RemoteAfficheurCreator() throws RemoteException, UnknownHostException {
 		server();
-		}
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
@@ -44,76 +40,77 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 	/**
 	 * Remote use
 	 */
-	@Override public RmiURL createRemoteAfficheurService(AffichageOptions affichageOptions, RmiURL meteoServiceRmiURL) throws RemoteException
-		{
-		MeteoServiceWrapper_I meteoServiceRemote = null;
+	@Override
+	public RmiURL createRemoteAfficheurService(
+			AffichageOptions affichageOptions, RmiURL meteoServiceRmiURL)
+			throws RemoteException {
+		
+		try {
+
 			// client
-			{
-			// connection to meteoService on PC-Local with meteoServiceRmiURL
-			meteoServiceRemote = (MeteoServiceWrapper_I)RmiTools.connectionRemoteObjectBloquant(meteoServiceRmiURL);
-			}
+			// make remote
+			MeteoServiceWrapper_I meteoServiceWrapper = (MeteoServiceWrapper_I) RmiTools
+					.connectionRemoteObjectBloquant(meteoServiceRmiURL);
 
 			// server
-			{
-			AfficheurService_I afficheurService = createAfficheurService(affichageOptions, meteoServiceRemote);
+			// make afficheurService for PCCentral
+			AfficheurService_I afficheurService = createAfficheurService(
+					affichageOptions, meteoServiceWrapper);
+			// share afficheurService from PCCentral
+			AfficheurServiceWrapper afficheurServiceWrapper = new AfficheurServiceWrapper(
+					afficheurService);
+			RmiURL RmiURLAfficheurService = rmiUrl();
+			RmiTools.shareObject(afficheurServiceWrapper,
+					RmiURLAfficheurService);
 
-			// Building RmiURL
-			 RmiURL afficheurServicermiURL = rmiUrl();
-//			RmiURL afficheurServicermiURL = rmiUrl(PC_CENTRAL_IP, PREFIXE);
-
-			// Share Object afficheurService
-			AfficheurServiceWrapper_I afficheurServiceWrapper = new AfficheurServiceWrapper(afficheurService);
-			RmiTools.shareObject(afficheurServiceWrapper, afficheurServicermiURL);
-
-			return afficheurServicermiURL; // Retourner le RMI-ID pour une connection distante sur le serveur d'affichage
-			}
+			// Return the remote on AfficheurService
+			return RmiURLAfficheurService;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
 		}
+		
+	}
 
 	/*------------------------------*\
 	|*			  Static			*|
 	\*------------------------------*/
 
-	public static synchronized RemoteAfficheurCreator_I getInstance() throws RemoteException
-		{
-		if (INSTANCE == null)
-			{
+	public static synchronized RemoteAfficheurCreator_I getInstance()
+			throws RemoteException, UnknownHostException {
+		if (INSTANCE == null) {
 			INSTANCE = new RemoteAfficheurCreator();
-			}
+		}
 
 		return INSTANCE;
-		}
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private AfficheurService_I createAfficheurService(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
-	{
-		//create AfficheurService
-		AfficheurFactory_I afficheurFactory = new AfficheurFactory();
-		AfficheurService_I afficheurService = afficheurFactory.createOnCentralPC(affichageOptions, meteoServiceRemote);
+	private AfficheurService_I createAfficheurService(
+			AffichageOptions affichageOptions,
+			MeteoServiceWrapper_I meteoServiceRemote) {
+		// create AfficheurService
+		AfficheurFactory_I afficheurFactory = new AfficherFactory();
+		AfficheurService_I afficheurService = afficheurFactory
+				.createOnCentralPC(affichageOptions, meteoServiceRemote);
+		
 		afficheurServiceList.add(afficheurService);
 		return afficheurService;
+		
 	}
 
-	private void server() throws RemoteException
-	{
-		// TODO FICHIER CONFIG IP SERVEUR
-
-		afficheurServiceList = new ArrayList<AfficheurService_I>();
-
-		try
-		{
-			// Building RMI URL
-			inetConvertedIPAddress = InetAddress.getByName(PC_CENTRAL_IP);
-			RmiURL rmi_server_url = new RmiURL(PREFIXE, inetConvertedIPAddress, RMI_PORT);
-			//Share
-			RmiTools.shareObject(this, rmi_server_url);
-		}
-		catch (UnknownHostException e)
-		{
-			e.printStackTrace();
-		}
+	private void server() throws RemoteException, UnknownHostException {
+		
+//		PC_CENTRAL_IP = System.getProperty("PC_CENTRAL_IP", LOCALHOST_IP);
+//		PC_CENTRAL_ID = RemoteAfficheurCreator_I.class.getName();
+//		INET_CONVERTED_IP_ADDRESS = InetAddress.getByName(PC_CENTRAL_IP);
+//		RMI_URL = new RmiURL(PC_CENTRAL_ID,INET_CONVERTED_IP_ADDRESS, RMI_PORT);
+//		RmiTools.shareObject(this, RMI_URL);
+		
+		RmiTools.shareObject(this, new RmiURL(PREFIXE));
 	}
 
 	/*------------------------------*\
@@ -123,32 +120,10 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 	/**
 	 * Thread Safe
 	 */
-	private static RmiURL rmiUrl()
-	{
+	private static RmiURL rmiUrl() {
 		String id = IdTools.createID(PREFIXE);
 
 		return new RmiURL(id);
-//		return new RmiURL(id, RMI_PORT);
-	}
-
-	/**
-	 * Thread Safe
-	 */
-	private static RmiURL rmiUrl(String ipAddress, String customPrefixe)
-	{
-		String id = IdTools.createID(customPrefixe);
-
-		try
-		{
-			//Convert ip address to inetAddress
-			InetAddress inetConvertedIPAddress = InetAddress.getByName(ipAddress);
-			return new RmiURL(id, inetConvertedIPAddress, RMI_PORT);
-		}
-		catch (UnknownHostException e)
-		{
-			e.printStackTrace();
-			return null;
-		}
 	}
 
 	/*------------------------------------------------------------------*\
@@ -156,7 +131,6 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 	\*------------------------------------------------------------------*/
 
 	private ArrayList<AfficheurService_I> afficheurServiceList;
-
 
 	/*------------------------------*\
 	|*			  Static			*|
@@ -171,10 +145,8 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I
 
 	// Tools
 	public static int RMI_PORT = RmiTools.PORT_RMI_DEFAUT;
-	public static RmiURL RMI_URL = new RmiURL(RMI_ID,RMI_PORT);
+	public static RmiURL RMI_URL = null;
 	private static RemoteAfficheurCreator_I INSTANCE = null;
-	private static String PC_CENTRAL_IP = LOCALHOST_IP;
-	private static InetAddress inetConvertedIPAddress;
 
 
-	}
+}
