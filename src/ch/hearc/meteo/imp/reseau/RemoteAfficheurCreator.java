@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
-import ch.hearc.meteo.spec.afficheur.AfficheurFactory_I;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
 import ch.hearc.meteo.spec.reseau.RemoteAfficheurCreator_I;
 import ch.hearc.meteo.spec.reseau.rmiwrapper.AfficheurServiceWrapper;
@@ -92,11 +91,9 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			AffichageOptions affichageOptions,
 			MeteoServiceWrapper_I meteoServiceRemote) {
 		// create AfficheurService
-		AfficheurFactory_I afficheurFactory = new AfficheurFactory();
-		AfficheurService_I afficheurService = afficheurFactory
-				.createOnCentralPC(affichageOptions, meteoServiceRemote);
+		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOptions, meteoServiceRemote);
 
-		afficheurServiceList.add(afficheurService);
+//		afficheurServiceList.add(afficheurService);
 		return afficheurService;
 
 	}
