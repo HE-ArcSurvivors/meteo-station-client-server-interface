@@ -67,7 +67,6 @@ public class JPanelStationMeteoCentral extends JPanel
 						{
 						Object[] tab = mapStation.keySet().toArray();
 						add(mapStation.get(tab[idx]), BorderLayout.CENTER);
-
 						}
 					}
 			});
@@ -99,8 +98,7 @@ public class JPanelStationMeteoCentral extends JPanel
 
 	public void refresh()
 		{
-		// TODO Auto-generated method stub
-
+		jlistStation.updateUI();
 		}
 
 	public void addStation(String ip, JPanelStationMeteo newStation)

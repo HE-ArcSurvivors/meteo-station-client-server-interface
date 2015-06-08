@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.Stat;
 import ch.hearc.meteo.imp.afficheur.simulateur.vue.atome.MathTools;
 import ch.hearc.meteo.spec.com.meteo.listener.event.MeteoEvent;
@@ -48,7 +49,7 @@ public class JPanelBarometre extends JPanel
 	public void update()
 		{
 		pression = stat.getLast();
-		jlabelpression.setText(MathTools.arrondir(pression));
+		jlabelpression.setText(MathTools.arrondir(pression)+" "+DataType.getUnite(DataType.PRESSION));
 		repaint();
 		}
 
@@ -85,7 +86,7 @@ public class JPanelBarometre extends JPanel
 	private void geometry()
 		{
 			// JComponent : Instanciation
-			jlabelpression = new JLabel(MathTools.arrondir(pression));
+			jlabelpression = new JLabel(MathTools.arrondir(pression)+" "+DataType.getUnite(DataType.PRESSION));
 
 			// Layout : Specification
 			{

@@ -34,46 +34,61 @@ public class DataType
 		switch(type)
 			{
 			case TEMPERATURE:
-				return getString(type) + " [C]";
+				return getString(type) + " ["+getUnite(type)+"]";
 			case ALTITUDE:
-				return getString(type) + " [m]";
+				return getString(type) + " ["+getUnite(type)+"]";
 			case PRESSION:
-				return getString(type) + " [mB]";
+				return getString(type) + " ["+getUnite(type)+"]";
+			default:
+				return "";
+			}
+		}
+
+	public static String getUnite(int type)
+		{
+		switch(type)
+			{
+			case TEMPERATURE:
+				return "°C";
+			case ALTITUDE:
+				return "m";
+			case PRESSION:
+				return "mB";
 			default:
 				return "";
 			}
 		}
 
 	public static List<MeteoEvent> getList(int type, AfficheurServiceMOO afficheurServiceMOO)
-	{
-		switch(type)
 		{
-		case TEMPERATURE:
-			return afficheurServiceMOO.getListTemperature();
-		case ALTITUDE:
-			return afficheurServiceMOO.getListAltitude();
-		case PRESSION:
-			return afficheurServiceMOO.getListPression();
-		default:
-			return null;
-		}
+		switch(type)
+			{
+			case TEMPERATURE:
+				return afficheurServiceMOO.getListTemperature();
+			case ALTITUDE:
+				return afficheurServiceMOO.getListAltitude();
+			case PRESSION:
+				return afficheurServiceMOO.getListPression();
+			default:
+				return null;
+			}
 
-	}
+		}
 
 	public static Stat getStat(int type, AfficheurServiceMOO afficheurServiceMOO)
-	{
-		switch(type)
 		{
-		case TEMPERATURE:
-			return afficheurServiceMOO.getStatTemperature();
-		case ALTITUDE:
-			return afficheurServiceMOO.getStatAltitude();
-		case PRESSION:
-			return afficheurServiceMOO.getStatPression();
-		default:
-			return null;
+		switch(type)
+			{
+			case TEMPERATURE:
+				return afficheurServiceMOO.getStatTemperature();
+			case ALTITUDE:
+				return afficheurServiceMOO.getStatAltitude();
+			case PRESSION:
+				return afficheurServiceMOO.getStatPression();
+			default:
+				return null;
+			}
 		}
-	}
 
 	/*------------------------------------------------------------------*\
 	|*								Attributs							*|

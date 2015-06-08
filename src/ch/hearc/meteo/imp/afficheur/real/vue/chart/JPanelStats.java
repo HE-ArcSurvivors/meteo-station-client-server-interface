@@ -36,10 +36,10 @@ public class JPanelStats extends JPanel
 
 	public void update()
 		{
-		labelCurrent.setText(DataType.getString(dataType)+" Actuelle : " + MathTools.arrondir(stat.getLast()));
-		labelMin.setText(DataType.getString(dataType)+" Minimum : " + MathTools.arrondir(stat.getMin()));
-		labelMax.setText(DataType.getString(dataType)+" Maximum :  " + MathTools.arrondir(stat.getMax()));
-		labelMoy.setText(DataType.getString(dataType)+" Moyenne :  " + MathTools.arrondir(stat.getMoy()));
+		labelCurrent.setText(DataType.getString(dataType)+" Actuelle : " + MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(dataType));
+		labelMin.setText(DataType.getString(dataType)+" Minimum : " + MathTools.arrondir(stat.getMin())+" "+DataType.getUnite(dataType));
+		labelMax.setText(DataType.getString(dataType)+" Maximum :  " + MathTools.arrondir(stat.getMax())+" "+DataType.getUnite(dataType));
+		labelMoy.setText(DataType.getString(dataType)+" Moyenne :  " + MathTools.arrondir(stat.getMoy())+" "+DataType.getUnite(dataType));
 		}
 
 	/*------------------------------*\
