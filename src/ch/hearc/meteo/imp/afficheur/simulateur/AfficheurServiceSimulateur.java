@@ -54,6 +54,7 @@ public class AfficheurServiceSimulateur implements AfficheurService_I
 	@Override public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
 		jFrameAfficheurService.updateMeteoServiceOptions(meteoServiceOptions);
+//		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
 		}
 
 	/*------------------------------------------------------------------*\

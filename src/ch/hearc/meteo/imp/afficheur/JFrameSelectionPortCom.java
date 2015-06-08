@@ -1,22 +1,18 @@
-package ch.hearc.meteo.imp.afficheur.real.vue.layout;
+package ch.hearc.meteo.imp.afficheur;
 
-import java.awt.FlowLayout;
+import java.awt.BorderLayout;
 
-import javax.swing.JPanel;
+import javax.swing.JFrame;
 
-import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
-
-public class JPanelCentral extends JPanel
+public class JFrameSelectionPortCom extends JFrame
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelCentral(AfficheurServiceMOO afficheurServiceMOO)
+	public JFrameSelectionPortCom()
 		{
-		this.afficheurServiceMOO = afficheurServiceMOO;
-
 		geometry();
 		control();
 		appearance();
@@ -44,31 +40,27 @@ public class JPanelCentral extends JPanel
 
 			// Layout : Specification
 			{
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
-			setLayout(flowlayout);
+			BorderLayout borderLayout = new BorderLayout();
+			setLayout(borderLayout);
 
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
+			// borderLayout.setHgap(20);
+			// borderLayout.setVgap(20);
 			}
 
-		// JComponent : add
-
+			// JComponent : add
+			//add(TODO,BorderLayout.CENTER);
 		}
 
 	private void control()
 		{
-		// rien
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		}
 
 	private void appearance()
 		{
-		// rien
-		}
-
-	public void refresh()
-		{
-		// TODO Auto-generated method stub
-
+		setSize(600, 400);
+		setLocationRelativeTo(null); // frame centrer
+		setVisible(true); // last!
 		}
 
 	/*------------------------------------------------------------------*\
@@ -76,9 +68,6 @@ public class JPanelCentral extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-
-	// Inputs
-	private AfficheurServiceMOO afficheurServiceMOO;
 
 
 	}
