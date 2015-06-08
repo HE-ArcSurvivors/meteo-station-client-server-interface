@@ -92,6 +92,16 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			MeteoServiceWrapper_I meteoServiceRemote) {
 		// create AfficheurService
 		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOptions, meteoServiceRemote);
+		
+//		try {
+//			RemoteAfficheurCreator_I remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (UnknownHostException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
 //		afficheurServiceList.add(afficheurService);
 		return afficheurService;
