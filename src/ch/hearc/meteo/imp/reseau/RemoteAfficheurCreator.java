@@ -47,6 +47,8 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			// make remote
 			MeteoServiceWrapper_I meteoServiceWrapper = (MeteoServiceWrapper_I) RmiTools
 					.connectionRemoteObjectBloquant(meteoServiceRmiURL);
+			
+//			meteoServiceRemoteList.add(meteoServiceWrapper);
 
 			// server
 			// make afficheurService for PCCentral
@@ -98,7 +100,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 //			e.printStackTrace();
 //		}
 
-//		afficheurServiceList.add(afficheurService);
+		
 		return afficheurService;
 
 	}
@@ -131,7 +133,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
-	private ArrayList<AfficheurService_I> afficheurServiceList;
+	private ArrayList<MeteoServiceWrapper_I> meteoServiceRemoteList;
 
 	/*------------------------------*\
 	|*			  Static			*|

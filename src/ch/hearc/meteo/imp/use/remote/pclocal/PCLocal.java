@@ -1,8 +1,5 @@
 package ch.hearc.meteo.imp.use.remote.pclocal;
 
-import java.net.MalformedURLException;
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -128,13 +125,7 @@ public class PCLocal implements PC_I {
 						afficheurServiceWrapper.printTemperature(event);
 					}
 				} catch (RemoteException e) {
-					try {
-						errorManager();
-					} catch (MalformedURLException | RemoteException
-							| NotBoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					errorManager();
 				}
 			}
 
@@ -146,13 +137,7 @@ public class PCLocal implements PC_I {
 						afficheurServiceWrapper.printPression(event);
 					}
 				} catch (RemoteException e) {
-					try {
-						errorManager();
-					} catch (MalformedURLException | RemoteException
-							| NotBoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					errorManager();
 				}
 			}
 
@@ -164,13 +149,7 @@ public class PCLocal implements PC_I {
 						afficheurServiceWrapper.printAltitude(event);
 					}
 				} catch (RemoteException e) {
-					try {
-						errorManager();
-					} catch (MalformedURLException | RemoteException
-							| NotBoundException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
+					errorManager();
 				}
 			}
 		});
@@ -181,22 +160,11 @@ public class PCLocal implements PC_I {
 	}
 
 
-	private synchronized void errorManager() throws NotBoundException, MalformedURLException, RemoteException
+	private synchronized void errorManager()
 	{
 		{
 //		connected = false;
 		System.err.println("Lost Connection");
-		
-		String url = new String("rmi://"+ rmiURLMeteoService.getServeurHostAdress() +"/"+"AFFICHEUR_SERVICE");
-
-            try{
-            	afficheurService =  (AfficheurService_I)Naming.lookup(url);
-            }
-            catch( NotBoundException e ){
-            	e.printStackTrace();
-             }
-    
-        
 //		System.exit(-1);
 		
 		
