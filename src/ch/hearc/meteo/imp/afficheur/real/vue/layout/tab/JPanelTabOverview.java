@@ -11,6 +11,7 @@ import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.altitude.JPanelAltitude
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.barometre.JPanelBarometre;
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.thermometre.JPanelThermometre;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
+import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 
 public class JPanelTabOverview extends JPanel
 	{
@@ -40,6 +41,11 @@ public class JPanelTabOverview extends JPanel
 		jpanelthermometre.update();
 		jpanelaltitude.update();
 		jpanelbarometre.update();
+		}
+
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
+		{
+		jpanelsettings.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
 	/*------------------------------*\

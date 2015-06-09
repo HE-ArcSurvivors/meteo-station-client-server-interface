@@ -40,7 +40,7 @@ public class JPanelStationMeteo extends JPanel
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-		jpaneltabsettings.updateMeteoServiceOptions(meteoServiceOptions);
+		jpaneltaboverview.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
 	/*------------------------------*\
