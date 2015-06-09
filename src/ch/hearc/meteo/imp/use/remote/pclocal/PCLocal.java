@@ -95,9 +95,6 @@ public class PCLocal implements PC_I {
 	\*------------------------------*/
 
 	private void client() throws RemoteException, MeteoServiceException {
-		
-		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3, "PC Local");
-		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
 
 		AffichageOptions affichageOptionPCCentral = new AffichageOptions(3, "PC Central");
 		RemoteAfficheurCreator_I remoteAfficheurCreator =(RemoteAfficheurCreator_I)RmiTools.connectionRemoteObjectBloquant(rmiURLafficheurManager);
@@ -105,7 +102,12 @@ public class PCLocal implements PC_I {
 				.createRemoteAfficheurService(affichageOptionPCCentral, rmiURLMeteoService);
 		afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools
 				.connectionRemoteObjectBloquant(rmiURLRemoteAfficheurCreator);
-		
+
+		// on PCLocal
+//		afficheurService = (new AfficheurFactory()).createOnCentralPC(affichageOptions, meteoServiceWrapper);
+		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3, "PC Local");
+		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
+
 		meteoService.addMeteoListener(new MeteoListener_I() {
 
 			/**
