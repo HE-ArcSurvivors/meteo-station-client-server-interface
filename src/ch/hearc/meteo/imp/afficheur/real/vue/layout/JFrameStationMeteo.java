@@ -5,6 +5,7 @@ import java.awt.BorderLayout;
 import javax.swing.JFrame;
 
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
+import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 
 public class JFrameStationMeteo extends JFrame
 	{
@@ -42,6 +43,11 @@ public class JFrameStationMeteo extends JFrame
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
+
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
+		{
+		jpanelstationmeteo.updateMeteoServiceOptions(meteoServiceOptions);
+		}
 
 	private void geometry()
 		{

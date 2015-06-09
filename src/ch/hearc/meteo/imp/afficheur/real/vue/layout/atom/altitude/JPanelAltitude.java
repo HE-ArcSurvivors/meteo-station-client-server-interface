@@ -9,6 +9,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import tools.MagasinImage;
+import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.Stat;
 import ch.hearc.meteo.imp.afficheur.simulateur.vue.atome.MathTools;
 import ch.hearc.meteo.spec.com.meteo.listener.event.MeteoEvent;
@@ -34,7 +36,7 @@ public class JPanelAltitude extends JPanel
 
 	public void update()
 		{
-		jlabelaltitude.setText(ALTITUDE_TITLE+MathTools.arrondir(stat.getLast())+" m");
+		jlabelaltitude.setText(ALTITUDE_TITLE+MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE));
 		}
 
 	/*------------------------------*\
@@ -52,7 +54,7 @@ public class JPanelAltitude extends JPanel
 	private void geometry()
 		{
 			// JComponent : Instanciation
-			jlabelaltitude = new JLabel(ALTITUDE_TITLE+MathTools.arrondir(stat.getLast())+" m");
+			jlabelaltitude = new JLabel(ALTITUDE_TITLE+MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE));
 			Box boxV = Box.createVerticalBox();
 
 			int scaleFactor = 2;

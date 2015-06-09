@@ -85,54 +85,54 @@ public class UseComplet
 
 			});
 
-		// Modify MeteoServiceOptions
-		Thread threadSimulationChangementDt = new Thread(new Runnable()
-			{
-
-				@Override
-				public void run()
-					{
-					double x = 0;
-					double dx = Math.PI / 10;
-
-					while(true)
-						{
-						long dt = 1000 + (long)(5000 * Math.abs(Math.cos(x))); //ms
-
-						System.out.println("modification dt temperature = " + dt);
-
-						meteoService.getMeteoServiceOptions().setTemperatureDT(dt);
-
-						//	System.out.println(meteoService.getMeteoServiceOptions());
-
-						attendre(3000); // disons
-						x += dx;
-						}
-					}
-			});
-
-		// Update GUI MeteoServiceOptions
-		Thread threadPoolingOptions = new Thread(new Runnable()
-			{
-
-				@Override
-				public void run()
-					{
-
-					while(true)
-						{
-						MeteoServiceOptions option = meteoService.getMeteoServiceOptions();
-						afficheurService.updateMeteoServiceOptions(option);
-
-						//System.out.println(option);
-
-						attendre(1000); //disons
-						}
-					}
-			});
-
-		threadSimulationChangementDt.start();
-		threadPoolingOptions.start(); // update gui
+//		// Modify MeteoServiceOptions
+//		Thread threadSimulationChangementDt = new Thread(new Runnable()
+//			{
+//
+//				@Override
+//				public void run()
+//					{
+//					double x = 0;
+//					double dx = Math.PI / 10;
+//
+//					while(true)
+//						{
+//						long dt = 1000 + (long)(5000 * Math.abs(Math.cos(x))); //ms
+//
+//						System.out.println("modification dt temperature = " + dt);
+//
+//						meteoService.getMeteoServiceOptions().setTemperatureDT(dt);
+//
+//						//	System.out.println(meteoService.getMeteoServiceOptions());
+//
+//						attendre(3000); // disons
+//						x += dx;
+//						}
+//					}
+//			});
+//
+//		// Update GUI MeteoServiceOptions
+//		Thread threadPoolingOptions = new Thread(new Runnable()
+//			{
+//
+//				@Override
+//				public void run()
+//					{
+//
+//					while(true)
+//						{
+//						MeteoServiceOptions option = meteoService.getMeteoServiceOptions();
+//						afficheurService.updateMeteoServiceOptions(option);
+//
+//						//System.out.println(option);
+//
+//						attendre(1000); //disons
+//						}
+//					}
+//			});
+//
+//		threadSimulationChangementDt.start();
+//		threadPoolingOptions.start(); // update gui
 		}
 
 	/*------------------------------------------------------------------*\

@@ -49,8 +49,7 @@ public class AfficheurService implements AfficheurService_I
 
 	@Override public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-		// TODO Auto-generated method stub
-
+		jframestationmeteo.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
 	/*------------------------------------------------------------------*\

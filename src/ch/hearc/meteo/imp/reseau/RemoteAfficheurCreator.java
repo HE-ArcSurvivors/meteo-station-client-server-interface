@@ -6,7 +6,6 @@ import java.util.ArrayList;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
-import ch.hearc.meteo.spec.afficheur.AfficheurFactory_I;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
 import ch.hearc.meteo.spec.reseau.RemoteAfficheurCreator_I;
 import ch.hearc.meteo.spec.reseau.rmiwrapper.AfficheurServiceWrapper;
@@ -28,7 +27,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	private RemoteAfficheurCreator() throws RemoteException, UnknownHostException {
+	private RemoteAfficheurCreator() throws RemoteException {
 		server();
 	}
 
@@ -43,8 +42,6 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	public RmiURL createRemoteAfficheurService(
 			AffichageOptions affichageOptions, RmiURL meteoServiceRmiURL)
 			throws RemoteException {
-
-		try {
 
 			// client
 			// make remote
@@ -64,11 +61,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 
 			// Return the remote on AfficheurService
 			return RmiURLAfficheurService;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
+			
 	}
 
 	/*------------------------------*\
@@ -76,7 +69,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	\*------------------------------*/
 
 	public static synchronized RemoteAfficheurCreator_I getInstance()
-			throws RemoteException, UnknownHostException {
+			throws RemoteException {
 		if (INSTANCE == null) {
 			INSTANCE = new RemoteAfficheurCreator();
 		}
@@ -92,16 +85,25 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			AffichageOptions affichageOptions,
 			MeteoServiceWrapper_I meteoServiceRemote) {
 		// create AfficheurService
-		AfficheurFactory_I afficheurFactory = new AfficheurFactory();
-		AfficheurService_I afficheurService = afficheurFactory
-				.createOnCentralPC(affichageOptions, meteoServiceRemote);
+//		AfficheurService_I afficheurService = new AfficheurFactory().createOnCentralPC(affichageOptions, meteoServiceRemote);
+		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOptions, meteoServiceRemote);
+		
+//		try {
+//			RemoteAfficheurCreator_I remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
+//		} catch (RemoteException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		} catch (UnknownHostException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
 
-		afficheurServiceList.add(afficheurService);
+//		afficheurServiceList.add(afficheurService);
 		return afficheurService;
 
 	}
 
-	private void server() throws RemoteException, UnknownHostException {
+	private void server() throws RemoteException {
 
 //		PC_CENTRAL_IP = System.getProperty("PC_CENTRAL_IP", LOCALHOST_IP);
 //		PC_CENTRAL_ID = RemoteAfficheurCreator_I.class.getName();

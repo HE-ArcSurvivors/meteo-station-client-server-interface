@@ -1,5 +1,8 @@
 package ch.hearc.meteo.imp.use.remote.pclocal;
 
+import java.net.MalformedURLException;
+import java.rmi.Naming;
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -76,7 +79,7 @@ public class PCLocal implements PC_I {
 	private void server() throws MeteoServiceException, RemoteException {
 
 		// create meteoServiceWrapper
-		// meteoService = MeteoServiceFactory_I.create(portCom);
+//		 meteoService = MeteoServiceFactory_I.create(portCom);
 		// meteoServices.add(meteoService);
 
 		meteoService = (new MeteoServiceSimulatorFactory()).create(portCom);
@@ -85,9 +88,12 @@ public class PCLocal implements PC_I {
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
 		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
 		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
+		
 
 		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3, "PC Local");
 		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
+
+		
 
 	}
 
@@ -105,7 +111,7 @@ public class PCLocal implements PC_I {
 				.connectionRemoteObjectBloquant(rmiURLRemoteAfficheurCreator);
 
 		// on PCLocal
-		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptions, meteoServiceWrapper);
+//		afficheurService = (new AfficheurFactory()).createOnCentralPC(affichageOptions, meteoServiceWrapper);
 
 		meteoService.addMeteoListener(new MeteoListener_I() {
 
@@ -122,7 +128,13 @@ public class PCLocal implements PC_I {
 						afficheurServiceWrapper.printTemperature(event);
 					}
 				} catch (RemoteException e) {
-					errorManager();
+					try {
+						errorManager();
+					} catch (MalformedURLException | RemoteException
+							| NotBoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 
@@ -134,7 +146,13 @@ public class PCLocal implements PC_I {
 						afficheurServiceWrapper.printPression(event);
 					}
 				} catch (RemoteException e) {
-					errorManager();
+					try {
+						errorManager();
+					} catch (MalformedURLException | RemoteException
+							| NotBoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 
@@ -146,7 +164,13 @@ public class PCLocal implements PC_I {
 						afficheurServiceWrapper.printAltitude(event);
 					}
 				} catch (RemoteException e) {
-					errorManager();
+					try {
+						errorManager();
+					} catch (MalformedURLException | RemoteException
+							| NotBoundException e1) {
+						// TODO Auto-generated catch block
+						e1.printStackTrace();
+					}
 				}
 			}
 		});
@@ -157,13 +181,26 @@ public class PCLocal implements PC_I {
 	}
 
 
-	private void errorManager()
+	private synchronized void errorManager() throws NotBoundException, MalformedURLException, RemoteException
 	{
-	synchronized (this)
 		{
-		connected = false;
+//		connected = false;
 		System.err.println("Lost Connection");
-		System.exit(-1);
+		
+		String url = new String("rmi://"+ rmiURLMeteoService.getServeurHostAdress() +"/"+"AFFICHEUR_SERVICE");
+
+            try{
+            	afficheurService =  (AfficheurService_I)Naming.lookup(url);
+            }
+            catch( NotBoundException e ){
+            	e.printStackTrace();
+             }
+    
+        
+//		System.exit(-1);
+		
+		
+		
 		}
 	}
 

@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
 import ch.hearc.meteo.imp.afficheur.simulateur.vue.atome.MathTools;
 
 public class JPanelFleche extends JPanel
@@ -71,7 +72,7 @@ public class JPanelFleche extends JPanel
 		int countUnite = (Math.abs(maxValue) + Math.abs(minValue));
 		int delta = h / countUnite;
 
-		//POUR LES TESTS, DEVRA PROVENIR DE L'EXTERIEUR OU ÊTRE UNIFIE EN FONCTION DE LA TAILLE
+		//POUR LES TESTS, DEVRA PROVENIR DE L'EXTERIEUR OU ï¿½TRE UNIFIE EN FONCTION DE LA TAILLE
 		int decalage = 10;
 
 		int position = (int)(decalage + (maxValue - temperature) * delta);
@@ -80,7 +81,7 @@ public class JPanelFleche extends JPanel
 		int[] tabY = { position - 10, position + 10, position };
 
 		g2d.setColor(Color.BLACK);
-		g2d.drawString(MathTools.arrondir(temperature)+"°C", 0, position + 5);
+		g2d.drawString(MathTools.arrondir(temperature)+DataType.getUnite(DataType.TEMPERATURE), 0, position + 5);
 
 		g2d.setBackground(Color.BLACK);
 		g2d.fillPolygon(tabX, tabY, 3);
