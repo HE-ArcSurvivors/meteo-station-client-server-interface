@@ -101,9 +101,11 @@ public class JPanelStationMeteoCentral extends JPanel
 		jlistStation.updateUI();
 		}
 
-	public void addStation(String ip, JPanelStationMeteo newStation)
+	public void addStation(AfficheurServiceMOO afficheurServiceMOO)
 		{
-		mapStation.put(ip, newStation);
+		System.err.println("OK");
+		mapStation.put("STATION",new JPanelStationMeteo(afficheurServiceMOO));
+		updateUI();
 		}
 
 	/*------------------------------------------------------------------*\

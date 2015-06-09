@@ -1,6 +1,5 @@
 package ch.hearc.meteo.imp.reseau;
 
-import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 
@@ -61,7 +60,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 
 			// Return the remote on AfficheurService
 			return RmiURLAfficheurService;
-			
+
 	}
 
 	/*------------------------------*\
@@ -87,7 +86,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 		// create AfficheurService
 //		AfficheurService_I afficheurService = new AfficheurFactory().createOnCentralPC(affichageOptions, meteoServiceRemote);
 		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOptions, meteoServiceRemote);
-		
+
 //		try {
 //			RemoteAfficheurCreator_I remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
 //		} catch (RemoteException e) {

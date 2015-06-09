@@ -88,7 +88,7 @@ public class MeteoServiceOptions implements Serializable
 	// Technique listener
 	//		private
 	// pour faciliter observation de changement de MeteoServiceOptions,
-	// qui devra forcément ce changer en block avec setMeteoServiceOption sur la classe MeteoService
+	// qui devra forcï¿½ment ce changer en block avec setMeteoServiceOption sur la classe MeteoService
 
 	/**
 	 * hyp : altitudeDT>0
@@ -113,6 +113,7 @@ public class MeteoServiceOptions implements Serializable
 	 */
 	public void setTemperatureDT(long temperatureDT)
 		{
+		System.out.println("SETTEMPERATUREDT");
 		Assert.assertTrue(temperatureDT > 0);
 		this.temperatureDT = Math.max(EPSILON_MS, temperatureDT);
 		}

@@ -88,12 +88,9 @@ public class PCLocal implements PC_I {
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
 		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
 		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
-		
 
 		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3, "PC Local");
 		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
-
-		
 
 	}
 
@@ -107,6 +104,7 @@ public class PCLocal implements PC_I {
 		RemoteAfficheurCreator_I remoteAfficheurCreator =(RemoteAfficheurCreator_I)RmiTools.connectionRemoteObjectBloquant(rmiURLafficheurManager);
 		RmiURL rmiURLRemoteAfficheurCreator = remoteAfficheurCreator
 				.createRemoteAfficheurService(affichageOptionPCCentral, rmiURLMeteoService);
+//		remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
 		afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools
 				.connectionRemoteObjectBloquant(rmiURLRemoteAfficheurCreator);
 
@@ -186,7 +184,7 @@ public class PCLocal implements PC_I {
 		{
 //		connected = false;
 		System.err.println("Lost Connection");
-		
+
 		String url = new String("rmi://"+ rmiURLMeteoService.getServeurHostAdress() +"/"+"AFFICHEUR_SERVICE");
 
             try{
@@ -195,12 +193,12 @@ public class PCLocal implements PC_I {
             catch( NotBoundException e ){
             	e.printStackTrace();
              }
-    
-        
+
+
 //		System.exit(-1);
-		
-		
-		
+
+
+
 		}
 	}
 
