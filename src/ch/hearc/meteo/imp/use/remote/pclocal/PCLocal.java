@@ -8,7 +8,7 @@ import java.rmi.RemoteException;
 import java.util.List;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
-import ch.hearc.meteo.imp.com.real.MeteoFactory;
+import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
 import ch.hearc.meteo.imp.use.remote.PC_I;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -92,8 +92,10 @@ public class PCLocal implements PC_I
 		//		 meteoService = MeteoServiceFactory_I.create(portCom);
 		// meteoServices.add(meteoService);
 
-		//meteoService = (new MeteoServiceSimulatorFactory()).create(portCom);
-		meteoService = (new MeteoFactory()).create("/dev/tty.SLAB_USBtoUART");
+		meteoService = (new MeteoServiceSimulatorFactory()).create(portCom);
+
+		//meteoService = (new MeteoFactory()).create("/dev/tty.SLAB_USBtoUART");
+
 		//		meteoService.connect();
 		//		meteoService.start(meteoServiceOptions);
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
