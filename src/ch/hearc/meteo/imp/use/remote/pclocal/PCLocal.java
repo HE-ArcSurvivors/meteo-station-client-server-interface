@@ -112,8 +112,8 @@ public class PCLocal implements PC_I {
 		meteoService.addMeteoListener(new MeteoListener_I() {
 
 			/**
-				 *
-				 */
+			 * 
+			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
