@@ -76,11 +76,10 @@ public class JPanelBarometre extends JPanel
 
 		Image img = arrowBarometre.getImage();
 		g2d.translate(img.getWidth(null)/2, img.getHeight(null)/2);
-		double position = 970 + pression - START_POSITION;
+		double position = pression - START_POSITION;
 		g2d.rotate(ALPHA * position * Math.PI / 180);
 		g2d.translate(-img.getWidth(null)/2, -img.getHeight(null)/2);
 		g2d.drawImage(img, 0, 0, null);
-
 		}
 
 	private void geometry()

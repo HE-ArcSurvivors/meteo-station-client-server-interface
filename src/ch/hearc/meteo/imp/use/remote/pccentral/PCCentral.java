@@ -52,8 +52,6 @@ public class PCCentral implements PC_I {
 //			(new AfficheurSimulateurFactory()).createOnCentralPC(affichageOptions, null);
 
 //			remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
-		
-
 
 	}
 

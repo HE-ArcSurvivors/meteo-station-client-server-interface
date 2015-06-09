@@ -1,6 +1,9 @@
+
 package ch.hearc.meteo.imp.afficheur.real.vue.layout;
 
 import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 import javax.swing.JFrame;
 
@@ -46,14 +49,13 @@ public class JFrameStationMeteo extends JFrame
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-		System.err.println("METEOSERVICEOPTIONS"+meteoServiceOptions);
 		jpanelstationmeteo.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
 	private void geometry()
 		{
-			// JComponent : Instanciation
-			jpanelstationmeteo = new JPanelStationMeteo(afficheurServiceMOO);
+		// JComponent : Instanciation
+		jpanelstationmeteo = new JPanelStationMeteo(afficheurServiceMOO);
 
 			// Layout : Specification
 			{
@@ -64,18 +66,27 @@ public class JFrameStationMeteo extends JFrame
 			// borderLayout.setVgap(20);
 			}
 
-			// JComponent : add
-			add(jpanelstationmeteo, BorderLayout.CENTER);
+		// JComponent : add
+		add(jpanelstationmeteo, BorderLayout.CENTER);
 		}
 
 	private void control()
 		{
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		addWindowListener(new WindowAdapter()
+			{
+
+				@Override
+				public void windowClosing(WindowEvent we)
+					{
+					//DO A PROPER QUIT HERE
+					System.exit(0);
+					}
+			});
 		}
 
 	private void appearance()
 		{
-		setSize(600, 400);
+		setSize(800, 600);
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 		}
