@@ -8,7 +8,6 @@ import java.util.List;
 import gnu.io.CommPortIdentifier;
 
 import ch.hearc.meteo.imp.com.real.MeteoFactory;
-import ch.hearc.meteo.imp.com.real.com.ComOption;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 import ch.hearc.meteo.spec.com.meteo.MeteoService_I;
 import ch.hearc.meteo.spec.com.meteo.exception.MeteoServiceException;
@@ -37,9 +36,8 @@ public class UseSimple
 	public static void main() throws MeteoServiceException
 		{
 
-		ComOption options = new ComOption(57600, 8, 0, 1);
 		//listPorts();
-		MeteoService_I meteoService = (new MeteoFactory(options)).create("/dev/tty.SLAB_USBtoUART");
+		MeteoService_I meteoService = (new MeteoFactory()).create("/dev/tty.SLAB_USBtoUART");
 		use(meteoService);
 		}
 
@@ -60,9 +58,6 @@ public class UseSimple
 				}
 			}
 		}
-
-
-
 
 	public static void use(MeteoService_I meteoService) throws MeteoServiceException
 		{
@@ -108,7 +103,6 @@ public class UseSimple
 		meteoService.start(meteoServiceOptions1);
 		sleep(3000);
 		meteoService.stop();
-
 		meteoService.disconnect();
 
 //		sleep(3000);

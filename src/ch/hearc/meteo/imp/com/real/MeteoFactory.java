@@ -41,9 +41,17 @@ import ch.hearc.meteo.spec.com.meteo.MeteoService_I;
 public class MeteoFactory implements MeteoServiceFactory_I
 	{
 
-	public MeteoFactory(ComOption comOption) //TODO : ? créer ici comOption ?
+	public MeteoFactory(ComOption comOption)
 		{
 		this.comOption = comOption;
+		}
+
+	/**
+	 * utilise les options de base
+	 */
+	public MeteoFactory()
+		{
+		this.comOption = new ComOption();
 		}
 
 	@Override
