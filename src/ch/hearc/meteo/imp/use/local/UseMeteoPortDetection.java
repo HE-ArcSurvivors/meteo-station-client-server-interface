@@ -23,7 +23,6 @@ public class UseMeteoPortDetection
 		MeteoPortDetectionService testConnect = new MeteoPortDetectionService(new ComOption());
 		//boolean b = testConnect.isStationMeteoAvailable("/dev/tty.SLAB_USBtoUART", 3000);
 
-
 		List<String> listPortsMeteo = testConnect.findListPortMeteo();
 
 		System.out.println(listPortsMeteo);
