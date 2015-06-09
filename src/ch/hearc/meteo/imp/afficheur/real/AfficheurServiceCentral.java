@@ -2,7 +2,6 @@
 package ch.hearc.meteo.imp.afficheur.real;
 
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.JFrameStationMeteoCentral;
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.JPanelStationMeteo;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -24,34 +23,42 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		{
 		afficheurServiceMOO = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
 		jframestationmeteocentral = new JFrameStationMeteoCentral(afficheurServiceMOO);
-		jframestationmeteocentral.addStation("OK", new JPanelStationMeteo(afficheurServiceMOO));
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@Override public void printAltitude(MeteoEvent event)
+	@Override
+	public void printAltitude(MeteoEvent event)
 		{
 		afficheurServiceMOO.printAltitude(event);
 		jframestationmeteocentral.refresh();
 		}
 
-	@Override public void printTemperature(MeteoEvent event)
+	@Override
+	public void printTemperature(MeteoEvent event)
 		{
 		afficheurServiceMOO.printTemperature(event);
 		jframestationmeteocentral.refresh();
 		}
 
-	@Override public void printPression(MeteoEvent event)
+	@Override
+	public void printPression(MeteoEvent event)
 		{
 		afficheurServiceMOO.printPression(event);
 		jframestationmeteocentral.refresh();
 		}
 
-	@Override public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
+	@Override
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
 		// TODO Auto-generated method stub
+		}
+
+	public void addStation(AfficheurService afficheurService)
+		{
+		jframestationmeteocentral.addStation(afficheurService);
 		}
 
 	/*------------------------------------------------------------------*\

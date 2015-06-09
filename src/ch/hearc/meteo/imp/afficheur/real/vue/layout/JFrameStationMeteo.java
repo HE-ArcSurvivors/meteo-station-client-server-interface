@@ -46,6 +46,7 @@ public class JFrameStationMeteo extends JFrame
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
+		System.err.println("METEOSERVICEOPTIONS"+meteoServiceOptions);
 		jpanelstationmeteo.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 

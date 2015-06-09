@@ -64,7 +64,7 @@ public class JPanelStationMeteo extends JPanel
 			jpaneltaboverview = new JPanelTabOverview(afficheurServiceMOO);
 			jpaneltabchartTemperature = new JPanelTabCharts(afficheurServiceMOO, DataType.TEMPERATURE);
 			jpaneltabchartPression = new JPanelTabCharts(afficheurServiceMOO, DataType.PRESSION);
-			jpaneltabsettings = new JPanelTabSettings();
+			jpaneltabsettings = new JPanelTabSettings(afficheurServiceMOO);
 
 			jpanelmenu = new JPanelMenu();
 

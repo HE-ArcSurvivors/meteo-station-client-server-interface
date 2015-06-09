@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 
 import javax.swing.JFrame;
 
+import ch.hearc.meteo.imp.afficheur.real.AfficheurService;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 
 public class JFrameStationMeteoCentral extends JFrame
@@ -73,9 +74,9 @@ public class JFrameStationMeteoCentral extends JFrame
 		setVisible(true); // last!
 		}
 
-	public void addStation(String ip, JPanelStationMeteo newStation)
+	public void addStation(AfficheurService afficheurService)
 		{
-		jpanelstationmeteocentral.addStation(ip, newStation);
+//		jpanelstationmeteocentral.addStation(afficheurService);
 		}
 
 	/*------------------------------------------------------------------*\

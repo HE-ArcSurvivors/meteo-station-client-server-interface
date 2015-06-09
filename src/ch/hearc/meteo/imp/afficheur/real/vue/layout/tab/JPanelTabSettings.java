@@ -2,6 +2,7 @@
 package ch.hearc.meteo.imp.afficheur.real.vue.layout.tab;
 
 import java.awt.FlowLayout;
+import java.rmi.RemoteException;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -11,6 +12,7 @@ import javax.swing.border.TitledBorder;
 
 import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.JPanelSliderLine;
+import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 
 public class JPanelTabSettings extends JPanel
@@ -20,11 +22,37 @@ public class JPanelTabSettings extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelTabSettings()
+	public JPanelTabSettings(final AfficheurServiceMOO afficheurServiceMOO)
 		{
+		this.afficheurServiceMOO = afficheurServiceMOO;
+
 		geometry();
 		control();
 		appearance();
+
+		Thread thread = new Thread(new Runnable()
+			{
+
+				@Override
+				public void run()
+					{
+					while(true)
+						{
+						try
+							{
+							Thread.sleep(POOLING_DELAY);
+							updateMeteoServiceOptions(afficheurServiceMOO.getMeteoServiceOptions());
+							}
+						catch (Exception e)
+							{
+							e.printStackTrace();
+							}
+						}
+					}
+			});
+
+		thread.start();
+
 		}
 
 	/*------------------------------------------------------------------*\
@@ -33,12 +61,6 @@ public class JPanelTabSettings extends JPanel
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-
-		if (this.meteoServiceOptions == null)
-			{
-			this.meteoServiceOptions = meteoServiceOptions;
-			}
-
 		System.out.println("LAST UPDATE METEO SERVICE OPTIONS");
 		int dtTemperature = (int)meteoServiceOptions.getTemperatureDT();
 		System.out.println("dtTemperature " + dtTemperature);
@@ -55,11 +77,16 @@ public class JPanelTabSettings extends JPanel
 
 	public void setDelta(int dataType, int value)
 		{
-		if (meteoServiceOptions != null)
+		System.out.println("BONJOUR");
+
+		MeteoServiceOptions meteoServiceOptions;
+		try
 			{
+			meteoServiceOptions = afficheurServiceMOO.getMeteoServiceOptions();
 			switch(dataType)
 				{
 				case DataType.TEMPERATURE:
+					System.out.println("TEMPERATURE");
 					meteoServiceOptions.setTemperatureDT(value);
 					break;
 				case DataType.ALTITUDE:
@@ -71,7 +98,11 @@ public class JPanelTabSettings extends JPanel
 				default:
 					break;
 				}
-
+			}
+		catch (RemoteException e)
+			{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 			}
 		}
 
@@ -90,8 +121,7 @@ public class JPanelTabSettings extends JPanel
 	private void geometry()
 		{
 
-		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
-				"Modifier les dt");
+		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Modifier les dt");
 		title.setTitleJustification(TitledBorder.RIGHT);
 		this.setBorder(title);
 
@@ -142,6 +172,8 @@ public class JPanelTabSettings extends JPanel
 	private JPanelSliderLine sliderDeltaAltitude;
 	private JPanelSliderLine sliderDeltaPression;
 
-	private MeteoServiceOptions meteoServiceOptions;
+	private AfficheurServiceMOO afficheurServiceMOO;
+
+	private final static int POOLING_DELAY = 500;
 
 	}
