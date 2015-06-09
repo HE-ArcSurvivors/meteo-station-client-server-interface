@@ -25,13 +25,10 @@ public class PCCentral implements PC_I {
 
 	@Override
 	public void run() {
-		geometry();
-		control();
-		apparence();
 
 		try {
 			server();
-		} catch (UnknownHostException e) {
+		} catch (UnknownHostException | RemoteException e) {
 			System.err.println("error: server()");
 			e.printStackTrace();
 		}
@@ -42,12 +39,11 @@ public class PCCentral implements PC_I {
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
 
-	private void server() throws UnknownHostException {
+	private void server() throws RemoteException, UnknownHostException {
 
-		try {
 			String name = "PC Central";
 			AffichageOptions affichageOptions = new AffichageOptions(0, name);
-			remoteAfficheurCreator = RemoteAfficheurCreatorFactory.create();
+			remoteAfficheurCreator = (new RemoteAfficheurCreatorFactory()).create();
 			(new AfficheurFactory()).createOnCentralPC(affichageOptions, null);
 
 //			String name = "PC Central Simulateur";
@@ -56,23 +52,8 @@ public class PCCentral implements PC_I {
 //			(new AfficheurSimulateurFactory()).createOnCentralPC(affichageOptions, null);
 
 //			remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
-		} catch (RemoteException e) {
-			System.err.println("error: server()");
-			e.printStackTrace();
-		}
+		
 
-
-	}
-
-	private void apparence() {
-
-	}
-
-	private void control() {
-
-	}
-
-	private void geometry() {
 
 	}
 

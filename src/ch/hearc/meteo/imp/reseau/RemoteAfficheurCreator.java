@@ -27,7 +27,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	private RemoteAfficheurCreator() throws RemoteException, UnknownHostException {
+	private RemoteAfficheurCreator() throws RemoteException {
 		server();
 	}
 
@@ -42,8 +42,6 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	public RmiURL createRemoteAfficheurService(
 			AffichageOptions affichageOptions, RmiURL meteoServiceRmiURL)
 			throws RemoteException {
-
-		try {
 
 			// client
 			// make remote
@@ -63,11 +61,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 
 			// Return the remote on AfficheurService
 			return RmiURLAfficheurService;
-		} catch (Exception e) {
-			e.printStackTrace();
-			return null;
-		}
-
+			
 	}
 
 	/*------------------------------*\
@@ -75,7 +69,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	\*------------------------------*/
 
 	public static synchronized RemoteAfficheurCreator_I getInstance()
-			throws RemoteException, UnknownHostException {
+			throws RemoteException {
 		if (INSTANCE == null) {
 			INSTANCE = new RemoteAfficheurCreator();
 		}
@@ -91,6 +85,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			AffichageOptions affichageOptions,
 			MeteoServiceWrapper_I meteoServiceRemote) {
 		// create AfficheurService
+//		AfficheurService_I afficheurService = new AfficheurFactory().createOnCentralPC(affichageOptions, meteoServiceRemote);
 		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOptions, meteoServiceRemote);
 		
 //		try {
@@ -108,7 +103,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 
 	}
 
-	private void server() throws RemoteException, UnknownHostException {
+	private void server() throws RemoteException {
 
 //		PC_CENTRAL_IP = System.getProperty("PC_CENTRAL_IP", LOCALHOST_IP);
 //		PC_CENTRAL_ID = RemoteAfficheurCreator_I.class.getName();

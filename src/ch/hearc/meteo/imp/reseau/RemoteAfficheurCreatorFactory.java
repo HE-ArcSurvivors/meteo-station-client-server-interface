@@ -1,11 +1,11 @@
 package ch.hearc.meteo.imp.reseau;
 
-import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 
+import ch.hearc.meteo.spec.reseau.RemoteAfficheurCreatorFactory_I;
 import ch.hearc.meteo.spec.reseau.RemoteAfficheurCreator_I;
 
-public class RemoteAfficheurCreatorFactory {
+public class RemoteAfficheurCreatorFactory implements RemoteAfficheurCreatorFactory_I{
 
 	/*------------------------------------------------------------------*\
 	 |*							Methodes Public							*|
@@ -15,7 +15,7 @@ public class RemoteAfficheurCreatorFactory {
 	 |*			  Static			*|
 	 \*------------------------------*/
 
-	public static RemoteAfficheurCreator_I create() throws RemoteException, UnknownHostException {
+	public RemoteAfficheurCreator_I create() throws RemoteException {
 		return RemoteAfficheurCreator.getInstance();
 		
 	}
