@@ -48,6 +48,7 @@ public class JFrameSelectionPortCom extends JFrame
 		geometry();
 		control();
 		appearance();
+
 		}
 
 	/*------------------------------------------------------------------*\
@@ -201,6 +202,8 @@ public class JFrameSelectionPortCom extends JFrame
 			PCLocal pc = new PCLocal(meteoServiceOptions, portcom, affichageOptions, rmiUrl);
 			pc.run();
 
+
+
 			}
 		catch (Exception e)
 			{
@@ -211,56 +214,56 @@ public class JFrameSelectionPortCom extends JFrame
 
 	private void launchSimulation() throws MeteoServiceException
 		{
-			String portName = "COM1";
-			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create(portName);
-			use(meteoService);
+		String portName = "COM1";
+		MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create(portName);
+		use(meteoService);
 		}
 
-public static void use(MeteoService_I meteoService) throws MeteoServiceException
-	{
-	// Service Meteo
-	meteoService.connect();
-	MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(800, 1000, 1200);
-	meteoService.start(meteoServiceOptions);
-
-	// Service Affichage
-	MeteoServiceWrapper_I meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
-
-	String titre = RmiTools.getLocalHost() + " " + meteoService.getPort();
-	AffichageOptions affichageOption = new AffichageOptions(3, titre);
-	AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOption, meteoServiceWrapper);
-
-	use(meteoService, afficheurService);
-	}
-
-/**
- * Liason entre les deux services d'affichage : MeteoService_I et AfficheurService_I
- */
-public static void use(final MeteoService_I meteoService, final AfficheurService_I afficheurService) throws MeteoServiceException
-	{
-	meteoService.addMeteoListener(new MeteoAdapter()
+	public static void use(MeteoService_I meteoService) throws MeteoServiceException
 		{
-			@Override
-			public void temperaturePerformed(MeteoEvent event)
-				{
-				afficheurService.printTemperature(event);
-				}
+		// Service Meteo
+		meteoService.connect();
+		MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(800, 1000, 1200);
+		meteoService.start(meteoServiceOptions);
 
-			@Override
-			public void altitudePerformed(MeteoEvent event)
-				{
-				afficheurService.printAltitude(event);
-				}
+		// Service Affichage
+		MeteoServiceWrapper_I meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
 
-			@Override
-			public void pressionPerformed(MeteoEvent event)
-				{
-				afficheurService.printPression(event);
-				}
+		String titre = RmiTools.getLocalHost() + " " + meteoService.getPort();
+		AffichageOptions affichageOption = new AffichageOptions(3, titre);
+		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOption, meteoServiceWrapper);
 
-		});
-	}
+		use(meteoService, afficheurService);
+		}
 
+	/**
+	 * Liason entre les deux services d'affichage : MeteoService_I et AfficheurService_I
+	 */
+	public static void use(final MeteoService_I meteoService, final AfficheurService_I afficheurService) throws MeteoServiceException
+		{
+		meteoService.addMeteoListener(new MeteoAdapter()
+			{
+
+				@Override
+				public void temperaturePerformed(MeteoEvent event)
+					{
+					afficheurService.printTemperature(event);
+					}
+
+				@Override
+				public void altitudePerformed(MeteoEvent event)
+					{
+					afficheurService.printAltitude(event);
+					}
+
+				@Override
+				public void pressionPerformed(MeteoEvent event)
+					{
+					afficheurService.printPression(event);
+					}
+
+			});
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

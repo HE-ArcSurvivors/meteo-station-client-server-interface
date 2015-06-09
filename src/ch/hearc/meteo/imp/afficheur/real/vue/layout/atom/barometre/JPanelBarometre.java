@@ -8,9 +8,12 @@ import java.awt.Image;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
 import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.Stat;
@@ -67,15 +70,14 @@ public class JPanelBarometre extends JPanel
 
 	private void dessiner(Graphics2D g2d)
 		{
-		//MagasinImage.barometreBorder.getImage()
+		//MagasinImage.barometreBorder.getImage() // Problèmes lors de l'utilisation de MagasinImage...
 		ImageIcon borderBarometre = new ImageIcon(ClassLoader.getSystemResource("images/barometre.png"));
-
 		ImageIcon arrowBarometre = new ImageIcon(ClassLoader.getSystemResource("images/flecheBarometre.png"));
 
-		g2d.drawImage(borderBarometre.getImage(), 0, 0, null);
+		g2d.drawImage(borderBarometre.getImage(), 0, 30, null);
 
 		Image img = arrowBarometre.getImage();
-		g2d.translate(img.getWidth(null)/2, img.getHeight(null)/2);
+		g2d.translate(img.getWidth(null)/2, img.getHeight(null)/2+30);
 		double position = pression - START_POSITION;
 		g2d.rotate(ALPHA * position * Math.PI / 180);
 		g2d.translate(-img.getWidth(null)/2, -img.getHeight(null)/2);
@@ -84,6 +86,11 @@ public class JPanelBarometre extends JPanel
 
 	private void geometry()
 		{
+			TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+					DataType.getString(DataType.PRESSION));
+			title.setTitleJustification(TitledBorder.RIGHT);
+			this.setBorder(title);
+
 			// JComponent : Instanciation
 			jlabelpression = new JLabel(MathTools.arrondir(pression)+" "+DataType.getUnite(DataType.PRESSION));
 
@@ -109,9 +116,9 @@ public class JPanelBarometre extends JPanel
 
 	private void appearance()
 		{
-		setMinimumSize(new Dimension(300,300));
-		setPreferredSize(new Dimension(300,300));
-		setMaximumSize(new Dimension(300,300));
+		setMinimumSize(new Dimension(300,340));
+		setPreferredSize(new Dimension(300,340));
+		setMaximumSize(new Dimension(300,340));
 		}
 
 	/*------------------------------------------------------------------*\

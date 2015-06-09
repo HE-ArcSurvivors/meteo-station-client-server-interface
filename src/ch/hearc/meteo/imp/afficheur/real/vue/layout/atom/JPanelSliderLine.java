@@ -29,6 +29,7 @@ public class JPanelSliderLine extends JPanel
 		slider = new JSlider();
 		slider.setValue(value);
 		slider.setMinimum(1);
+		slider.setMaximum(1000);
 
 		labelValue = new JLabel("" + value);
 

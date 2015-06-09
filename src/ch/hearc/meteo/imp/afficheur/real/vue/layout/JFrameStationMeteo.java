@@ -78,8 +78,7 @@ public class JFrameStationMeteo extends JFrame
 				@Override
 				public void windowClosing(WindowEvent we)
 					{
-					//DO A PROPER QUIT HERE
-					System.exit(0);
+					//DO A PROPER EXIT WITH CENTRAL PC HERE
 					}
 			});
 		}

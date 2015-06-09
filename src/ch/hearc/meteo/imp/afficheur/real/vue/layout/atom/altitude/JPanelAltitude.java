@@ -4,12 +4,15 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
-import tools.MagasinImage;
 import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.Stat;
 import ch.hearc.meteo.imp.afficheur.simulateur.vue.atome.MathTools;
@@ -36,7 +39,7 @@ public class JPanelAltitude extends JPanel
 
 	public void update()
 		{
-		jlabelaltitude.setText(ALTITUDE_TITLE+MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE));
+		jlabelaltitude.setText(MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE));
 		}
 
 	/*------------------------------*\
@@ -53,8 +56,14 @@ public class JPanelAltitude extends JPanel
 
 	private void geometry()
 		{
+			TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+					DataType.getString(DataType.ALTITUDE));
+			title.setTitleJustification(TitledBorder.RIGHT);
+			this.setBorder(title);
+
 			// JComponent : Instanciation
-			jlabelaltitude = new JLabel(ALTITUDE_TITLE+MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE));
+			jlabelaltitude = new JLabel(MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE), SwingConstants.CENTER);
+
 			Box boxV = Box.createVerticalBox();
 
 			int scaleFactor = 2;
@@ -65,7 +74,7 @@ public class JPanelAltitude extends JPanel
 			ImageIcon newIcon = new ImageIcon(newimg);
 
 			boxV.add(new JLabel(newIcon));
-
+			boxV.add(new JLabel(ALTITUDE_TITLE, SwingConstants.CENTER));
 			boxV.add(jlabelaltitude);
 
 			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);

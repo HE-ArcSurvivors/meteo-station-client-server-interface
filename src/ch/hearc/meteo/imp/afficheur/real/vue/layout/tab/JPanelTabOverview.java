@@ -70,6 +70,8 @@ public class JPanelTabOverview extends JPanel
 		boxH.add(jpanelthermometre);
 		boxH.add(jpanelaltitude);
 		boxH.add(jpanelbarometre);
+		boxH.setAlignmentY(BOTTOM_ALIGNMENT);
+
 
 		Box boxV = Box.createVerticalBox();
 		boxV.add(boxH);
@@ -87,7 +89,6 @@ public class JPanelTabOverview extends JPanel
 
 	private void appearance()
 		{
-		// rien
 		}
 
 	/*------------------------------------------------------------------*\
