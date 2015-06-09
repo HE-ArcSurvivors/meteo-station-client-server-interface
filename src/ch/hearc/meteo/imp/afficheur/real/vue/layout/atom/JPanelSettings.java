@@ -1,5 +1,5 @@
 
-package ch.hearc.meteo.imp.afficheur.real.vue.layout.tab;
+package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom;
 
 import java.awt.FlowLayout;
 import java.rmi.RemoteException;
@@ -11,18 +11,17 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 
 import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.JPanelSliderLine;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 
-public class JPanelTabSettings extends JPanel
+public class JPanelSettings extends JPanel
 	{
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelTabSettings(final AfficheurServiceMOO afficheurServiceMOO)
+	public JPanelSettings(final AfficheurServiceMOO afficheurServiceMOO)
 		{
 		this.afficheurServiceMOO = afficheurServiceMOO;
 
@@ -61,7 +60,6 @@ public class JPanelTabSettings extends JPanel
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-		System.out.println("LAST UPDATE METEO SERVICE OPTIONS");
 		int dtTemperature = (int)meteoServiceOptions.getTemperatureDT();
 		System.out.println("dtTemperature " + dtTemperature);
 		sliderDeltaTemperature.setValue(dtTemperature);
@@ -77,8 +75,6 @@ public class JPanelTabSettings extends JPanel
 
 	public void setDelta(int dataType, int value)
 		{
-		System.out.println("BONJOUR");
-
 		MeteoServiceOptions meteoServiceOptions;
 		try
 			{
@@ -86,7 +82,7 @@ public class JPanelTabSettings extends JPanel
 			switch(dataType)
 				{
 				case DataType.TEMPERATURE:
-					System.out.println("TEMPERATURE");
+					System.out.println("VALUE : "+value);
 					meteoServiceOptions.setTemperatureDT(value);
 					break;
 				case DataType.ALTITUDE:
@@ -121,7 +117,8 @@ public class JPanelTabSettings extends JPanel
 	private void geometry()
 		{
 
-		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Modifier les dt");
+		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+				"Paramètres");
 		title.setTitleJustification(TitledBorder.RIGHT);
 		this.setBorder(title);
 
@@ -142,11 +139,8 @@ public class JPanelTabSettings extends JPanel
 		Box boxV = Box.createVerticalBox();
 
 		// JComponent : add
-		boxV.add(Box.createVerticalGlue());
 		boxV.add(sliderDeltaTemperature);
-		boxV.add(Box.createVerticalGlue());
 		boxV.add(sliderDeltaAltitude);
-		boxV.add(Box.createVerticalGlue());
 		boxV.add(sliderDeltaPression);
 
 		add(boxV);
@@ -174,6 +168,6 @@ public class JPanelTabSettings extends JPanel
 
 	private AfficheurServiceMOO afficheurServiceMOO;
 
-	private final static int POOLING_DELAY = 500;
+	private final static int POOLING_DELAY = 500000;
 
 	}

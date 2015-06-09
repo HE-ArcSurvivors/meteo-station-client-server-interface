@@ -10,3 +10,6 @@
 .classpath
 .settings/org.eclipse.core.resources.prefs
 org.eclipse.jdt.core.prefs
+depoy/ext/RXTXcomm.jar
+depoy/ext/RXTXcomm_windows.jar
+depoy/ext/RXTXcomm_mac.jar
