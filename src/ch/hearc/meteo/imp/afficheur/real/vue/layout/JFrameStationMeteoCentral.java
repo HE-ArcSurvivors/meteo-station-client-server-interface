@@ -6,9 +6,7 @@ import java.awt.Frame;
 import javax.swing.JFrame;
 
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
-import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
-import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
 
 public class JFrameStationMeteoCentral extends JFrame
 	{
@@ -83,9 +81,9 @@ public class JFrameStationMeteoCentral extends JFrame
 		setVisible(true); // last!
 		}
 
-	public void addStation(AffichageOptions afficheurOptions, MeteoServiceWrapper_I meteoServiceRemote)
+	public void addStation(JPanelStationMeteo jpanel)
 		{
-		jpanelstationmeteocentral.addStation(afficheurOptions, meteoServiceRemote);
+		jpanelstationmeteocentral.addStation(jpanel);
 		}
 
 	/*------------------------------------------------------------------*\

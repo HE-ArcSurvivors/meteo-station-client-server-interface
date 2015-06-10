@@ -29,7 +29,6 @@ public class AfficheurFactory implements AfficheurFactory_I
 	public AfficheurService_I createOnLocalPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
 		return new AfficheurService(affichageOptions, meteoServiceRemote);
-		//		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
 		}
 
 	@Override
@@ -41,7 +40,8 @@ public class AfficheurFactory implements AfficheurFactory_I
 			}
 		else
 			{
-			afficheurCentral.addStation(affichageOptions, meteoServiceRemote);
+			AfficheurService as = new AfficheurService(affichageOptions, meteoServiceRemote);
+			afficheurCentral.addStation(as.getPanelStationMeteo());
 			}
 		return afficheurCentral;
 		}

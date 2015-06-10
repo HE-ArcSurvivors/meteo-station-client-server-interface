@@ -37,7 +37,7 @@ public class UseSimple
 		{
 
 		//listPorts();
-		MeteoService_I meteoService = (new MeteoFactory()).create("COM3");
+		MeteoService_I meteoService = (new MeteoFactory()).create("/dev/cu.SLAB_USBtoUART");
 		use(meteoService);
 		}
 
