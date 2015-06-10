@@ -1,5 +1,6 @@
 package ch.hearc.meteo.imp.use.remote.pclocal;
 
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
@@ -93,9 +94,17 @@ public class PCLocal implements PC_I {
 				"PC Local: " + portCom);
 		afficheurService = (new AfficheurFactory()).createOnLocalPC(
 				affichageOptionPCLocal, meteoServiceWrapper);
+		
+//		printAfficheurService();
 
 		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
-		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
+//		InetAddress ip = InetAddress.getByName(PropertiesManager.getInstance().getIpPcLocal());
+//		String id = portCom;
+//		int port = PropertiesManager.getInstance().getPortPcLocal();
+//
+//		final RmiURL rmiUrlMeteoService = new RmiURL(id, ip, port);
+//		
+//		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
 
 
 
@@ -108,10 +117,11 @@ public class PCLocal implements PC_I {
 	\*------------------------------*/
 
 	private void client() throws RemoteException, MeteoServiceException {
-
+		
+		
 		// PC Central
 		final AffichageOptions affichageOptionPCCentral = new AffichageOptions(
-				3, "PC Central: " + portCom);
+				3, rmiURLMeteoService.getServeurHostAdress() + " [" + portCom + "]");
 
 		Thread threadPCCentral = new Thread(new Runnable() {
 			@Override
@@ -162,7 +172,9 @@ public class PCLocal implements PC_I {
 
 			@Override
 			public void temperaturePerformed(MeteoEvent event) {
+				System.out.println("connected status: "+connected);
 				afficheurService.printTemperature(event);
+				System.out.println("connected status 2: "+connected);
 				try {
 					
 					if (connected) {
@@ -208,6 +220,94 @@ public class PCLocal implements PC_I {
 
 
 	}
+	
+//	private void printAfficheurService()
+//	{
+//	meteoService.addMeteoListener(new MeteoListener_I()
+//		{
+//
+//			/**
+//			 * 
+//			 */
+//			private static final long serialVersionUID = -2657274819694610843L;
+//
+//			@Override
+//			public void temperaturePerformed(MeteoEvent event)
+//				{
+//				afficheurService.printTemperature(event);
+//				}
+//
+//			@Override
+//			public void pressionPerformed(MeteoEvent event)
+//				{
+//				afficheurService.printPression(event);
+//				}
+//
+//			@Override
+//			public void altitudePerformed(MeteoEvent event)
+//				{
+//				afficheurService.printAltitude(event);
+//				}
+//		});
+//	
+//	meteoService.addMeteoListener(new MeteoListener_I()
+//	{
+//
+//		/**
+//		 * 
+//		 */
+//		private static final long serialVersionUID = -8657097230876718079L;
+//
+//		@Override
+//		public void temperaturePerformed(MeteoEvent event)
+//			{
+//			try
+//				{
+//				if (connected)
+//					{
+//					afficheurServiceWrapper.printTemperature(event);
+//					}
+//				}
+//			catch (RemoteException e)
+//				{
+//				errorManager();
+//				}
+//			}
+//
+//		@Override
+//		public void pressionPerformed(MeteoEvent event)
+//			{
+//			try
+//				{
+//				if (connected)
+//					{
+//					afficheurServiceWrapper.printPression(event);
+//					}
+//				}
+//			catch (RemoteException e)
+//				{
+//				errorManager();
+//				}
+//			}
+//
+//		@Override
+//		public void altitudePerformed(MeteoEvent event)
+//			{
+//			try
+//				{
+//				if (connected)
+//					{
+//					afficheurServiceWrapper.printAltitude(event);
+//					}
+//				}
+//			catch (RemoteException e)
+//				{
+//				errorManager();
+//				}
+//			}
+//	});
+//
+//}
 
 	private synchronized void errorManager() {
 		{
