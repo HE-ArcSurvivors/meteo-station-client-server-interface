@@ -1,9 +1,6 @@
-
 package ch.hearc.meteo.imp.use.remote.pclocal;
 
-import java.net.MalformedURLException;
 import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.util.List;
 
@@ -25,53 +22,42 @@ import com.bilat.tools.reseau.rmi.IdTools;
 import com.bilat.tools.reseau.rmi.RmiTools;
 import com.bilat.tools.reseau.rmi.RmiURL;
 
-public class PCLocal implements PC_I
-	{
+public class PCLocal implements PC_I {
 
 	/*------------------------------------------------------------------*\
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public PCLocal(MeteoServiceOptions meteoServiceOptions, String portCom, AffichageOptions affichageOptions, RmiURL rmiURLafficheurManager)
-		{
+	public PCLocal(MeteoServiceOptions meteoServiceOptions, String portCom,
+			AffichageOptions affichageOptions, RmiURL rmiURLafficheurManager) {
 		this.meteoServiceOptions = meteoServiceOptions;
 		this.portCom = portCom;
 		this.affichageOptions = affichageOptions;
 		this.rmiURLafficheurManager = rmiURLafficheurManager;
-		this.connected = true;
+		this.connected = false;
 
-		// portComs = new LinkedList<String>();
-		// meteoServices = new LinkedList<MeteoService_I>();
-
-		}
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
 	@Override
-	public void run()
-		{
-		try
-			{
+	public void run() {
+		try {
 			server(); // avant
-			}
-		catch (Exception e)
-			{
+		} catch (Exception e) {
 			System.err.println("[PCLocal :  run : server : failed");
 			e.printStackTrace();
-			}
+		}
 
-		try
-			{
+		try {
 			client(); // apr�s
-			}
-		catch (RemoteException | MeteoServiceException e)
-			{
+		} catch (RemoteException | MeteoServiceException e) {
 			System.err.println("[PCLocal :  run : client : failed");
 			e.printStackTrace();
-			}
 		}
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
@@ -85,158 +71,160 @@ public class PCLocal implements PC_I
 	|*				server			*|
 	\*------------------------------*/
 
-	private void server() throws MeteoServiceException, RemoteException
-		{
-
-		// create meteoServiceWrapper
-		//		 meteoService = MeteoServiceFactory_I.create(portCom);
-		// meteoServices.add(meteoService);
+	private void server() throws MeteoServiceException, RemoteException {
 
 		meteoService = (new MeteoServiceSimulatorFactory()).create(portCom);
 
-		//meteoService = (new MeteoFactory()).create("/dev/tty.SLAB_USBtoUART");
+		// meteoService = (new
+		// MeteoFactory()).create("/dev/tty.SLAB_USBtoUART");
 
-		//		meteoService.connect();
-		//		meteoService.start(meteoServiceOptions);
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
 		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
 		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
 
-		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3, "PC Local");
-		afficheurService = (new AfficheurFactory()).createOnLocalPC(affichageOptionPCLocal, meteoServiceWrapper);
-
-		}
+	}
 
 	/*------------------------------*\
 	|*				client			*|
 	\*------------------------------*/
 
-	private void client() throws RemoteException, MeteoServiceException
-		{
+	private void client() throws RemoteException, MeteoServiceException {
 
-		AffichageOptions affichageOptionPCCentral = new AffichageOptions(3, "PC Central");
-		RemoteAfficheurCreator_I remoteAfficheurCreator = (RemoteAfficheurCreator_I)RmiTools.connectionRemoteObjectBloquant(rmiURLafficheurManager);
-		RmiURL rmiURLRemoteAfficheurCreator = remoteAfficheurCreator.createRemoteAfficheurService(affichageOptionPCCentral, rmiURLMeteoService);
-		afficheurServiceWrapper = (AfficheurServiceWrapper_I)RmiTools.connectionRemoteObjectBloquant(rmiURLRemoteAfficheurCreator);
+		// PC Central
+		final AffichageOptions affichageOptionPCCentral = new AffichageOptions(
+				3, "PC Central: " + portCom);
+		// RemoteAfficheurCreator_I remoteAfficheurCreator =
+		// (RemoteAfficheurCreator_I) RmiTools
+		// .connectionRemoteObjectBloquant(rmiURLafficheurManager);
+		// RmiURL rmiURLRemoteAfficheurCreator = remoteAfficheurCreator
+		// .createRemoteAfficheurService(affichageOptionPCCentral,
+		// rmiURLMeteoService);
+		// afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools
+		// .connectionRemoteObjectBloquant(rmiURLRemoteAfficheurCreator);
+		Thread threadPCCentral = new Thread(new Runnable() {
+			@Override
+			public void run() {
+				try {
+					while (true) {
+						try {
+							if (!connected) {
+								System.out.println("Connexion en cours");
 
-		// on PCLocal
-		//		afficheurService = (new AfficheurFactory()).createOnCentralPC(affichageOptions, meteoServiceWrapper);
+								RemoteAfficheurCreator_I remoteAfficheurCreator = (RemoteAfficheurCreator_I) RmiTools
+										.connectionRemoteObjectBloquant(
+												rmiURLafficheurManager, 1000, 5);
+								rmiURLRemoteAfficheurCreator = remoteAfficheurCreator
+										.createRemoteAfficheurService(
+												affichageOptionPCCentral,
+												rmiURLMeteoService);
 
-		meteoService.addMeteoListener(new MeteoListener_I()
-			{
+								afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools
+										.connectionRemoteObjectBloquant(
+												rmiURLRemoteAfficheurCreator,
+												1000, 5);
 
-				/**
-				 *
-				 */
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void temperaturePerformed(MeteoEvent event)
-					{
-					try
-						{
-						if (connected)
-							{
-							afficheurService.printTemperature(event);
-							afficheurServiceWrapper.printTemperature(event);
+								connected = true;
+								System.out.println("Connecté");
 							}
+						} catch (RemoteException e) {
+							System.out.println("Echec de connexion");
 						}
-					catch (RemoteException e)
-						{
-						try
-							{
-							errorManager();
-							}
-						catch (MalformedURLException | RemoteException | NotBoundException e1)
-							{
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-							}
-						}
+
+						Thread.sleep(10000);
 					}
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+		threadPCCentral.start();
 
-				@Override
-				public void pressionPerformed(MeteoEvent event)
-					{
-					try
-						{
-						if (connected)
-							{
-							afficheurService.printPression(event);
-							afficheurServiceWrapper.printPression(event);
-							}
-						}
-					catch (RemoteException e)
-						{
-						try
-							{
-							errorManager();
-							}
-						catch (MalformedURLException | RemoteException | NotBoundException e1)
-							{
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-							}
-						}
-					}
+		// PC Local
+		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3,
+				"PC Local: " + portCom);
+		afficheurService = (new AfficheurFactory()).createOnLocalPC(
+				affichageOptionPCLocal, meteoServiceWrapper);
 
-				@Override
-				public void altitudePerformed(MeteoEvent event)
-					{
-					try
-						{
-						if (connected)
-							{
-							afficheurService.printAltitude(event);
-							afficheurServiceWrapper.printAltitude(event);
-							}
-						}
-					catch (RemoteException e)
-						{
-						try
-							{
-							errorManager();
-							}
-						catch (MalformedURLException | RemoteException | NotBoundException e1)
-							{
-							// TODO Auto-generated catch block
-							e1.printStackTrace();
-							}
-						}
+		meteoService.addMeteoListener(new MeteoListener_I() {
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void temperaturePerformed(MeteoEvent event) {
+				try {
+					if (connected) {
+						afficheurService.printTemperature(event);
+						afficheurServiceWrapper.printTemperature(event);
 					}
-			});
+				} catch (RemoteException e) {
+					e.printStackTrace();
+					errorManager();
+				}
+			}
+
+			@Override
+			public void pressionPerformed(MeteoEvent event) {
+				try {
+					if (connected) {
+						afficheurService.printPression(event);
+						afficheurServiceWrapper.printPression(event);
+					}
+				} catch (RemoteException e) {
+					e.printStackTrace();
+					errorManager();
+				}
+			}
+
+			@Override
+			public void altitudePerformed(MeteoEvent event) {
+				try {
+					if (connected) {
+						afficheurService.printAltitude(event);
+						afficheurServiceWrapper.printAltitude(event);
+					}
+				} catch (RemoteException e) {
+					e.printStackTrace();
+					errorManager();
+				}
+			}
+		});
 
 		meteoService.connect();
 		meteoService.start(meteoServiceOptions);
 
-		}
+	}
 
-	private synchronized void errorManager() throws NotBoundException, MalformedURLException, RemoteException
+	private synchronized void errorManager() {
 		{
-			{
-			//		connected = false;
-			System.err.println("Lost Connection");
+//			connected = false;
+			System.err.println("Connexion Perdue");
+			
+			try {
+				afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools
+						.connectionRemoteObjectBloquant(
+								rmiURLRemoteAfficheurCreator,
+								1000, 5);
+				
+				String serverStr = "rmi://"+rmiURLRemoteAfficheurCreator.getServeurHostAdress()+":" + RMI_PORT + "/" + "AFFICHEUR_SERVICE";
+				AfficheurServiceWrapper_I afficheurServiceWrapper = (AfficheurServiceWrapper_I) Naming.lookup(serverStr);
 
-			String url = new String("rmi://" + rmiURLMeteoService.getServeurHostAdress() + "/" + "AFFICHEUR_SERVICE");
-
-			try
-				{
-				afficheurService = (AfficheurService_I)Naming.lookup(url);
-				}
-			catch (NotBoundException e)
-				{
-				e.printStackTrace();
-				}
-
-			//		System.exit(-1);
-
-			}
+	        } catch (Exception ex) {
+	        	System.err.println("Je peux pas me reconnecter");
+	        }
+			
+			// System.exit(-1);
 		}
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
+	RmiURL rmiURLRemoteAfficheurCreator = null;
+	
 	// Inputs
 	private MeteoServiceOptions meteoServiceOptions;
 	private String portCom = null;
@@ -252,8 +240,6 @@ public class PCLocal implements PC_I
 
 	// Tools
 	private boolean connected;
-	private List<String> portComs;
-	private List<MeteoService_I> meteoServices;
 
 	public static int RMI_PORT = RmiTools.PORT_RMI_DEFAUT;
 	private AfficheurServiceWrapper_I afficheurServiceWrapper;
@@ -261,4 +247,4 @@ public class PCLocal implements PC_I
 	private MeteoService_I meteoService;
 	private MeteoServiceWrapper meteoServiceWrapper;
 
-	}
+}

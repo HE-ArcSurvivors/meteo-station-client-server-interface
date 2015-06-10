@@ -12,7 +12,6 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.tab.JPanelTabSettings;
 
 public class JPanelSliderLine extends JPanel
 	{
@@ -21,16 +20,16 @@ public class JPanelSliderLine extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelSliderLine(int dataType, int value, JPanelTabSettings parent)
+	public JPanelSliderLine(int dataType, int value, JPanelSettings parent)
 		{
 		this.parent = parent;
 		this.dataType = dataType;
 
-		label = new JLabel("dt" + DataType.getString(dataType) + " : ");
+		label = new JLabel("Δt " + DataType.getString(dataType) + " : ");
 		slider = new JSlider();
 		slider.setValue(value);
-
-		slider.setMinimum(0);
+		slider.setMinimum(1);
+		slider.setMaximum(1000);
 
 		labelValue = new JLabel("" + value);
 
@@ -64,8 +63,8 @@ public class JPanelSliderLine extends JPanel
 	private void geometry()
 		{
 		// JComponent : Instanciation
-		label.setPreferredSize(new Dimension(120, 50));
-		slider.setPreferredSize(new Dimension(200, 50));
+		label.setPreferredSize(new Dimension(120, 15));
+		slider.setPreferredSize(new Dimension(200, 15));
 
 		// Layout : Specification
 		FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
@@ -111,6 +110,6 @@ public class JPanelSliderLine extends JPanel
 
 	//Input
 	private int dataType;
-	private JPanelTabSettings parent;
+	private JPanelSettings parent;
 
 	}

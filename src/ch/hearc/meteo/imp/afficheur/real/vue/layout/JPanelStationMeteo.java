@@ -6,10 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JTabbedPane;
 
 import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.menu.JPanelMenu;
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.tab.JPanelTabCharts;
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.tab.JPanelTabOverview;
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.tab.JPanelTabSettings;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 
@@ -42,7 +40,7 @@ public class JPanelStationMeteo extends JPanel
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-		jpaneltabsettings.updateMeteoServiceOptions(meteoServiceOptions);
+		jpaneltaboverview.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
 	/*------------------------------*\
@@ -64,14 +62,10 @@ public class JPanelStationMeteo extends JPanel
 			jpaneltaboverview = new JPanelTabOverview(afficheurServiceMOO);
 			jpaneltabchartTemperature = new JPanelTabCharts(afficheurServiceMOO, DataType.TEMPERATURE);
 			jpaneltabchartPression = new JPanelTabCharts(afficheurServiceMOO, DataType.PRESSION);
-			jpaneltabsettings = new JPanelTabSettings();
-
-			jpanelmenu = new JPanelMenu();
 
 			tabbedPane.addTab("Vue générale",jpaneltaboverview);
 			tabbedPane.addTab("Statistiques de la température",jpaneltabchartTemperature);
 			tabbedPane.addTab("Statistiques de la pression",jpaneltabchartPression);
-			tabbedPane.addTab("Paramètres",jpaneltabsettings);
 
 			// Layout : Specification
 			{
@@ -80,7 +74,6 @@ public class JPanelStationMeteo extends JPanel
 			}
 
 			// JComponent : add
-			add(jpanelmenu, BorderLayout.NORTH);
 			add(tabbedPane, BorderLayout.CENTER);
 		}
 
@@ -103,8 +96,6 @@ public class JPanelStationMeteo extends JPanel
 	private JPanelTabOverview jpaneltaboverview;
 	private JPanelTabCharts jpaneltabchartTemperature;
 	private JPanelTabCharts jpaneltabchartPression;
-	private JPanelTabSettings jpaneltabsettings;
-	private JPanelMenu jpanelmenu;
 
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;

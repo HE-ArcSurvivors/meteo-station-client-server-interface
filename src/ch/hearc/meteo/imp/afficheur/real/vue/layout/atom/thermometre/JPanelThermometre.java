@@ -4,9 +4,13 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.util.List;
 
+import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.JPanel;
+import javax.swing.border.EtchedBorder;
+import javax.swing.border.TitledBorder;
 
+import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.Stat;
 import ch.hearc.meteo.spec.com.meteo.listener.event.MeteoEvent;
 
@@ -52,6 +56,11 @@ public class JPanelThermometre extends JPanel
 
 	private void geometry()
 		{
+			TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
+					DataType.getString(DataType.TEMPERATURE));
+			title.setTitleJustification(TitledBorder.RIGHT);
+			this.setBorder(title);
+
 			temperature = stat.getLast();
 
 			// JComponent : Instanciation
@@ -80,8 +89,8 @@ public class JPanelThermometre extends JPanel
 	private void appearance()
 		{
 		setMinimumSize(new Dimension(100,200));
-		setPreferredSize(new Dimension(200,400));
-		setMaximumSize(new Dimension(300,600));
+		setPreferredSize(new Dimension(200,340));
+		setMaximumSize(new Dimension(300,340));
 		}
 
 	/*------------------------------------------------------------------*\

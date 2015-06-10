@@ -70,7 +70,6 @@ public class Chart extends JPanel
 		nb++;
 		for(MeteoEvent event:listMeteoEvent)
 			{
-			System.out.println("event.getValue : " + event.getValue());
 			dataset.add(event.getTime(),event.getValue());
 			}
 		if(nb > MAX_NB)

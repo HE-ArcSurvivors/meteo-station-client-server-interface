@@ -1,10 +1,7 @@
 
 package ch.hearc.meteo.imp.use.local;
 
-import java.util.List;
-
-import ch.hearc.meteo.imp.com.real.com.ComOption;
-import ch.hearc.meteo.imp.com.real.port.MeteoPortDetectionService;
+import ch.hearc.meteo.imp.afficheur.JFrameSelectionPortCom;
 
 public class UseMeteoPortDetection
 	{
@@ -20,12 +17,14 @@ public class UseMeteoPortDetection
 
 	public static void main()
 		{
-		MeteoPortDetectionService testConnect = new MeteoPortDetectionService(new ComOption());
-		//boolean b = testConnect.isStationMeteoAvailable("/dev/tty.SLAB_USBtoUART", 3000);
+//		MeteoPortDetectionService testConnect = new MeteoPortDetectionService(new ComOption());
+//		//boolean b = testConnect.isStationMeteoAvailable("/dev/tty.SLAB_USBtoUART", 3000);
+//
+//		List<String> listPortsMeteo = testConnect.findListPortMeteo();
+//
+//		System.out.println(listPortsMeteo);
 
-		List<String> listPortsMeteo = testConnect.findListPortMeteo();
-
-		System.out.println(listPortsMeteo);
+		new JFrameSelectionPortCom();
 		}
 
 	/*------------------------------------------------------------------*\

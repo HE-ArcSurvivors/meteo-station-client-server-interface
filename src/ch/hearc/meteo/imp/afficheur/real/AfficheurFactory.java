@@ -25,15 +25,25 @@ public class AfficheurFactory implements AfficheurFactory_I
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@Override public AfficheurService_I createOnLocalPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
+	@Override
+	public AfficheurService_I createOnLocalPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
 		return new AfficheurService(affichageOptions, meteoServiceRemote);
-//		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
+		//		return new AfficheurServiceSimulateur(affichageOptions, meteoServiceRemote);
 		}
 
-	@Override public AfficheurService_I createOnCentralPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
+	@Override
+	public AfficheurService_I createOnCentralPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
-		return new AfficheurServiceCentral(affichageOptions, meteoServiceRemote);
+//		if (afficheurCentral == null)
+//			{
+			afficheurCentral = new AfficheurServiceCentral(affichageOptions, meteoServiceRemote);
+//			}
+//		else
+//			{
+//			afficheurCentral.addStation();
+//			}
+		return afficheurCentral;
 		}
 
 	/*------------------------------------------------------------------*\
@@ -44,4 +54,5 @@ public class AfficheurFactory implements AfficheurFactory_I
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
 
+	private static AfficheurServiceCentral afficheurCentral;
 	}
