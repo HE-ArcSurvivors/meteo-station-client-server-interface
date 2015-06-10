@@ -33,6 +33,7 @@ public class JPanelStationMeteo extends JPanel
 
 	public void refresh()
 		{
+		System.out.println("REFRESH");
 		jpaneltaboverview.update();
 		jpaneltabchartTemperature.update();
 		jpaneltabchartPression.update();

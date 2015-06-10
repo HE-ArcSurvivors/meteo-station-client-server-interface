@@ -3,7 +3,6 @@ package ch.hearc.meteo.imp.afficheur.real.vue.layout;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
-import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,9 +15,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
-import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
-import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
 
 public class JPanelStationMeteoCentral extends JPanel
 	{
@@ -121,23 +118,11 @@ public class JPanelStationMeteoCentral extends JPanel
 		// rien
 		}
 
-	public void addStation(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
+	public void addStation(JPanelStationMeteo jpanel)
 		{
 		nb++;
-
-		AfficheurServiceMOO asm = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
-		String name;
-
-		try
-			{
-			name = "Station météo "+nb+"["+meteoServiceRemote.getPort()+"]";
-			}
-		catch (RemoteException e)
-			{
-			name = "Station météo "+nb+" [Inconnu]";
-			}
-
-		mapStation.put(name,new JPanelStationMeteo(asm));
+		String name = "Station Météo "+nb;
+		mapStation.put(name,jpanel);
 		listModel.addElement(name);
 
 		updateUI();

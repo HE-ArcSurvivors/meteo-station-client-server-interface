@@ -90,6 +90,11 @@ public class JFrameStationMeteo extends JFrame
 		setVisible(true); // last!
 		}
 
+	public JPanelStationMeteo getPanelStationMeteo()
+	{
+		return this.jpanelstationmeteo;
+	}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
