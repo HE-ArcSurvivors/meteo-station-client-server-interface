@@ -1,0 +1,1 @@
+java -cp .:./*:./ext/* -Xmx100m -Xms80m -verbose:gc -Djava.library.path=./ext/lib/ ch.hearc.meteo.imp.use.local.UseMeteoPortDetection
