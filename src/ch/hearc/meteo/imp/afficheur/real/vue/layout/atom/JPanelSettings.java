@@ -31,7 +31,6 @@ public class JPanelSettings extends JPanel
 
 		Thread thread = new Thread(new Runnable()
 			{
-
 				@Override
 				public void run()
 					{
@@ -40,6 +39,7 @@ public class JPanelSettings extends JPanel
 						try
 							{
 							Thread.sleep(POOLING_DELAY);
+							System.out.println("IN THREAD");
 							updateMeteoServiceOptions(afficheurServiceMOO.getMeteoServiceOptions());
 							}
 						catch (Exception e)
@@ -60,6 +60,7 @@ public class JPanelSettings extends JPanel
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
+		System.out.println("UPDATE_METEO_SERVICE_OPTION");
 		int dtTemperature = (int)meteoServiceOptions.getTemperatureDT();
 		System.out.println("dtTemperature " + dtTemperature);
 		sliderDeltaTemperature.setValue(dtTemperature);

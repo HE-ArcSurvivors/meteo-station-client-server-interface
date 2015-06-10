@@ -18,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
+import ch.hearc.meteo.imp.com.real.MeteoFactory;
 import ch.hearc.meteo.imp.com.real.com.ComOption;
 import ch.hearc.meteo.imp.com.real.port.MeteoPortDetectionService;
 import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
@@ -48,7 +49,6 @@ public class JFrameSelectionPortCom extends JFrame
 		geometry();
 		control();
 		appearance();
-
 		}
 
 	/*------------------------------------------------------------------*\
@@ -74,6 +74,9 @@ public class JFrameSelectionPortCom extends JFrame
 
 		List<String> listPortsMeteo = new MeteoPortDetectionService(new ComOption()).findListPortMeteo();
 
+		box.add(labelTitle);
+		box.add(Box.createVerticalStrut(5));
+
 		for(final String element:listPortsMeteo)
 			{
 			JButton button = new JButton(element);
@@ -85,6 +88,7 @@ public class JFrameSelectionPortCom extends JFrame
 					public void actionPerformed(ActionEvent e)
 						{
 						launchStation(element);
+						refresh();
 						}
 				});
 
@@ -96,6 +100,13 @@ public class JFrameSelectionPortCom extends JFrame
 			box.add(button);
 			box.add(Box.createVerticalStrut(5));
 			}
+
+		if (listPortsMeteo.size() <= 0)
+			{
+			box.add(labelEmpty);
+			box.add(Box.createVerticalStrut(5));
+			}
+
 		box.add(refreshButton);
 		box.add(Box.createVerticalStrut(5));
 		box.add(simulationButton);
@@ -116,6 +127,9 @@ public class JFrameSelectionPortCom extends JFrame
 		simulationButton.setPreferredSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 		simulationButton.setMaximumSize(new Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
 
+		labelTitle = new JLabel("Choisissez votre port : ");
+		labelEmpty = new JLabel("Aucun port disponible");
+
 		// Layout : Specification
 
 		box = Box.createVerticalBox();
@@ -128,7 +142,6 @@ public class JFrameSelectionPortCom extends JFrame
 
 		FlowLayout layout = new FlowLayout();
 		setLayout(layout);
-		add(new JLabel("Choisissez votre port : "));
 		add(box);
 		}
 
@@ -165,6 +178,58 @@ public class JFrameSelectionPortCom extends JFrame
 			});
 		}
 
+	//TODO remove
+	private static void threadTest(final MeteoService_I meteoService, final AfficheurService_I afficheurService)
+		{
+//		// Modify MeteoServiceOptions
+//		Thread threadSimulationChangementDt = new Thread(new Runnable()
+//			{
+//				@Override
+//				public void run()
+//					{
+//					double x = 0;
+//					double dx = Math.PI / 10;
+//
+//					while(true)
+//						{
+//						long dt = 1000 + (long)(5000 * Math.abs(Math.cos(x))); //ms
+//
+//						System.out.println("modification dt temperature = " + dt);
+//
+//						meteoService.getMeteoServiceOptions().setTemperatureDT(dt);
+//
+//						//	System.out.println(meteoService.getMeteoServiceOptions());
+//
+//						attendre(3000); // disons
+//						x += dx;
+//						}
+//					}
+//			});
+
+		// Update GUI MeteoServiceOptions
+		Thread threadPoolingOptions = new Thread(new Runnable()
+			{
+
+				@Override
+				public void run()
+					{
+
+					while(true)
+						{
+						MeteoServiceOptions option = meteoService.getMeteoServiceOptions();
+						afficheurService.updateMeteoServiceOptions(option);
+
+						//System.out.println(option);
+
+						attendre(1000); //disons
+						}
+					}
+			});
+
+//		threadSimulationChangementDt.start();
+		threadPoolingOptions.start(); // update gui
+		}
+
 	private void appearance()
 		{
 		setSize(2 * BUTTON_WIDTH, 3 * (listButtonCom.size() + 2) * BUTTON_HEIGHT);
@@ -179,7 +244,7 @@ public class JFrameSelectionPortCom extends JFrame
 			int dataToPrint = 3;
 
 			//Making simulator data
-			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create(portcom);
+			MeteoService_I meteoService = (new MeteoFactory()).create(portcom);
 			MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(800, 1000, 1200);
 
 			//Get Properties from config file
@@ -201,9 +266,6 @@ public class JFrameSelectionPortCom extends JFrame
 
 			PCLocal pc = new PCLocal(meteoServiceOptions, portcom, affichageOptions, rmiUrl);
 			pc.run();
-
-
-
 			}
 		catch (Exception e)
 			{
@@ -233,6 +295,7 @@ public class JFrameSelectionPortCom extends JFrame
 		AffichageOptions affichageOption = new AffichageOptions(3, titre);
 		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOption, meteoServiceWrapper);
 
+		threadTest(meteoService, afficheurService);
 		use(meteoService, afficheurService);
 		}
 
@@ -265,6 +328,19 @@ public class JFrameSelectionPortCom extends JFrame
 			});
 		}
 
+	private static void attendre(long delay)
+		{
+		try
+			{
+			Thread.sleep(delay);
+			}
+		catch (InterruptedException e)
+			{
+			e.printStackTrace();
+			}
+		}
+
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
@@ -273,6 +349,9 @@ public class JFrameSelectionPortCom extends JFrame
 	private List<JButton> listButtonCom;
 	private JButton refreshButton;
 	private JButton simulationButton;
+
+	private JLabel labelTitle;
+	private JLabel labelEmpty;
 
 	private Box box;
 
