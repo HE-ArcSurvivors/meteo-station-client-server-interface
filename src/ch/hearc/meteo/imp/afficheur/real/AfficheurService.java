@@ -49,6 +49,7 @@ public class AfficheurService implements AfficheurService_I
 
 	@Override public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
+		System.out.println("UPDATE_METEO_SERVICE_OTPIONS_AFFICHEUR_SERVICE");
 		jframestationmeteo.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
