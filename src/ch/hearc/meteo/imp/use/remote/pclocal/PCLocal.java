@@ -81,16 +81,21 @@ public class PCLocal implements PC_I {
 		{
 			meteoService = (new MeteoFactory()).create(portCom);
 		}
+		
+		meteoService.connect();
+		meteoService.start(meteoServiceOptions);
 
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
-		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
-		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
+		
 		
 		// PC Local
 		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3,
 				"PC Local: " + portCom);
 		afficheurService = (new AfficheurFactory()).createOnLocalPC(
 				affichageOptionPCLocal, meteoServiceWrapper);
+		
+		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
+		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
 		
 		
 
@@ -158,9 +163,9 @@ public class PCLocal implements PC_I {
 			@Override
 			public void temperaturePerformed(MeteoEvent event) {
 				try {
-					
+					afficheurService.printTemperature(event);
 					if (connected) {
-						afficheurService.printTemperature(event);
+						
 						afficheurServiceWrapper.printTemperature(event);
 					}
 				} catch (RemoteException e) {
@@ -172,9 +177,9 @@ public class PCLocal implements PC_I {
 			@Override
 			public void pressionPerformed(MeteoEvent event) {
 				try {
-					
+					afficheurService.printPression(event);
 					if (connected) {
-						afficheurService.printPression(event);
+						
 						afficheurServiceWrapper.printPression(event);
 					}
 				} catch (RemoteException e) {
@@ -186,9 +191,9 @@ public class PCLocal implements PC_I {
 			@Override
 			public void altitudePerformed(MeteoEvent event) {
 				try {
-					
+					afficheurService.printAltitude(event);
 					if (connected) {
-						afficheurService.printAltitude(event);
+						
 						afficheurServiceWrapper.printAltitude(event);
 					}
 				} catch (RemoteException e) {
@@ -197,9 +202,6 @@ public class PCLocal implements PC_I {
 				}
 			}
 		});
-		
-		meteoService.connect();
-		meteoService.start(meteoServiceOptions);
 
 
 
