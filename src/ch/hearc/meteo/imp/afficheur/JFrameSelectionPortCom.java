@@ -18,8 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 import ch.hearc.meteo.imp.com.real.MeteoFactory;
-import ch.hearc.meteo.imp.com.real.com.ComOption;
-import ch.hearc.meteo.imp.com.real.port.MeteoPortDetectionService;
+import ch.hearc.meteo.imp.com.real.port.MeteoPortDetectionServiceFactory;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreator;
 import ch.hearc.meteo.imp.use.remote.pclocal.PCLocal;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
@@ -65,7 +64,7 @@ public class JFrameSelectionPortCom extends JFrame
 		listButtonCom.clear();
 		box.removeAll();
 
-		List<String> listPortsMeteo = new MeteoPortDetectionService(new ComOption()).findListPortMeteo();
+		List<String> listPortsMeteo = new MeteoPortDetectionServiceFactory().create().findListPortMeteo();
 
 		box.add(labelTitle);
 		box.add(Box.createVerticalStrut(5));
