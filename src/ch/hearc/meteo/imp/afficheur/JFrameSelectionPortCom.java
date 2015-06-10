@@ -206,7 +206,7 @@ public class JFrameSelectionPortCom extends JFrame
 
 	private void launchSimulation() throws MeteoServiceException
 		{
-		launchStation("SIMULATION");
+		launchStation("SIMULATEUR");
 		}
 
 	/*------------------------------------------------------------------*\
