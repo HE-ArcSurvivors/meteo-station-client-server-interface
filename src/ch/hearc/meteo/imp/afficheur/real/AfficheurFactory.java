@@ -40,8 +40,7 @@ public class AfficheurFactory implements AfficheurFactory_I
 			}
 		else
 			{
-			AfficheurService as = new AfficheurService(affichageOptions, meteoServiceRemote);
-			afficheurCentral.addStation(as.getPanelStationMeteo());
+			afficheurCentral.addStation(new AfficheurService(affichageOptions, meteoServiceRemote));
 			}
 		return afficheurCentral;
 		}
