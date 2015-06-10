@@ -41,7 +41,7 @@ public class PCCentral implements PC_I {
 
 	private void server() throws RemoteException, UnknownHostException {
 
-			String name = "PC Central";
+			String name = "PC Central ";
 			AffichageOptions affichageOptions = new AffichageOptions(0, name);
 			remoteAfficheurCreator = (new RemoteAfficheurCreatorFactory()).create();
 			(new AfficheurFactory()).createOnCentralPC(affichageOptions, null);

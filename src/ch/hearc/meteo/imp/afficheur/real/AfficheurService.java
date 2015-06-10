@@ -53,7 +53,6 @@ public class AfficheurService implements AfficheurService_I
 					}
 			});
 
-//		threadSimulationChangementDt.start();
 		threadPoolingOptions.start(); // update gui
 
 		}
@@ -62,28 +61,42 @@ public class AfficheurService implements AfficheurService_I
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@Override public void printAltitude(MeteoEvent event)
+	@Override
+	public void printAltitude(MeteoEvent event)
 		{
 		afficheurServiceMOO.printAltitude(event);
 		jframestationmeteo.refresh();
 		}
 
-	@Override public void printTemperature(MeteoEvent event)
+	@Override
+	public void printTemperature(MeteoEvent event)
 		{
 		afficheurServiceMOO.printTemperature(event);
 		jframestationmeteo.refresh();
 		}
 
-	@Override public void printPression(MeteoEvent event)
+	@Override
+	public void printPression(MeteoEvent event)
 		{
 		afficheurServiceMOO.printPression(event);
 		jframestationmeteo.refresh();
 		}
 
-	@Override public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
+	@Override
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
 		jframestationmeteo.updateMeteoServiceOptions(meteoServiceOptions);
 		}
+
+	public JPanelStationMeteo getPanelStationMeteo()
+		{
+		this.jframestationmeteo.setVisible(false);
+		return jframestationmeteo.getPanelStationMeteo();
+		}
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
 
 	private static void attendre(long delay)
 		{
@@ -96,16 +109,6 @@ public class AfficheurService implements AfficheurService_I
 			e.printStackTrace();
 			}
 		}
-
-	public JPanelStationMeteo getPanelStationMeteo()
-	{
-		this.jframestationmeteo.setVisible(false);
-		return jframestationmeteo.getPanelStationMeteo();
-	}
-
-	/*------------------------------------------------------------------*\
-	|*							Methodes Private						*|
-	\*------------------------------------------------------------------*/
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

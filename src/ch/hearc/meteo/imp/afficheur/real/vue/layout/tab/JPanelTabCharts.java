@@ -1,3 +1,4 @@
+
 package ch.hearc.meteo.imp.afficheur.real.vue.layout.tab;
 
 import java.awt.FlowLayout;
@@ -51,18 +52,17 @@ public class JPanelTabCharts extends JPanel
 
 	private void geometry()
 		{
-			// JComponent : Instanciation
-		   	chart = new Chart(dataType, DataType.getList(dataType, afficheurServiceMOO));
-		   	jpanelstat = new JPanelStats(dataType, DataType.getStat(dataType, afficheurServiceMOO));
+		// JComponent : Instanciation
+		chart = new Chart(dataType, DataType.getList(dataType, afficheurServiceMOO));
+		jpanelstat = new JPanelStats(dataType, DataType.getStat(dataType, afficheurServiceMOO));
 
-		   	Box boxlayout = Box.createVerticalBox();
-		   	boxlayout.add(chart);
-		   	boxlayout.add(jpanelstat);
+		Box boxlayout = Box.createVerticalBox();
+		boxlayout.add(chart);
+		boxlayout.add(jpanelstat);
 
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
-			setLayout(flowlayout);
-			add(boxlayout);
-
+		FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
+		setLayout(flowlayout);
+		add(boxlayout);
 		}
 
 	private void control()

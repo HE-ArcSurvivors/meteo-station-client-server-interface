@@ -56,11 +56,9 @@ public class JPanelStats extends JPanel
 
 	private void geometry()
 		{
-
 		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Statistiques");
 		title.setTitleJustification(TitledBorder.RIGHT);
 		this.setBorder(title);
-
 
 		labelCurrent = new JLabel(DataType.getString(dataType)+" Actuelle : -");
 		labelMin = new JLabel(DataType.getString(dataType)+" Minimum : -");

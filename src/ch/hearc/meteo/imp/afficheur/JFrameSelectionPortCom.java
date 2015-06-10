@@ -153,7 +153,7 @@ public class JFrameSelectionPortCom extends JFrame
 						}
 					catch (MeteoServiceException e1)
 						{
-						// TODO Auto-generated catch block
+						System.err.println("MeteoServiceException in launchSimulation()");
 						e1.printStackTrace();
 						}
 					}

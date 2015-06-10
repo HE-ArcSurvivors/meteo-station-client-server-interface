@@ -3,7 +3,6 @@ package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.thermometre;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -72,8 +71,7 @@ public class JPanelFleche extends JPanel
 		int countUnite = (Math.abs(maxValue) + Math.abs(minValue));
 		int delta = h / countUnite;
 
-		//POUR LES TESTS, DEVRA PROVENIR DE L'EXTERIEUR OU �TRE UNIFIE EN FONCTION DE LA TAILLE
-		int decalage = 10;
+		int decalage = JPanelThermometre.THERMOMETRE_DECALAGE;
 
 		int position = (int)(decalage + (maxValue - temperature) * delta);
 
@@ -90,19 +88,7 @@ public class JPanelFleche extends JPanel
 
 	private void geometry()
 		{
-			// JComponent : Instanciation
-
-			// Layout : Specification
-			{
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
-			setLayout(flowlayout);
-
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
-			}
-
-		// JComponent : add
-
+			setLayout(null);
 		}
 
 	private void control()

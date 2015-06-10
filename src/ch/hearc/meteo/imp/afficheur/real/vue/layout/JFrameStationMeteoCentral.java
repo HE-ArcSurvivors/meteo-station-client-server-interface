@@ -1,6 +1,7 @@
 package ch.hearc.meteo.imp.afficheur.real.vue.layout;
 
 import java.awt.BorderLayout;
+import java.awt.Frame;
 
 import javax.swing.JFrame;
 
@@ -58,9 +59,6 @@ public class JFrameStationMeteoCentral extends JFrame
 			{
 			BorderLayout borderLayout = new BorderLayout();
 			setLayout(borderLayout);
-
-			// borderLayout.setHgap(20);
-			// borderLayout.setVgap(20);
 			}
 
 			// JComponent : add
@@ -75,7 +73,7 @@ public class JFrameStationMeteoCentral extends JFrame
 	private void appearance()
 		{
 		setSize(600, 400);
-//		setExtendedState(Frame.MAXIMIZED_BOTH);
+		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 		}

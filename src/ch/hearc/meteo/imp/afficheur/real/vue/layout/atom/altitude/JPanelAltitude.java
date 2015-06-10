@@ -2,7 +2,6 @@ package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.altitude;
 
 import java.awt.FlowLayout;
 import java.awt.Image;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -16,7 +15,6 @@ import javax.swing.border.TitledBorder;
 import ch.hearc.meteo.imp.afficheur.real.vue.DataType;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.Stat;
 import ch.hearc.meteo.imp.afficheur.simulateur.vue.atome.MathTools;
-import ch.hearc.meteo.spec.com.meteo.listener.event.MeteoEvent;
 
 public class JPanelAltitude extends JPanel
 	{
@@ -25,7 +23,7 @@ public class JPanelAltitude extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelAltitude(Stat stat, List<MeteoEvent> listMeteoEvent)
+	public JPanelAltitude(Stat stat)
 		{
 		this.stat = stat;
 		geometry();
@@ -39,7 +37,6 @@ public class JPanelAltitude extends JPanel
 
 	public void update()
 		{
-		System.out.println("LAST ALTITUDE"+stat.getLast());
 		jlabelaltitude.setText(MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE));
 		}
 
@@ -62,10 +59,7 @@ public class JPanelAltitude extends JPanel
 			title.setTitleJustification(TitledBorder.RIGHT);
 			this.setBorder(title);
 
-			// JComponent : Instanciation
 			jlabelaltitude = new JLabel(MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE), SwingConstants.CENTER);
-
-			Box boxV = Box.createVerticalBox();
 
 			int scaleFactor = 2;
 			ImageIcon imgIcon = new ImageIcon(ClassLoader.getSystemResource("images/montagne.png"));
@@ -74,6 +68,7 @@ public class JPanelAltitude extends JPanel
 			Image newimg = img.getScaledInstance(img.getWidth(null)/scaleFactor, img.getHeight(null)/scaleFactor,  java.awt.Image.SCALE_SMOOTH);
 			ImageIcon newIcon = new ImageIcon(newimg);
 
+			Box boxV = Box.createVerticalBox();
 			boxV.add(new JLabel(newIcon));
 			boxV.add(new JLabel(ALTITUDE_TITLE, SwingConstants.CENTER));
 			boxV.add(jlabelaltitude);

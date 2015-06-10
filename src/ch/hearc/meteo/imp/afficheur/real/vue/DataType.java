@@ -72,7 +72,6 @@ public class DataType
 			default:
 				return null;
 			}
-
 		}
 
 	public static Stat getStat(int type, AfficheurServiceMOO afficheurServiceMOO)

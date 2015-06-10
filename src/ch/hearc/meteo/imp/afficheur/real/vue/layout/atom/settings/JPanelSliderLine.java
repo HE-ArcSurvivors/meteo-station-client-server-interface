@@ -1,5 +1,5 @@
 
-package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom;
+package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.settings;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -7,7 +7,6 @@ import java.awt.FlowLayout;
 import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JSlider;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
@@ -26,12 +25,12 @@ public class JPanelSliderLine extends JPanel
 		this.dataType = dataType;
 
 		label = new JLabel("Δt " + DataType.getString(dataType) + " : ");
-		slider = new JSlider();
+		slider = new JSliderSecondes();
 		slider.setValue(value);
-		slider.setMinimum(1);
-		slider.setMaximum(1000);
+		slider.setMinimum(500);
+		slider.setMaximum(MAXIMUM_MINUTE_DELTA * 60 * 1000);
 
-		labelValue = new JLabel("" + value);
+		labelValue = new JLabel("" + slider.getValue());
 
 		geometry();
 		control();
@@ -45,9 +44,10 @@ public class JPanelSliderLine extends JPanel
 	public void setValue(int value)
 		{
 		slider.setValue(value);
-		labelValue.setText("" + value);
+		labelValue.setText(slider.getStringValue());
 		updateUI();
 		}
+
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -68,7 +68,7 @@ public class JPanelSliderLine extends JPanel
 		slider.setPreferredSize(new Dimension(200, 15));
 
 		// Layout : Specification
-		FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
+		FlowLayout flowlayout = new FlowLayout(FlowLayout.LEFT);
 		setLayout(flowlayout);
 
 		Box boxH = Box.createHorizontalBox();
@@ -86,11 +86,12 @@ public class JPanelSliderLine extends JPanel
 		{
 		slider.addChangeListener(new ChangeListener()
 			{
+
 				@Override
 				public void stateChanged(ChangeEvent e)
 					{
 					parent.setDelta(dataType, slider.getValue());
-					labelValue.setText("" + slider.getValue());
+					labelValue.setText(slider.getStringValue());
 					}
 			});
 		}
@@ -105,12 +106,14 @@ public class JPanelSliderLine extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Tools
-	private JSlider slider;
+	private JSliderSecondes slider;
 	private JLabel label;
 	private JLabel labelValue;
 
 	//Input
 	private int dataType;
 	private JPanelSettings parent;
+
+	private final static int MAXIMUM_MINUTE_DELTA = 5;
 
 	}
