@@ -44,7 +44,6 @@ public class JPanelSliderLine extends JPanel
 
 	public void setValue(int value)
 		{
-		System.out.println("SET VALUE "+value);
 		slider.setValue(value);
 		labelValue.setText("" + value);
 		updateUI();

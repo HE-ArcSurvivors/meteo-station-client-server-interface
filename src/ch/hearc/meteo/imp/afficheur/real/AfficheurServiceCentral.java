@@ -2,6 +2,7 @@
 package ch.hearc.meteo.imp.afficheur.real;
 
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.JFrameStationMeteoCentral;
+import ch.hearc.meteo.imp.afficheur.real.vue.layout.JPanelStationMeteo;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -32,6 +33,7 @@ public class AfficheurServiceCentral implements AfficheurService_I
 	@Override
 	public void printAltitude(MeteoEvent event)
 		{
+		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printAltitude(event);
 		jframestationmeteocentral.refresh();
 		}
@@ -39,6 +41,7 @@ public class AfficheurServiceCentral implements AfficheurService_I
 	@Override
 	public void printTemperature(MeteoEvent event)
 		{
+		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printTemperature(event);
 		jframestationmeteocentral.refresh();
 		}
@@ -46,6 +49,7 @@ public class AfficheurServiceCentral implements AfficheurService_I
 	@Override
 	public void printPression(MeteoEvent event)
 		{
+		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printPression(event);
 		jframestationmeteocentral.refresh();
 		}
@@ -56,9 +60,9 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		jframestationmeteocentral.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
-	public void addStation(AffichageOptions afficheurOptions, MeteoServiceWrapper_I meteoServiceRemote)
+	public void addStation(JPanelStationMeteo jpanel)
 		{
-		jframestationmeteocentral.addStation(afficheurOptions, meteoServiceRemote);
+		jframestationmeteocentral.addStation(jpanel);
 		}
 
 	/*------------------------------------------------------------------*\

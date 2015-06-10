@@ -4,6 +4,7 @@ package ch.hearc.meteo.imp.afficheur.real;
 import java.rmi.RemoteException;
 
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.JFrameStationMeteo;
+import ch.hearc.meteo.imp.afficheur.real.vue.layout.JPanelStationMeteo;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -95,6 +96,12 @@ public class AfficheurService implements AfficheurService_I
 			e.printStackTrace();
 			}
 		}
+
+	public JPanelStationMeteo getPanelStationMeteo()
+	{
+		this.jframestationmeteo.setVisible(false);
+		return jframestationmeteo.getPanelStationMeteo();
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
