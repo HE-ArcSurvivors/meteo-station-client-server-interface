@@ -28,7 +28,9 @@ public class JPanelSettings extends JPanel
 		geometry();
 		control();
 		appearance();
+	
 		}
+
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
@@ -66,6 +68,7 @@ public class JPanelSettings extends JPanel
 				default:
 					break;
 				}
+			afficheurServiceMOO.setMeteoServiceOptions(meteoServiceOptions);
 			}
 		catch (RemoteException e)
 			{
