@@ -41,18 +41,12 @@ public class JPanelStationMeteoCentral extends JPanel
 
 	public void refresh()
 		{
-		for(JPanelStationMeteo station : mapStation.values())
-			{
-			station.refresh();
-			}
+		mapStation.get(jlistStation.getSelectedValue()).refresh();
 		}
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-		for(JPanelStationMeteo station : mapStation.values())
-			{
-			station.updateMeteoServiceOptions(meteoServiceOptions);
-			}
+		mapStation.get(jlistStation.getSelectedValue()).updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
 	/*------------------------------*\
@@ -87,7 +81,11 @@ public class JPanelStationMeteoCentral extends JPanel
 					if (idx != -1)
 						{
 						Object[] tab = mapStation.keySet().toArray();
-						add(mapStation.get(tab[idx]), BorderLayout.CENTER);
+						for(JPanelStationMeteo element : mapStation.values())
+							{
+							element.setVisible(false);
+							}
+						mapStation.get(tab[idx]).setVisible(true);
 						revalidate();
 						}
 					}
@@ -118,12 +116,15 @@ public class JPanelStationMeteoCentral extends JPanel
 		// rien
 		}
 
-	public void addStation(JPanelStationMeteo jpanel)
+	public void addStation(String nom, JPanelStationMeteo jpanel)
 		{
 		nb++;
-		String name = "Station Météo "+nb;
+		String name = nb+". "+nom;
 		mapStation.put(name,jpanel);
 		listModel.addElement(name);
+
+		jpanel.setVisible(false);
+		add(mapStation.get(name), BorderLayout.CENTER);
 
 		updateUI();
 		revalidate();

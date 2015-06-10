@@ -52,10 +52,6 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printTemperature(event);
 		jframestationmeteocentral.refresh();
-		for(AfficheurService_I as : listAfficheurService)
-			{
-			as.printTemperature(event);
-			}
 		}
 
 	@Override
@@ -64,20 +60,12 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printPression(event);
 		jframestationmeteocentral.refresh();
-		for(AfficheurService_I as : listAfficheurService)
-			{
-			as.printPression(event);
-			}
 		}
 
 	@Override
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
 		jframestationmeteocentral.updateMeteoServiceOptions(meteoServiceOptions);
-		for(AfficheurService_I as : listAfficheurService)
-			{
-			as.updateMeteoServiceOptions(meteoServiceOptions);
-			}
 		}
 
 	public void addStation(AfficheurService afficheurService)

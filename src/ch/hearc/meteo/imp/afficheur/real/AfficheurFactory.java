@@ -37,12 +37,16 @@ public class AfficheurFactory implements AfficheurFactory_I
 		if (afficheurCentral == null)
 			{
 			afficheurCentral = new AfficheurServiceCentral(affichageOptions, meteoServiceRemote);
+			return afficheurCentral;
 			}
 		else
 			{
-			afficheurCentral.addStation(new AfficheurService(affichageOptions, meteoServiceRemote));
+			System.out.println("TITLE : "+affichageOptions.getTitre());
+			AfficheurService afficheurLocal = new AfficheurService(affichageOptions, meteoServiceRemote);
+			afficheurCentral.addStation(affichageOptions.getTitre(), afficheurLocal);
+			return afficheurLocal;
 			}
-		return afficheurCentral;
+
 		}
 
 	/*------------------------------------------------------------------*\
