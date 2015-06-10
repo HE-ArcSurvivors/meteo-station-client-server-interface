@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.imp.com.real.MeteoFactory;
+import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
 import ch.hearc.meteo.imp.use.remote.PC_I;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -72,20 +73,28 @@ public class PCLocal implements PC_I {
 	\*------------------------------*/
 
 	private void server() throws MeteoServiceException, RemoteException {
-
-		meteoService = (new MeteoFactory()).create(portCom);
+		
+		if (portCom == "SIMULATEUR")
+		{
+			meteoService = (new MeteoServiceSimulatorFactory()).create("COM1");
+		}else
+		{
+			meteoService = (new MeteoFactory()).create(portCom);
+		}
 
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
 		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
 		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
+		
 		// PC Local
 		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3,
 				"PC Local: " + portCom);
 		afficheurService = (new AfficheurFactory()).createOnLocalPC(
 				affichageOptionPCLocal, meteoServiceWrapper);
+		
+		
 
-		meteoService.connect();
-		meteoService.start(meteoServiceOptions);
+		
 
 	}
 
@@ -149,6 +158,7 @@ public class PCLocal implements PC_I {
 			@Override
 			public void temperaturePerformed(MeteoEvent event) {
 				try {
+					
 					if (connected) {
 						afficheurService.printTemperature(event);
 						afficheurServiceWrapper.printTemperature(event);
@@ -162,6 +172,7 @@ public class PCLocal implements PC_I {
 			@Override
 			public void pressionPerformed(MeteoEvent event) {
 				try {
+					
 					if (connected) {
 						afficheurService.printPression(event);
 						afficheurServiceWrapper.printPression(event);
@@ -175,6 +186,7 @@ public class PCLocal implements PC_I {
 			@Override
 			public void altitudePerformed(MeteoEvent event) {
 				try {
+					
 					if (connected) {
 						afficheurService.printAltitude(event);
 						afficheurServiceWrapper.printAltitude(event);
@@ -185,6 +197,9 @@ public class PCLocal implements PC_I {
 				}
 			}
 		});
+		
+		meteoService.connect();
+		meteoService.start(meteoServiceOptions);
 
 
 

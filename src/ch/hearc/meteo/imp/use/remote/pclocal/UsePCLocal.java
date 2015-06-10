@@ -39,8 +39,8 @@ public class UsePCLocal
 			int dataToPrint = 3;
 
 			//Making simulator data
-			String portcom = "COM1";
-			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create(portcom);
+			String portcom = "SIMULATEUR";
+			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create("COM1");
 			MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(800, 1000, 1200);
 
 			//Making real data
