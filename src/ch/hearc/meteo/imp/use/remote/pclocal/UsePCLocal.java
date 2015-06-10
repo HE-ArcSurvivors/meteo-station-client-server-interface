@@ -82,7 +82,5 @@ public class UsePCLocal
 	private static final String IP_ADDRESS = "IP_ADDRESS";
 	private static final String MODULE_NAME = "MODULE_NAME";
 	private static final String FILE_NAME = "./settings.properties";
-//	private static final String FILE_NAME = "/Users/Rocla/Clouds/OneDrive/HE-Arc/Java/Meteo/settings.properties";
-//	private static final String FILE_NAME = "/home/timetraveler/Desktop/settings.properties";
 
 	}

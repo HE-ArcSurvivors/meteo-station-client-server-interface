@@ -18,6 +18,8 @@ import com.bilat.tools.reseau.rmi.IdTools;
 import com.bilat.tools.reseau.rmi.RmiTools;
 import com.bilat.tools.reseau.rmi.RmiURL;
 
+//Developpé en collaboration avec Nils Ryter
+
 /**
  * <pre>
  * One instance only (Singleton) on PC-Central
