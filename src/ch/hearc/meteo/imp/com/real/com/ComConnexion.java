@@ -89,6 +89,7 @@ public class ComConnexion implements ComConnexions_I
 		System.out.println("Start Listener");
 		port.addEventListener(new SerialPortEventListener()
 			{
+
 				@Override
 				public void serialEvent(SerialPortEvent event)
 					{
@@ -117,7 +118,7 @@ public class ComConnexion implements ComConnexions_I
 			{
 			case TEMPERATURE:
 				meteoServiceCallback.temperaturePerformed(valeur);
-				System.out.println("---Température : " + TrameDecoder.valeur(line));
+				//System.out.println("---Température : " + TrameDecoder.valeur(line));
 				break;
 			case ALTITUDE:
 				meteoServiceCallback.altitudePerformed(valeur);
@@ -175,25 +176,19 @@ public class ComConnexion implements ComConnexions_I
 	public void connect() throws Exception
 		{
 		CommPortIdentifier portId = CommPortIdentifier.getPortIdentifier(portName);
-		if (portId.isCurrentlyOwned())
-			{
-			throw new Exception("Error: Port " + portName + " is currently in use");
-			}
-		else
-			{
-			//Open port
-			port = (SerialPort)portId.open(portName, 10000);
+		//Open port
+		port = (SerialPort)portId.open(portName, 10000);
 
-			comOption.applyTo(port);
-			port.notifyOnDataAvailable(true);
-			port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
+		comOption.applyTo(port);
+		port.notifyOnDataAvailable(true);
+		port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 
-			//write
-			outputStream = port.getOutputStream();
+		//write
+		outputStream = port.getOutputStream();
 
-			//read
-			reader = new BufferedReader(new InputStreamReader(port.getInputStream()));
-			}
+		//read
+		reader = new BufferedReader(new InputStreamReader(port.getInputStream()));
+
 		}
 
 	/**
