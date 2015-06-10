@@ -56,9 +56,9 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		// TODO Auto-generated method stub
 		}
 
-	public void addStation(AfficheurService afficheurService)
+	public void addStation(AffichageOptions afficheurOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
-		jframestationmeteocentral.addStation(afficheurService);
+		jframestationmeteocentral.addStation(afficheurOptions, meteoServiceRemote);
 		}
 
 	/*------------------------------------------------------------------*\

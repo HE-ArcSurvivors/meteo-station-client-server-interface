@@ -35,14 +35,14 @@ public class AfficheurFactory implements AfficheurFactory_I
 	@Override
 	public AfficheurService_I createOnCentralPC(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
-//		if (afficheurCentral == null)
-//			{
+		if (afficheurCentral == null)
+			{
 			afficheurCentral = new AfficheurServiceCentral(affichageOptions, meteoServiceRemote);
-//			}
-//		else
-//			{
-//			afficheurCentral.addStation();
-//			}
+			}
+		else
+			{
+			afficheurCentral.addStation(affichageOptions, meteoServiceRemote);
+			}
 		return afficheurCentral;
 		}
 
