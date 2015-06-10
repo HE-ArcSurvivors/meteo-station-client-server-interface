@@ -87,7 +87,6 @@ public class PCLocal implements PC_I {
 
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
 		
-		
 		// PC Local
 		AffichageOptions affichageOptionPCLocal = new AffichageOptions(3,
 				"PC Local: " + portCom);
@@ -162,8 +161,9 @@ public class PCLocal implements PC_I {
 
 			@Override
 			public void temperaturePerformed(MeteoEvent event) {
+				afficheurService.printTemperature(event);
 				try {
-					afficheurService.printTemperature(event);
+					
 					if (connected) {
 						
 						afficheurServiceWrapper.printTemperature(event);
@@ -176,8 +176,9 @@ public class PCLocal implements PC_I {
 
 			@Override
 			public void pressionPerformed(MeteoEvent event) {
+				afficheurService.printPression(event);
 				try {
-					afficheurService.printPression(event);
+					
 					if (connected) {
 						
 						afficheurServiceWrapper.printPression(event);
@@ -190,8 +191,8 @@ public class PCLocal implements PC_I {
 
 			@Override
 			public void altitudePerformed(MeteoEvent event) {
+				afficheurService.printAltitude(event);
 				try {
-					afficheurService.printAltitude(event);
 					if (connected) {
 						
 						afficheurServiceWrapper.printAltitude(event);
