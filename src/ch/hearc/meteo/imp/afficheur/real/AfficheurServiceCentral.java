@@ -68,10 +68,10 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		jframestationmeteocentral.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
-	public void addStation(AfficheurService afficheurService)
+	public void addStation(String nom, AfficheurService afficheurService)
 		{
 		listAfficheurService.add(afficheurService);
-		jframestationmeteocentral.addStation(afficheurService.getPanelStationMeteo());
+		jframestationmeteocentral.addStation(nom, afficheurService.getPanelStationMeteo());
 		}
 
 	/*------------------------------------------------------------------*\

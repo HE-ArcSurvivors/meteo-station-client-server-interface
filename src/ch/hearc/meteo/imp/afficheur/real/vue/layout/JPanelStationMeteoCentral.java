@@ -119,7 +119,7 @@ public class JPanelStationMeteoCentral extends JPanel
 	public void addStation(String nom, JPanelStationMeteo jpanel)
 		{
 		nb++;
-		String name = nb+". "+nom;
+		String name = "Station "+nb+": "+nom;
 		mapStation.put(name,jpanel);
 		listModel.addElement(name);
 
