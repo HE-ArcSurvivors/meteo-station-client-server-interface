@@ -1,11 +1,9 @@
 package ch.hearc.meteo.imp.use.remote.pclocal;
 
-import java.rmi.Naming;
 import java.rmi.RemoteException;
-import java.util.List;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
-import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
+import ch.hearc.meteo.imp.com.real.MeteoFactory;
 import ch.hearc.meteo.imp.use.remote.PC_I;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -75,7 +73,7 @@ public class PCLocal implements PC_I {
 
 	private void server() throws MeteoServiceException, RemoteException {
 
-		meteoService = (new MeteoServiceSimulatorFactory()).create(portCom);
+		meteoService = (new MeteoFactory()).create(portCom);
 
 		meteoServiceWrapper = new MeteoServiceWrapper(meteoService);
 		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
@@ -141,10 +139,10 @@ public class PCLocal implements PC_I {
 		threadPCCentral.start();
 
 		meteoService.addMeteoListener(new MeteoListener_I() {
-			
+
 
 			/**
-			 * 
+			 *
 			 */
 			private static final long serialVersionUID = 1L;
 
@@ -196,20 +194,20 @@ public class PCLocal implements PC_I {
 		{
 			connected = false;
 //			System.err.println("Connexion Perdue");
-//			
+//
 //			try {
 //				afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools
 //						.connectionRemoteObjectBloquant(
 //								rmiURLRemoteAfficheurCreator,
 //								1000, 5);
-//				
+//
 //				String serverStr = "rmi://"+rmiURLRemoteAfficheurCreator.getServeurHostAdress()+":" + RMI_PORT + "/" + "AFFICHEUR_SERVICE";
 //				AfficheurServiceWrapper_I afficheurServiceWrapper = (AfficheurServiceWrapper_I) Naming.lookup(serverStr);
 //
 //	        } catch (Exception ex) {
 //	        	System.err.println("Je peux pas me reconnecter");
 //	        }
-			
+
 			// System.exit(-1);
 		}
 	}
@@ -219,7 +217,7 @@ public class PCLocal implements PC_I {
 	\*------------------------------------------------------------------*/
 
 	RmiURL rmiURLRemoteAfficheurCreator = null;
-	
+
 	// Inputs
 	private MeteoServiceOptions meteoServiceOptions;
 	private String portCom = null;
