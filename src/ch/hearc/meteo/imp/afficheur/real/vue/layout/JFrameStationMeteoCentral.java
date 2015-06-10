@@ -76,7 +76,7 @@ public class JFrameStationMeteoCentral extends JFrame
 	private void appearance()
 		{
 		setSize(600, 400);
-		setExtendedState(Frame.MAXIMIZED_BOTH);
+//		setExtendedState(Frame.MAXIMIZED_BOTH);
 		setLocationRelativeTo(null); // frame centrer
 		setVisible(true); // last!
 		}
