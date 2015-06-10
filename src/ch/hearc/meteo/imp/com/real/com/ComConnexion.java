@@ -92,20 +92,17 @@ public class ComConnexion implements ComConnexions_I
 				@Override
 				public void serialEvent(SerialPortEvent event)
 					{
-					switch(event.getEventType())
+					if (event.getEventType() == SerialPortEvent.DATA_AVAILABLE)
 						{
-						case SerialPortEvent.DATA_AVAILABLE:
-							try
-								{
-								traiterDonnees();
-								}
-							catch (Exception e)
-								{
-								e.printStackTrace();
-								}
-							break;
+						try
+							{
+							traiterDonnees();
+							}
+						catch (Exception e)
+							{
+							e.printStackTrace();
+							}
 						}
-
 					}
 			});
 		}
@@ -120,7 +117,7 @@ public class ComConnexion implements ComConnexions_I
 			{
 			case TEMPERATURE:
 				meteoServiceCallback.temperaturePerformed(valeur);
-				//System.out.println("---Température : " + valeur);
+				System.out.println("---Température : " + TrameDecoder.valeur(line));
 				break;
 			case ALTITUDE:
 				meteoServiceCallback.altitudePerformed(valeur);
@@ -185,17 +182,11 @@ public class ComConnexion implements ComConnexions_I
 		else
 			{
 			//Open port
-			port = (SerialPort)portId.open(portName, comOption.getSpeed());
+			port = (SerialPort)portId.open(portName, 10000);
 
-			//params port
-			//v1
-			//			int baudRates = 57600;
-			//			port.setSerialPortParams(baudRates, SerialPort.DATABITS_8, SerialPort.STOPBITS_1, SerialPort.PARITY_NONE);
-			//			port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
-
-			//v2
 			comOption.applyTo(port);
 			port.notifyOnDataAvailable(true);
+			port.setFlowControlMode(SerialPort.FLOWCONTROL_NONE);
 
 			//write
 			outputStream = port.getOutputStream();
@@ -260,7 +251,5 @@ public class ComConnexion implements ComConnexions_I
 	private static String ASK_MSG_TEMPERATURE = "010100";
 	private static String ASK_MSG_PRESSION = "010000";
 	private static String ASK_MSG_ALTITUDE = "010200";
-
-
 
 	}
