@@ -28,30 +28,6 @@ public class JPanelSettings extends JPanel
 		geometry();
 		control();
 		appearance();
-
-		Thread thread = new Thread(new Runnable()
-			{
-				@Override
-				public void run()
-					{
-					while(true)
-						{
-						try
-							{
-							Thread.sleep(POOLING_DELAY);
-							System.out.println("IN THREAD");
-							updateMeteoServiceOptions(afficheurServiceMOO.getMeteoServiceOptions());
-							}
-						catch (Exception e)
-							{
-							e.printStackTrace();
-							}
-						}
-					}
-			});
-
-		thread.start();
-
 		}
 
 	/*------------------------------------------------------------------*\
