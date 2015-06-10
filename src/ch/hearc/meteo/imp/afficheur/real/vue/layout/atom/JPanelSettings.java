@@ -28,30 +28,6 @@ public class JPanelSettings extends JPanel
 		geometry();
 		control();
 		appearance();
-
-		Thread thread = new Thread(new Runnable()
-			{
-				@Override
-				public void run()
-					{
-					while(true)
-						{
-						try
-							{
-							Thread.sleep(POOLING_DELAY);
-							System.out.println("IN THREAD");
-							updateMeteoServiceOptions(afficheurServiceMOO.getMeteoServiceOptions());
-							}
-						catch (Exception e)
-							{
-							e.printStackTrace();
-							}
-						}
-					}
-			});
-
-		thread.start();
-
 		}
 
 	/*------------------------------------------------------------------*\
@@ -60,17 +36,17 @@ public class JPanelSettings extends JPanel
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-		System.out.println("UPDATE_METEO_SERVICE_OPTION");
+//		System.out.println("UPDATE_METEO_SERVICE_OPTION");
 		int dtTemperature = (int)meteoServiceOptions.getTemperatureDT();
-		System.out.println("dtTemperature " + dtTemperature);
+//		System.out.println("dtTemperature " + dtTemperature);
 		sliderDeltaTemperature.setValue(dtTemperature);
 
 		int dtAltitude = (int)meteoServiceOptions.getAltitudeDT();
-		System.out.println("dtAltitude " + dtAltitude);
+//		System.out.println("dtAltitude " + dtAltitude);
 		sliderDeltaAltitude.setValue(dtAltitude);
 
 		int dtPression = (int)meteoServiceOptions.getPressionDT();
-		System.out.println("dtPression " + dtPression);
+//		System.out.println("dtPression " + dtPression);
 		sliderDeltaPression.setValue(dtPression);
 		}
 

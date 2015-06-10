@@ -3,9 +3,11 @@ package ch.hearc.meteo.imp.afficheur.real.vue.layout;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.swing.DefaultListModel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,6 +16,9 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
+import ch.hearc.meteo.spec.afficheur.AffichageOptions;
+import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
+import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
 
 public class JPanelStationMeteoCentral extends JPanel
 	{
@@ -25,6 +30,7 @@ public class JPanelStationMeteoCentral extends JPanel
 	public JPanelStationMeteoCentral(AfficheurServiceMOO afficheurServiceMOO)
 		{
 		this.afficheurServiceMOO = afficheurServiceMOO;
+		nb = 0;
 
 		geometry();
 		control();
@@ -34,6 +40,23 @@ public class JPanelStationMeteoCentral extends JPanel
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
+
+
+	public void refresh()
+		{
+		for(JPanelStationMeteo station : mapStation.values())
+			{
+			station.refresh();
+			}
+		}
+
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
+		{
+		for(JPanelStationMeteo station : mapStation.values())
+			{
+			station.updateMeteoServiceOptions(meteoServiceOptions);
+			}
+		}
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -51,8 +74,9 @@ public class JPanelStationMeteoCentral extends JPanel
 		{
 		// JComponent : Instanciation
 		mapStation = new HashMap<String, JPanelStationMeteo>();
+		listModel = new DefaultListModel<Object>();
 
-		jlistStation = new JList<Object>(mapStation.keySet().toArray());
+		jlistStation = new JList<Object>(listModel);
 		jlistStation.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
 		jlistStation.setLayoutOrientation(JList.VERTICAL);
 		jlistStation.setVisibleRowCount(-1);
@@ -67,6 +91,7 @@ public class JPanelStationMeteoCentral extends JPanel
 						{
 						Object[] tab = mapStation.keySet().toArray();
 						add(mapStation.get(tab[idx]), BorderLayout.CENTER);
+						revalidate();
 						}
 					}
 			});
@@ -96,16 +121,27 @@ public class JPanelStationMeteoCentral extends JPanel
 		// rien
 		}
 
-	public void refresh()
+	public void addStation(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
-		jlistStation.updateUI();
-		}
+		nb++;
 
-	public void addStation(AfficheurServiceMOO afficheurServiceMOO)
-		{
-		System.err.println("OK");
-		mapStation.put("STATION",new JPanelStationMeteo(afficheurServiceMOO));
+		AfficheurServiceMOO asm = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
+		String name;
+
+		try
+			{
+			name = "Station météo "+nb+"["+meteoServiceRemote.getPort()+"]";
+			}
+		catch (RemoteException e)
+			{
+			name = "Station météo "+nb+" [Inconnu]";
+			}
+
+		mapStation.put(name,new JPanelStationMeteo(asm));
+		listModel.addElement(name);
+
 		updateUI();
+		revalidate();
 		}
 
 	/*------------------------------------------------------------------*\
@@ -116,7 +152,11 @@ public class JPanelStationMeteoCentral extends JPanel
 	private JList<Object> jlistStation;
 	private Map<String, JPanelStationMeteo> mapStation;
 
+	private DefaultListModel<Object> listModel;
+
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;
+
+	private static int nb;
 
 	}

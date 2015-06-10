@@ -39,8 +39,8 @@ public class UsePCLocal
 			int dataToPrint = 3;
 
 			//Making simulator data
-			String portcom = "COM1";
-			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create(portcom);
+			String portcom = "SIMULATEUR";
+			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create("COM1");
 			MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(800, 1000, 1200);
 
 			//Making real data
@@ -82,7 +82,5 @@ public class UsePCLocal
 	private static final String IP_ADDRESS = "IP_ADDRESS";
 	private static final String MODULE_NAME = "MODULE_NAME";
 	private static final String FILE_NAME = "./settings.properties";
-//	private static final String FILE_NAME = "/Users/Rocla/Clouds/OneDrive/HE-Arc/Java/Meteo/settings.properties";
-//	private static final String FILE_NAME = "/home/timetraveler/Desktop/settings.properties";
 
 	}

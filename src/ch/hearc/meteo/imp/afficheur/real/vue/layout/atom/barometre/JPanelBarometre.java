@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.awt.RenderingHints;
 import java.awt.geom.AffineTransform;
 import java.util.List;
 
@@ -74,8 +75,12 @@ public class JPanelBarometre extends JPanel
 		ImageIcon borderBarometre = new ImageIcon(ClassLoader.getSystemResource("images/barometre.png"));
 		ImageIcon arrowBarometre = new ImageIcon(ClassLoader.getSystemResource("images/flecheBarometre.png"));
 
-		g2d.drawImage(borderBarometre.getImage(), 0, 30, null);
+	    RenderingHints rh = new RenderingHints(
+	             RenderingHints.KEY_TEXT_ANTIALIASING,
+	             RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+	    g2d.setRenderingHints(rh);
 
+		g2d.drawImage(borderBarometre.getImage(), 0, 30, null);
 		Image img = arrowBarometre.getImage();
 		g2d.translate(img.getWidth(null)/2, img.getHeight(null)/2+30);
 		double position = pression - START_POSITION;
