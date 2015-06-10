@@ -17,6 +17,7 @@ import javax.swing.event.ListSelectionListener;
 
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
+import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
 
 public class JPanelStationMeteoCentral extends JPanel
@@ -29,6 +30,7 @@ public class JPanelStationMeteoCentral extends JPanel
 	public JPanelStationMeteoCentral(AfficheurServiceMOO afficheurServiceMOO)
 		{
 		this.afficheurServiceMOO = afficheurServiceMOO;
+		nb = 0;
 
 		geometry();
 		control();
@@ -45,6 +47,14 @@ public class JPanelStationMeteoCentral extends JPanel
 		for(JPanelStationMeteo station : mapStation.values())
 			{
 			station.refresh();
+			}
+		}
+
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
+		{
+		for(JPanelStationMeteo station : mapStation.values())
+			{
+			station.updateMeteoServiceOptions(meteoServiceOptions);
 			}
 		}
 
@@ -113,16 +123,18 @@ public class JPanelStationMeteoCentral extends JPanel
 
 	public void addStation(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
+		nb++;
+
 		AfficheurServiceMOO asm = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
 		String name;
 
 		try
 			{
-			name = "Station météo ["+meteoServiceRemote.getPort()+"]";
+			name = "Station météo "+nb+"["+meteoServiceRemote.getPort()+"]";
 			}
 		catch (RemoteException e)
 			{
-			name = "Station météo [Inconnu]";
+			name = "Station météo "+nb+" [Inconnu]";
 			}
 
 		mapStation.put(name,new JPanelStationMeteo(asm));
@@ -144,5 +156,7 @@ public class JPanelStationMeteoCentral extends JPanel
 
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;
+
+	private static int nb;
 
 	}

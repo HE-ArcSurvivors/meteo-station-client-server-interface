@@ -39,6 +39,7 @@ public class JPanelAltitude extends JPanel
 
 	public void update()
 		{
+		System.out.println("LAST ALTITUDE"+stat.getLast());
 		jlabelaltitude.setText(MathTools.arrondir(stat.getLast())+" "+DataType.getUnite(DataType.ALTITUDE));
 		}
 

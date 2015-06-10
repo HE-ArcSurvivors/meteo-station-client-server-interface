@@ -7,6 +7,7 @@ import javax.swing.JFrame;
 
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
+import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 import ch.hearc.meteo.spec.reseau.rmiwrapper.MeteoServiceWrapper_I;
 
 public class JFrameStationMeteoCentral extends JFrame
@@ -32,6 +33,11 @@ public class JFrameStationMeteoCentral extends JFrame
 	public void refresh()
 		{
 		jpanelstationmeteocentral.refresh();
+		}
+
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
+		{
+		jpanelstationmeteocentral.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
 	/*------------------------------*\
