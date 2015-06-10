@@ -1,7 +1,11 @@
 package ch.hearc.meteo.imp.reseau;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
@@ -27,6 +31,9 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	\*------------------------------------------------------------------*/
 
 	private RemoteAfficheurCreator() throws RemoteException {
+//		afficheurServiceList = new ArrayList<AfficheurService_I>();
+		afficheurServiceMap = new HashMap<String, AfficheurService_I>();
+		rmiURLMap = new HashMap<String, RmiURL>();
 		server();
 	}
 
@@ -44,24 +51,56 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 
 			// client
 			// make remote
-			MeteoServiceWrapper_I meteoServiceWrapper = (MeteoServiceWrapper_I) RmiTools
-					.connectionRemoteObjectBloquant(meteoServiceRmiURL);
+			MeteoServiceWrapper_I meteoServiceWrapper = (MeteoServiceWrapper_I)RmiTools.connectionRemoteObjectBloquant(meteoServiceRmiURL, 500, 5);
 			
-//			meteoServiceRemoteList.add(meteoServiceWrapper);
-
+			// build an unique key
+			String key = affichageOptions.getTitre();
+			
+			// Check if PC local already exist
+			if (rmiURLMap.containsKey(key))
+				{
+				System.out.println("I Know you: " + key );
+				}
+			else
+				{
+				System.out.println("I don't know you: " + key);
+				}
+			
 			// server
 			// make afficheurService for PCCentral
 			AfficheurService_I afficheurService = createAfficheurService(
 					affichageOptions, meteoServiceWrapper);
+
 			// share afficheurService from PCCentral
 			AfficheurServiceWrapper afficheurServiceWrapper = new AfficheurServiceWrapper(
 					afficheurService);
-			RmiURL RmiURLAfficheurService = rmiUrl();
-			RmiTools.shareObject(afficheurServiceWrapper,
-					RmiURLAfficheurService);
+			RmiURL rmiURLAfficheurService = rmiUrl();
+			RmiTools.shareObject(afficheurServiceWrapper, rmiURLAfficheurService);
 
-			// Return the remote on AfficheurService
-			return RmiURLAfficheurService;
+			// add to maps
+			afficheurServiceMap.put(key, afficheurService);
+			rmiURLMap.put(key, rmiURLAfficheurService);
+
+			return rmiURLMap.get(key);
+			
+			
+			//			MeteoServiceWrapper_I meteoServiceWrapper = (MeteoServiceWrapper_I) RmiTools
+//					.connectionRemoteObjectBloquant(meteoServiceRmiURL);
+//			meteoServiceRemoteList.add(meteoServiceWrapper);
+
+//			// server
+//			// make afficheurService for PCCentral
+//			AfficheurService_I afficheurService = createAfficheurService(
+//					affichageOptions, meteoServiceWrapper);
+//			// share afficheurService from PCCentral
+//			AfficheurServiceWrapper afficheurServiceWrapper = new AfficheurServiceWrapper(
+//					afficheurService);
+//			RmiURL rmiURLAfficheurService = rmiUrl();
+//			RmiTools.shareObject(afficheurServiceWrapper,
+//					rmiURLAfficheurService);
+//
+//			// Return the remote on AfficheurService
+//			return RmiURLAfficheurService;
 
 	}
 
@@ -85,10 +124,13 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	private AfficheurService_I createAfficheurService(
 			AffichageOptions affichageOptions,
 			MeteoServiceWrapper_I meteoServiceRemote) {
-		// create AfficheurService
+		
+		
 //		AfficheurService_I afficheurService = new AfficheurFactory().createOnCentralPC(affichageOptions, meteoServiceRemote);
 		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOptions, meteoServiceRemote);
-
+		
+//		afficheurServiceList.add(afficheurService);
+		
 //		try {
 //			RemoteAfficheurCreator_I remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
 //		} catch (RemoteException e) {
@@ -105,12 +147,18 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	}
 
 	private void server() throws RemoteException {
-
-//		PC_CENTRAL_IP = System.getProperty("PC_CENTRAL_IP", LOCALHOST_IP);
-//		PC_CENTRAL_ID = RemoteAfficheurCreator_I.class.getName();
-//		INET_CONVERTED_IP_ADDRESS = InetAddress.getByName(PC_CENTRAL_IP);
-//		RMI_URL = new RmiURL(PC_CENTRAL_ID,INET_CONVERTED_IP_ADDRESS, RMI_PORT);
-//		RmiTools.shareObject(this, RMI_URL);
+		
+//		InetAddress inetIpAddress = null;
+//		try {
+//			inetIpAddress = InetAddress.getByName("192.168.0.14");
+//		} catch (UnknownHostException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		RmiURL rmiUrl = new RmiURL(PREFIXE, inetIpAddress,RMI_PORT);
+//		RmiTools.shareObject(this, rmiUrl);
+		
 
 		RmiTools.shareObject(this, new RmiURL(PREFIXE));
 	}
@@ -133,13 +181,17 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	\*------------------------------------------------------------------*/
 
 	private ArrayList<MeteoServiceWrapper_I> meteoServiceRemoteList;
+//	private ArrayList<AfficheurService_I> afficheurServiceList;
+	private Map<String, AfficheurService_I> afficheurServiceMap;
+	private Map<String, RmiURL> rmiURLMap;
 
 	/*------------------------------*\
 	|*			  Static			*|
 	\*------------------------------*/
+	
+	private int disconnectedTimer;
 
 	// Tools PRIVATE final
-	private static final String LOCALHOST_IP = "127.0.0.1";
 	private static final String PREFIXE = "AFFICHEUR_SERVICE";
 
 	// Tools PUBLIC final

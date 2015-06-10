@@ -1,1 +1,1 @@
-java -cp .:./*:./ext/* -Xmx100m -Xms80m -verbose:gc ch.hearc.meteo.imp.use.local.UseSimple
+java -cp .:./*:./ext/* -Xmx100m -Xms80m -verbose:gc -Djava.library.path=/usr/lib/jni/ ch.hearc.meteo.imp.use.local.UseSimple
