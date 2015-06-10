@@ -1,19 +1,18 @@
 
 package ch.hearc.meteo.imp.use.remote.pclocal;
 
-import java.io.BufferedInputStream;
-import java.io.FileInputStream;
+
+import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.Properties;
 
 import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreator;
+import ch.hearc.meteo.imp.use.remote.PropertiesSingleton;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
 import ch.hearc.meteo.spec.com.meteo.MeteoService_I;
 
-import com.bilat.tools.reseau.rmi.RmiTools;
 import com.bilat.tools.reseau.rmi.RmiURL;
 
 public class UsePCLocal
@@ -27,12 +26,12 @@ public class UsePCLocal
 		{
 		try {
 			main();
-		} catch (UnknownHostException e) {
+		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		}
 
-	public static void main() throws UnknownHostException
+	public static void main() throws IOException
 		{
 
 		try {
@@ -42,25 +41,15 @@ public class UsePCLocal
 			String portcom = "SIMULATEUR";
 			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create("COM1");
 			MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(800, 1000, 1200);
-
-			//Making real data
-//			MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(dataToPrint, dataToPrint, dataToPrint);
-
-			//Get Properties from config file
-			FileInputStream fis = new FileInputStream(FILE_NAME);
-			BufferedInputStream bis = new BufferedInputStream(fis);
-			Properties property = new Properties();
-			property.load(bis);
-			String ipAddress = property.getProperty(IP_ADDRESS);
-			InetAddress inetIpAddress = InetAddress.getByName(ipAddress);
-			String moduleName = property.getProperty(MODULE_NAME);
-			bis.close();
-			fis.close();
+			
+			String ipServer = PropertiesSingleton.getInstance().getIpServer();
+			InetAddress inetIpAddress = InetAddress.getByName(ipServer);
+			String moduleName = PropertiesSingleton.getInstance().getStationName();
 
 			RmiURL rmiUrl = new RmiURL(RemoteAfficheurCreator.RMI_ID, inetIpAddress,
 					RemoteAfficheurCreator.RMI_PORT);
 
-			String moduleTitle = moduleName + ": " + RmiTools.getLocalHost() + " " + meteoService.getPort();
+			String moduleTitle = moduleName + ": " + ipServer + " [" + meteoService.getPort() + "]";
 
 			AffichageOptions affichageOptions = new AffichageOptions(dataToPrint, moduleTitle);
 
@@ -76,11 +65,5 @@ public class UsePCLocal
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
-
-
-	// Static tools
-	private static final String IP_ADDRESS = "IP_ADDRESS";
-	private static final String MODULE_NAME = "MODULE_NAME";
-	private static final String FILE_NAME = "./settings.properties";
 
 	}
