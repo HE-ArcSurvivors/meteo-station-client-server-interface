@@ -1,8 +1,10 @@
 
 package ch.hearc.meteo.imp.afficheur.real;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.JFrameStationMeteoCentral;
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.JPanelStationMeteo;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
@@ -24,6 +26,7 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		{
 		afficheurServiceMOO = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
 		jframestationmeteocentral = new JFrameStationMeteoCentral(afficheurServiceMOO);
+		listAfficheurService = new LinkedList<AfficheurService_I>();
 		}
 
 	/*------------------------------------------------------------------*\
@@ -36,6 +39,11 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printAltitude(event);
 		jframestationmeteocentral.refresh();
+
+		for(AfficheurService_I as : listAfficheurService)
+			{
+			as.printAltitude(event);
+			}
 		}
 
 	@Override
@@ -60,9 +68,10 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		jframestationmeteocentral.updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
-	public void addStation(JPanelStationMeteo jpanel)
+	public void addStation(String nom, AfficheurService afficheurService)
 		{
-		jframestationmeteocentral.addStation(jpanel);
+		listAfficheurService.add(afficheurService);
+		jframestationmeteocentral.addStation(nom, afficheurService.getPanelStationMeteo());
 		}
 
 	/*------------------------------------------------------------------*\
@@ -78,4 +87,5 @@ public class AfficheurServiceCentral implements AfficheurService_I
 
 	//Tools
 	private JFrameStationMeteoCentral jframestationmeteocentral;
+	private List<AfficheurService_I> listAfficheurService;
 	}
