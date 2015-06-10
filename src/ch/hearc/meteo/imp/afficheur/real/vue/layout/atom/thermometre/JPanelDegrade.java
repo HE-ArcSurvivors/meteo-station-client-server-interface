@@ -1,3 +1,4 @@
+
 package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.thermometre;
 
 import java.awt.Color;
@@ -15,11 +16,8 @@ public class JPanelDegrade extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelDegrade(float temperature)
+	public JPanelDegrade()
 		{
-		this.temperature = temperature;
-		setMinMax(JPanelThermometre.DEFAULT_MIN_VALUE,JPanelThermometre.DEFAULT_MAX_VALUE); //VALEURS PAR DEFAUT
-
 		geometry();
 		control();
 		appearance();
@@ -37,21 +35,9 @@ public class JPanelDegrade extends JPanel
 		dessiner(g2d);
 		}
 
-	public void setTemperature(float temperature)
-		{
-		this.temperature = temperature;
-		revalidate();
-		}
-
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/
-
-	public void setMinMax(int minValue, int maxValue)
-	{
-		this.maxValue = maxValue;
-		this.minValue = minValue;
-	}
 
 	/*------------------------------*\
 	|*				Get				*|
@@ -69,28 +55,12 @@ public class JPanelDegrade extends JPanel
 		double hue = 1;
 		deltaHue = (0.7) / w;
 
-		int countUnite = (Math.abs(maxValue) + Math.abs(minValue));
-		int delta = h / countUnite;
-
-		//POUR LES TESTS, DEVRA PROVENIR DE L'EXTERIEUR OU ÊTRE UNIFIE EN FONCTION DE LA TAILLE
-		int decalage = 10;
-
-		float position = decalage + (maxValue - temperature)*delta;
-		int black = Color.HSBtoRGB(0, 0, 0);
-
 		for(int j = 0; j < w; j++)
 			{
 			int color = Color.HSBtoRGB((float)hue, 1, 1);
 			for(int i = 0; i < h; i++)
 				{
-//					if(MathTools.isEquals(j,position,0.01))
-//					{
-//						bufferedImage.setRGB(i, j, black);
-//					}
-//					else
-//					{
-						bufferedImage.setRGB(i, j, color);
-//					}
+				bufferedImage.setRGB(i, j, color);
 				}
 			hue += deltaHue;
 			}
@@ -101,7 +71,7 @@ public class JPanelDegrade extends JPanel
 
 	private void geometry()
 		{
-			bufferedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
+		bufferedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
 		}
 
 	private void control()
@@ -111,8 +81,8 @@ public class JPanelDegrade extends JPanel
 
 	private void appearance()
 		{
-		setPreferredSize(new Dimension(50,300));
-		setMinimumSize(new Dimension(20,300));
+		setPreferredSize(new Dimension(50, 300));
+		setMinimumSize(new Dimension(20, 300));
 		}
 
 	/*------------------------------------------------------------------*\
@@ -122,9 +92,5 @@ public class JPanelDegrade extends JPanel
 	// Tools
 	private double deltaHue;
 	private BufferedImage bufferedImage;
-
-	private float temperature;
-	private int maxValue;
-	private int minValue;
 
 	}

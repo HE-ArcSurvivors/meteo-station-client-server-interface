@@ -91,9 +91,9 @@ public class JFrameStationMeteo extends JFrame
 		}
 
 	public JPanelStationMeteo getPanelStationMeteo()
-	{
+		{
 		return this.jpanelstationmeteo;
-	}
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

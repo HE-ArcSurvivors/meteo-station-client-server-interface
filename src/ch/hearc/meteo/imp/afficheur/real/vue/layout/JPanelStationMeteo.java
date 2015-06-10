@@ -1,3 +1,4 @@
+
 package ch.hearc.meteo.imp.afficheur.real.vue.layout;
 
 import java.awt.BorderLayout;
@@ -33,7 +34,6 @@ public class JPanelStationMeteo extends JPanel
 
 	public void refresh()
 		{
-		System.out.println("REFRESH");
 		jpaneltaboverview.update();
 		jpaneltabchartTemperature.update();
 		jpaneltabchartPression.update();
@@ -58,15 +58,15 @@ public class JPanelStationMeteo extends JPanel
 
 	private void geometry()
 		{
-			// JComponent : Instanciation
-			tabbedPane = new JTabbedPane();
-			jpaneltaboverview = new JPanelTabOverview(afficheurServiceMOO);
-			jpaneltabchartTemperature = new JPanelTabCharts(afficheurServiceMOO, DataType.TEMPERATURE);
-			jpaneltabchartPression = new JPanelTabCharts(afficheurServiceMOO, DataType.PRESSION);
+		// JComponent : Instanciation
+		tabbedPane = new JTabbedPane();
+		jpaneltaboverview = new JPanelTabOverview(afficheurServiceMOO);
+		jpaneltabchartTemperature = new JPanelTabCharts(afficheurServiceMOO, DataType.TEMPERATURE);
+		jpaneltabchartPression = new JPanelTabCharts(afficheurServiceMOO, DataType.PRESSION);
 
-			tabbedPane.addTab("Vue générale",jpaneltaboverview);
-			tabbedPane.addTab("Statistiques de la température",jpaneltabchartTemperature);
-			tabbedPane.addTab("Statistiques de la pression",jpaneltabchartPression);
+		tabbedPane.addTab("Vue générale", jpaneltaboverview);
+		tabbedPane.addTab("Statistiques de la température", jpaneltabchartTemperature);
+		tabbedPane.addTab("Statistiques de la pression", jpaneltabchartPression);
 
 			// Layout : Specification
 			{
@@ -74,18 +74,18 @@ public class JPanelStationMeteo extends JPanel
 			setLayout(borderLayout);
 			}
 
-			// JComponent : add
-			add(tabbedPane, BorderLayout.CENTER);
+		// JComponent : add
+		add(tabbedPane, BorderLayout.CENTER);
 		}
 
 	private void control()
 		{
-
+		// rien
 		}
 
 	private void appearance()
 		{
-
+		// rien
 		}
 
 	/*------------------------------------------------------------------*\

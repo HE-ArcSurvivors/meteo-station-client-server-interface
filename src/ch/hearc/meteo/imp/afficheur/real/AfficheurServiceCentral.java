@@ -26,6 +26,7 @@ public class AfficheurServiceCentral implements AfficheurService_I
 		{
 		afficheurServiceMOO = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
 		jframestationmeteocentral = new JFrameStationMeteoCentral(afficheurServiceMOO);
+		jframestationmeteocentral.setTitle(affichageOptions.getTitre());
 		listAfficheurService = new LinkedList<AfficheurService_I>();
 		}
 
@@ -36,7 +37,6 @@ public class AfficheurServiceCentral implements AfficheurService_I
 	@Override
 	public void printAltitude(MeteoEvent event)
 		{
-		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printAltitude(event);
 		jframestationmeteocentral.refresh();
 
@@ -49,7 +49,6 @@ public class AfficheurServiceCentral implements AfficheurService_I
 	@Override
 	public void printTemperature(MeteoEvent event)
 		{
-		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printTemperature(event);
 		jframestationmeteocentral.refresh();
 		}
@@ -57,7 +56,6 @@ public class AfficheurServiceCentral implements AfficheurService_I
 	@Override
 	public void printPression(MeteoEvent event)
 		{
-		System.err.println("OK OK OK OK");
 		afficheurServiceMOO.printPression(event);
 		jframestationmeteocentral.refresh();
 		}

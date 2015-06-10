@@ -1,7 +1,6 @@
 package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.thermometre;
 
 import java.awt.Dimension;
-import java.awt.FlowLayout;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -14,9 +13,8 @@ public class JPanelValues extends JPanel
 	|*							Constructeurs							*|
 	\*------------------------------------------------------------------*/
 
-	public JPanelValues(float temperature)
+	public JPanelValues()
 		{
-		this.temperature = temperature;
 		setMinMax(JPanelThermometre.DEFAULT_MIN_VALUE,JPanelThermometre.DEFAULT_MAX_VALUE); //VALEURS PAR DEFAUT
 
 		geometry();
@@ -35,12 +33,6 @@ public class JPanelValues extends JPanel
 		Graphics2D g2d = (Graphics2D)g;
 		dessiner(g2d);
 		}
-
-	public void setTemperature(float temperature)
-	{
-		this.temperature = temperature;
-		repaint();
-	}
 
 	/*------------------------------*\
 	|*				Set				*|
@@ -91,19 +83,7 @@ public class JPanelValues extends JPanel
 
 	private void geometry()
 		{
-			// JComponent : Instanciation
-
-			// Layout : Specification
-			{
-			FlowLayout flowlayout = new FlowLayout(FlowLayout.CENTER);
-			setLayout(flowlayout);
-
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
-			}
-
-			// JComponent : add
-
+			setLayout(null);
 		}
 
 	private void control()
@@ -121,7 +101,6 @@ public class JPanelValues extends JPanel
 	\*------------------------------------------------------------------*/
 
 	// Input
-	private float temperature;
 	private int maxValue;
 	private int minValue;
 
