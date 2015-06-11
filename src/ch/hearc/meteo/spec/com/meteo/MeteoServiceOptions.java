@@ -113,7 +113,6 @@ public class MeteoServiceOptions implements Serializable
 	 */
 	public void setTemperatureDT(long temperatureDT)
 		{
-		System.out.println("SETTEMPERATUREDT");
 		Assert.assertTrue(temperatureDT > 0);
 		this.temperatureDT = Math.max(EPSILON_MS, temperatureDT);
 		}

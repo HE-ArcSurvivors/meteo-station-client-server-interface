@@ -19,7 +19,7 @@ public class DataType
 		switch(type)
 			{
 			case TEMPERATURE:
-				return "TempÃ©rature";
+				return "Température";
 			case ALTITUDE:
 				return "Altitude";
 			case PRESSION:
@@ -49,7 +49,7 @@ public class DataType
 		switch(type)
 			{
 			case TEMPERATURE:
-				return "Â°C";
+				return "°C";
 			case ALTITUDE:
 				return "m";
 			case PRESSION:
