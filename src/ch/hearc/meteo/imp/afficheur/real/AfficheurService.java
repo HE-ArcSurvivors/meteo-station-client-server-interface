@@ -44,8 +44,9 @@ public class AfficheurService implements AfficheurService_I
 							}
 						catch (RemoteException e)
 							{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							System.out.println("I LOST THE LOCAL PC, I AM SO SAD");
+							// TODO ADD A RED ALERT ?
+//							e.printStackTrace();
 							}
 
 						attendre(1000); //disons

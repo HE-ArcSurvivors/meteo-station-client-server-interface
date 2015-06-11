@@ -1,11 +1,14 @@
 package ch.hearc.meteo.imp.reseau;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
+import ch.hearc.meteo.imp.use.remote.PropertiesSingleton;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
 import ch.hearc.meteo.spec.reseau.RemoteAfficheurCreator_I;
@@ -34,7 +37,12 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 //		afficheurServiceList = new ArrayList<AfficheurService_I>();
 		afficheurServiceMap = new HashMap<String, AfficheurService_I>();
 		rmiURLMap = new HashMap<String, RmiURL>();
-		server();
+		try {
+			server();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 
 	/*------------------------------------------------------------------*\
@@ -46,12 +54,17 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 	 */
 	@Override
 	public RmiURL createRemoteAfficheurService(
-			AffichageOptions affichageOptions, RmiURL meteoServiceRmiURL)
-			throws RemoteException {
+			AffichageOptions affichageOptions, RmiURL meteoServiceRmiURL) {
 
 			// client
 			// make remote
-			MeteoServiceWrapper_I meteoServiceWrapper = (MeteoServiceWrapper_I)RmiTools.connectionRemoteObjectBloquant(meteoServiceRmiURL, 500, 5);
+			MeteoServiceWrapper_I meteoServiceWrapper = null;
+			try {
+				meteoServiceWrapper = (MeteoServiceWrapper_I)RmiTools.connectionRemoteObjectBloquant(meteoServiceRmiURL, 500, 5);
+			} catch (RemoteException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
 
 			// build an unique key
 			String key = affichageOptions.getTitre();
@@ -74,8 +87,18 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			// share afficheurService from PCCentral
 			AfficheurServiceWrapper afficheurServiceWrapper = new AfficheurServiceWrapper(
 					afficheurService);
+			
+		
+			
 			RmiURL rmiURLAfficheurService = rmiUrl();
-			RmiTools.shareObject(afficheurServiceWrapper, rmiURLAfficheurService);
+			
+			try {
+				RmiTools.shareObject(afficheurServiceWrapper, rmiURLAfficheurService);
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			
 
 			// add to maps
 			afficheurServiceMap.put(key, afficheurService);
@@ -129,24 +152,12 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 		AfficheurService_I afficheurService = new AfficheurFactory().createOnCentralPC(affichageOptions, meteoServiceRemote);
 //		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOptions, meteoServiceRemote);
 
-//		afficheurServiceList.add(afficheurService);
-
-//		try {
-//			RemoteAfficheurCreator_I remoteAfficheurCreator = RemoteAfficheurCreator.getInstance();
-//		} catch (RemoteException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		} catch (UnknownHostException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-
 
 		return afficheurService;
 
 	}
 
-	private void server() throws RemoteException {
+	private void server() throws IOException {
 
 //		InetAddress inetIpAddress = null;
 //		try {
@@ -155,12 +166,14 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 //			// TODO Auto-generated catch block
 //			e.printStackTrace();
 //		}
-//
-//		RmiURL rmiUrl = new RmiURL(PREFIXE, inetIpAddress,RMI_PORT);
-//		RmiTools.shareObject(this, rmiUrl);
+		String ipServer = PropertiesSingleton.getInstance().getIpServer();
+		InetAddress inetIpAddress = InetAddress.getByName(ipServer);
+
+		RmiURL rmiUrl = new RmiURL(PREFIXE, inetIpAddress);
+		RmiTools.shareObject(this, rmiUrl);
 
 
-		RmiTools.shareObject(this, new RmiURL(PREFIXE));
+//		RmiTools.shareObject(this, new RmiURL(PREFIXE));
 	}
 
 	/*------------------------------*\
@@ -169,10 +182,14 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 
 	/**
 	 * Thread Safe
+	 * @throws IOException 
 	 */
 	private static RmiURL rmiUrl() {
 		String id = IdTools.createID(PREFIXE);
+//		String ipServer = PropertiesSingleton.getInstance().getIpServer();
+//		InetAddress inetIpAddress = InetAddress.getByName(ipServer);
 
+//		return new RmiURL(id,inetIpAddress);
 		return new RmiURL(id);
 	}
 
