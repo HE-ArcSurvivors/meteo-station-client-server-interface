@@ -1,0 +1,1 @@
+java -cp .:./*:./ext/* -Xmx100m -Xms80m -verbose:gc -Djava.library.path=/usr/lib/jni/ -Dfile.encoding=ISO-8859-1 ch.hearc.meteo.imp.use.local.UseMeteoPortDetection
