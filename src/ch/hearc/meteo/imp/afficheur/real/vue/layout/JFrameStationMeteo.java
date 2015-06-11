@@ -35,6 +35,11 @@ public class JFrameStationMeteo extends JFrame
 		jpanelstationmeteo.refresh();
 		}
 
+	public void setConnected(boolean b)
+		{
+		jpanelstationmeteo.setConnected(b);
+		}
+
 	/*------------------------------*\
 	|*				Set				*|
 	\*------------------------------*/

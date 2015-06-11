@@ -26,14 +26,14 @@ public class AfficheurService implements AfficheurService_I
 		{
 		afficheurServiceMOO = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
 		jframestationmeteo = new JFrameStationMeteo(afficheurServiceMOO);
+		connected = true;
+		jframestationmeteo.setConnected(connected);
 
 		Thread threadPoolingOptions = new Thread(new Runnable()
 			{
-
 				@Override
 				public void run()
 					{
-
 					while(true)
 						{
 						MeteoServiceOptions option;
@@ -45,6 +45,8 @@ public class AfficheurService implements AfficheurService_I
 						catch (RemoteException e)
 							{
 							System.out.println("I LOST THE LOCAL PC, I AM SO SAD");
+							connected = false;
+							jframestationmeteo.setConnected(connected);
 							// TODO ADD A RED ALERT ?
 //							e.printStackTrace();
 							}
@@ -95,6 +97,12 @@ public class AfficheurService implements AfficheurService_I
 		return jframestationmeteo.getPanelStationMeteo();
 		}
 
+	public boolean checkConnected()
+	{
+	return connected;
+	}
+
+
 	/*------------------------------------------------------------------*\
 	|*							Methodes Private						*|
 	\*------------------------------------------------------------------*/
@@ -120,4 +128,6 @@ public class AfficheurService implements AfficheurService_I
 
 	//Tools
 	private JFrameStationMeteo jframestationmeteo;
+
+	private boolean connected;
 	}

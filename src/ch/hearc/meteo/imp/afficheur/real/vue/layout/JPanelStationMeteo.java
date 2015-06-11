@@ -88,11 +88,15 @@ public class JPanelStationMeteo extends JPanel
 		// rien
 		}
 
-	public boolean tryAfficheurService()
+	public void setConnected(boolean b)
 		{
-		//TODO NEED TO CHECK IF THE STATION IS STILL CONNECTED
-		return true;
+		connected = b;
 		}
+
+	public boolean checkConnected()
+	{
+		return this.connected;
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
@@ -103,6 +107,8 @@ public class JPanelStationMeteo extends JPanel
 	private JPanelTabOverview jpaneltaboverview;
 	private JPanelTabCharts jpaneltabchartTemperature;
 	private JPanelTabCharts jpaneltabchartPression;
+
+	private boolean connected;
 
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;

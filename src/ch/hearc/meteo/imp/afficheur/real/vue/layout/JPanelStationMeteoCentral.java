@@ -77,6 +77,7 @@ public class JPanelStationMeteoCentral extends JPanel
 		jlistStation.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jlistStation.addListSelectionListener(new ListSelectionListener()
 			{
+
 				@Override
 				public void valueChanged(ListSelectionEvent le)
 					{
@@ -96,17 +97,11 @@ public class JPanelStationMeteoCentral extends JPanel
 
 		JScrollPane listScroller = new JScrollPane(jlistStation);
 		listScroller.setPreferredSize(new Dimension(250, 80));
-			// Layout : Specification
-			{
-			BorderLayout layout = new BorderLayout();
-			setLayout(layout);
 
-			add(listScroller, BorderLayout.WEST);
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
-			}
+		layout = new BorderLayout();
+		setLayout(layout);
+		add(listScroller, BorderLayout.WEST);
 
-		// JComponent : add
 		}
 
 	private void control()
@@ -138,9 +133,15 @@ public class JPanelStationMeteoCentral extends JPanel
 		for(String stationName:mapStation.keySet())
 			{
 			JPanelStationMeteo station = mapStation.get(stationName);
-			if (!station.tryAfficheurService())
+			if (!station.checkConnected())
 				{
+				if (layout.getLayoutComponent(BorderLayout.CENTER) == station)
+					{
+					remove(station);
+					repaint();
+					}
 				mapStation.remove(stationName);
+
 				listModel.removeElement(stationName);
 				}
 			}
@@ -149,7 +150,7 @@ public class JPanelStationMeteoCentral extends JPanel
 		}
 
 	private void launchThread()
-	{
+		{
 		Thread threadCleaning = new Thread(new Runnable()
 			{
 
@@ -175,7 +176,7 @@ public class JPanelStationMeteoCentral extends JPanel
 			});
 
 		threadCleaning.start();
-	}
+		}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
@@ -186,6 +187,7 @@ public class JPanelStationMeteoCentral extends JPanel
 	private Map<String, JPanelStationMeteo> mapStation;
 
 	private DefaultListModel<Object> listModel;
+	private BorderLayout layout;
 
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;
