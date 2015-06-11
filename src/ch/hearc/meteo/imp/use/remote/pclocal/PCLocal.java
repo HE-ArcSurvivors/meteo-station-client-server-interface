@@ -117,12 +117,12 @@ public class PCLocal implements PC_I {
 
 	private void client() throws MeteoServiceException, IOException {
 		
-//		RmiURL rmiURLafficheurServiceWrapper = afficheurManagerRemote.createRemoteAfficheurService(affichageOptions, rmiURL);
-//		final AfficheurServiceWrapper_I afficheurServiceWrapper = (AfficheurServiceWrapper_I)RmiTools.connectionRemoteObjectBloquant(rmiURLafficheurServiceWrapper);
-//		//Local
-//		final AfficheurService_I afficheurService = AfficheurFactory.create(affichageOptions, meteoServiceWrapper, this);
-//
-//		
+		
+		String ipLocal = PropertiesSingleton.getInstance().getIpLocal();
+//		System.setProperty("java.rmi.server.hostname", ipLocal);
+		InetAddress inetIpAddress = InetAddress.getByName(ipLocal);
+		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE),inetIpAddress);
+		
 		// PC Central
 		final AffichageOptions affichageOptionPCCentral = new AffichageOptions(
 				3, PropertiesSingleton.getInstance().getStationName() + " @ " + PropertiesSingleton.getInstance().getIpLocal() + " [" + portCom + "]");
@@ -226,6 +226,12 @@ public class PCLocal implements PC_I {
 			connected = false;
 
 			// System.exit(-1);
+		}
+	}
+	
+	private void shutdown() {
+		{
+			System.exit(0);
 		}
 	}
 
