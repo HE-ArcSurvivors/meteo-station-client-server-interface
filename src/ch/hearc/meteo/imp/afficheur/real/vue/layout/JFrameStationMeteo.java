@@ -66,9 +66,6 @@ public class JFrameStationMeteo extends JFrame
 			{
 			BorderLayout borderLayout = new BorderLayout();
 			setLayout(borderLayout);
-
-			// borderLayout.setHgap(20);
-			// borderLayout.setVgap(20);
 			}
 
 		// JComponent : add
@@ -83,6 +80,7 @@ public class JFrameStationMeteo extends JFrame
 				@Override
 				public void windowClosing(WindowEvent we)
 					{
+
 					//TODO A PROPER EXIT LINKED WITH CENTRAL PC HERE
 					}
 			});

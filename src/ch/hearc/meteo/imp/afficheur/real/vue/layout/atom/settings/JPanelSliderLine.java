@@ -3,8 +3,6 @@ package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.settings;
 
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
 
 import javax.swing.Box;
 import javax.swing.JLabel;
@@ -26,7 +24,7 @@ public class JPanelSliderLine extends JPanel
 		this.parent = parent;
 		this.dataType = dataType;
 
-		label = new JLabel("Δt " + DataType.getString(dataType) + " : ");
+		label = new JLabel("dt " + DataType.getString(dataType) + " : ");
 		slider = new JSliderSecondes();
 		slider.setValue(value);
 		slider.setMinimum(500);
@@ -37,8 +35,8 @@ public class JPanelSliderLine extends JPanel
 		geometry();
 		control();
 		appearance();
-		
-		
+
+
 		}
 
 	/*------------------------------------------------------------------*\
@@ -97,7 +95,7 @@ public class JPanelSliderLine extends JPanel
 					labelValue.setText(slider.getStringValue());
 					}
 			});
-		
+
 //		slider.addMouseListener(new MouseAdapter()
 //		{
 //

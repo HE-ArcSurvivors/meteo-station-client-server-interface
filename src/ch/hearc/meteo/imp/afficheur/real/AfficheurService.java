@@ -49,7 +49,6 @@ public class AfficheurService implements AfficheurService_I
 							jframestationmeteo.setConnected(connected);
 //							e.printStackTrace();
 							}
-
 						attendre(1000); //disons
 						}
 					}

@@ -194,13 +194,11 @@ public class JFrameSelectionPortCom extends JFrame
 
 			PCLocal pc = new PCLocal(meteoServiceOptions, portcom, affichageOptions, rmiUrl);
 			pc.run();
-
 			}
 		catch (Exception e)
 			{
 			e.printStackTrace();
 			}
-
 		}
 
 	private void launchSimulation() throws MeteoServiceException
