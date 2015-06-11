@@ -39,21 +39,25 @@ public class UsePCLocal
 
 			//Making simulator data
 			String portcom = "SIMULATEUR";
-			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create("COM1");
 			MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(800, 1000, 1200);
-			
 			String ipServer = PropertiesSingleton.getInstance().getIpServer();
 			InetAddress inetIpAddress = InetAddress.getByName(ipServer);
-			String moduleName = PropertiesSingleton.getInstance().getStationName();
-
 			RmiURL rmiUrl = new RmiURL(RemoteAfficheurCreator.RMI_ID, inetIpAddress,
 					RemoteAfficheurCreator.RMI_PORT);
+			PCLocal pc = new PCLocal(meteoServiceOptions,portcom,null,rmiUrl);
+			
+//			MeteoService_I meteoService = (new MeteoServiceSimulatorFactory()).create("COM1");
+			
+			
 
-			String moduleTitle = moduleName + ": " + ipServer + " [" + meteoService.getPort() + "]";
+//
+//			String moduleTitle = moduleName + ": " + ipServer + " [" + meteoService.getPort() + "]";
+//
+//			AffichageOptions affichageOptions = new AffichageOptions(dataToPrint, moduleTitle);
 
-			AffichageOptions affichageOptions = new AffichageOptions(dataToPrint, moduleTitle);
-
-			PCLocal pc = new PCLocal(meteoServiceOptions,portcom,affichageOptions,rmiUrl);
+//			PCLocal pc = new PCLocal(meteoServiceOptions,portcom,affichageOptions,rmiUrl);
+			
+//			PCLocal pc = new PCLocal(null,portcom,null,null);
 			pc.run();
 
 		} catch (Exception e) {
