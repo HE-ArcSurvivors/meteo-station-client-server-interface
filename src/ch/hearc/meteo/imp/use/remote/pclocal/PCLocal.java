@@ -1,11 +1,14 @@
 package ch.hearc.meteo.imp.use.remote.pclocal;
 
+import java.io.IOException;
+import java.net.InetAddress;
 import java.rmi.RemoteException;
 
 import ch.hearc.meteo.imp.afficheur.real.AfficheurFactory;
 import ch.hearc.meteo.imp.com.real.MeteoFactory;
 import ch.hearc.meteo.imp.com.simulateur.MeteoServiceSimulatorFactory;
 import ch.hearc.meteo.imp.use.remote.PC_I;
+import ch.hearc.meteo.imp.use.remote.PropertiesSingleton;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.afficheur.AfficheurService_I;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
@@ -54,7 +57,7 @@ public class PCLocal implements PC_I {
 
 		try {
 			client(); // apr�s
-		} catch (RemoteException | MeteoServiceException e) {
+		} catch (MeteoServiceException | IOException e) {
 			System.err.println("[PCLocal :  run : client : failed");
 			e.printStackTrace();
 		}
@@ -72,7 +75,7 @@ public class PCLocal implements PC_I {
 	|*				server			*|
 	\*------------------------------*/
 
-	private void server() throws MeteoServiceException, RemoteException {
+	private void server() throws MeteoServiceException, IOException {
 
 		if (portCom == "SIMULATEUR")
 		{
@@ -93,21 +96,17 @@ public class PCLocal implements PC_I {
 				"PC Local: " + portCom);
 		afficheurService = (new AfficheurFactory()).createOnLocalPC(
 				affichageOptionPCLocal, meteoServiceWrapper);
+		
+		affichageOptions = affichageOptionPCLocal;
 
 //		printAfficheurService();
-
-		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE));
+		
+		String ipServer = PropertiesSingleton.getInstance().getIpServer();
+		InetAddress inetIpAddress = InetAddress.getByName(ipServer);
+//		rmiURLMeteoService = new RmiURL(IdTools.createID("AFFICHEUR_SERVICE"),inetIpAddress);
+		rmiURLMeteoService = new RmiURL(IdTools.createID(PREFIXE),inetIpAddress);
+		
         RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
-//		InetAddress ip = InetAddress.getByName(PropertiesManager.getInstance().getIpPcLocal());
-//		String id = portCom;
-//		int port = PropertiesManager.getInstance().getPortPcLocal();
-//
-//		final RmiURL rmiUrlMeteoService = new RmiURL(id, ip, port);
-//
-//		RmiTools.shareObject(meteoServiceWrapper, rmiURLMeteoService);
-
-
-
 
 
 	}
@@ -116,14 +115,20 @@ public class PCLocal implements PC_I {
 	|*				client			*|
 	\*------------------------------*/
 
-	private void client() throws RemoteException, MeteoServiceException {
-
-
+	private void client() throws MeteoServiceException, IOException {
+		
+//		RmiURL rmiURLafficheurServiceWrapper = afficheurManagerRemote.createRemoteAfficheurService(affichageOptions, rmiURL);
+//		final AfficheurServiceWrapper_I afficheurServiceWrapper = (AfficheurServiceWrapper_I)RmiTools.connectionRemoteObjectBloquant(rmiURLafficheurServiceWrapper);
+//		//Local
+//		final AfficheurService_I afficheurService = AfficheurFactory.create(affichageOptions, meteoServiceWrapper, this);
+//
+//		
 		// PC Central
 		final AffichageOptions affichageOptionPCCentral = new AffichageOptions(
-				3, rmiURLMeteoService.getServeurHostAdress() + " [" + portCom + "]");
+				3, PropertiesSingleton.getInstance().getStationName() + " @ " + PropertiesSingleton.getInstance().getIpLocal() + " [" + portCom + "]");
 
-		Thread threadPCCentral = new Thread(new Runnable() {
+		
+		Thread threadReconnection = new Thread(new Runnable() {
 			@Override
 			public void run() {
 				try {
@@ -160,14 +165,10 @@ public class PCLocal implements PC_I {
 				}
 			}
 		});
-		threadPCCentral.start();
+		threadReconnection.start();
 
 		meteoService.addMeteoListener(new MeteoListener_I() {
 
-
-			/**
-			 *
-			 */
 			private static final long serialVersionUID = 1L;
 
 			@Override
@@ -176,6 +177,7 @@ public class PCLocal implements PC_I {
 				try {
 
 					if (connected) {
+						
 						afficheurServiceWrapper.printTemperature(event);
 					}
 				} catch (RemoteException e) {
@@ -219,111 +221,9 @@ public class PCLocal implements PC_I {
 
 	}
 
-//	private void printAfficheurService()
-//	{
-//	meteoService.addMeteoListener(new MeteoListener_I()
-//		{
-//
-//			/**
-//			 *
-//			 */
-//			private static final long serialVersionUID = -2657274819694610843L;
-//
-//			@Override
-//			public void temperaturePerformed(MeteoEvent event)
-//				{
-//				afficheurService.printTemperature(event);
-//				}
-//
-//			@Override
-//			public void pressionPerformed(MeteoEvent event)
-//				{
-//				afficheurService.printPression(event);
-//				}
-//
-//			@Override
-//			public void altitudePerformed(MeteoEvent event)
-//				{
-//				afficheurService.printAltitude(event);
-//				}
-//		});
-//
-//	meteoService.addMeteoListener(new MeteoListener_I()
-//	{
-//
-//		/**
-//		 *
-//		 */
-//		private static final long serialVersionUID = -8657097230876718079L;
-//
-//		@Override
-//		public void temperaturePerformed(MeteoEvent event)
-//			{
-//			try
-//				{
-//				if (connected)
-//					{
-//					afficheurServiceWrapper.printTemperature(event);
-//					}
-//				}
-//			catch (RemoteException e)
-//				{
-//				errorManager();
-//				}
-//			}
-//
-//		@Override
-//		public void pressionPerformed(MeteoEvent event)
-//			{
-//			try
-//				{
-//				if (connected)
-//					{
-//					afficheurServiceWrapper.printPression(event);
-//					}
-//				}
-//			catch (RemoteException e)
-//				{
-//				errorManager();
-//				}
-//			}
-//
-//		@Override
-//		public void altitudePerformed(MeteoEvent event)
-//			{
-//			try
-//				{
-//				if (connected)
-//					{
-//					afficheurServiceWrapper.printAltitude(event);
-//					}
-//				}
-//			catch (RemoteException e)
-//				{
-//				errorManager();
-//				}
-//			}
-//	});
-//
-//}
-
 	private synchronized void errorManager() {
 		{
 			connected = false;
-//			System.err.println("Connexion Perdue");
-//
-//			try {
-//				afficheurServiceWrapper = (AfficheurServiceWrapper_I) RmiTools
-//						.connectionRemoteObjectBloquant(
-//								rmiURLRemoteAfficheurCreator,
-//								1000, 5);
-//
-//				String serverStr = "rmi://"+rmiURLRemoteAfficheurCreator.getServeurHostAdress()+":" + RMI_PORT + "/" + "AFFICHEUR_SERVICE";
-//				AfficheurServiceWrapper_I afficheurServiceWrapper = (AfficheurServiceWrapper_I) Naming.lookup(serverStr);
-//
-//	        } catch (Exception ex) {
-//	        	System.err.println("Je peux pas me reconnecter");
-//	        }
 
 			// System.exit(-1);
 		}

@@ -153,7 +153,7 @@ public class JFrameSelectionPortCom extends JFrame
 						}
 					catch (MeteoServiceException e1)
 						{
-						// TODO Auto-generated catch block
+						System.err.println("MeteoServiceException in launchSimulation()");
 						e1.printStackTrace();
 						}
 					}
@@ -194,13 +194,11 @@ public class JFrameSelectionPortCom extends JFrame
 
 			PCLocal pc = new PCLocal(meteoServiceOptions, portcom, affichageOptions, rmiUrl);
 			pc.run();
-
 			}
 		catch (Exception e)
 			{
 			e.printStackTrace();
 			}
-
 		}
 
 	private void launchSimulation() throws MeteoServiceException

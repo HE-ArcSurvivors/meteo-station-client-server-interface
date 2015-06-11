@@ -1,5 +1,5 @@
 
-package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom;
+package ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.settings;
 
 import java.awt.FlowLayout;
 import java.rmi.RemoteException;
@@ -28,7 +28,9 @@ public class JPanelSettings extends JPanel
 		geometry();
 		control();
 		appearance();
+
 		}
+
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
@@ -36,17 +38,13 @@ public class JPanelSettings extends JPanel
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
-//		System.out.println("UPDATE_METEO_SERVICE_OPTION");
 		int dtTemperature = (int)meteoServiceOptions.getTemperatureDT();
-//		System.out.println("dtTemperature " + dtTemperature);
 		sliderDeltaTemperature.setValue(dtTemperature);
 
 		int dtAltitude = (int)meteoServiceOptions.getAltitudeDT();
-//		System.out.println("dtAltitude " + dtAltitude);
 		sliderDeltaAltitude.setValue(dtAltitude);
 
 		int dtPression = (int)meteoServiceOptions.getPressionDT();
-//		System.out.println("dtPression " + dtPression);
 		sliderDeltaPression.setValue(dtPression);
 		}
 
@@ -59,7 +57,6 @@ public class JPanelSettings extends JPanel
 			switch(dataType)
 				{
 				case DataType.TEMPERATURE:
-					System.out.println("VALUE : "+value);
 					meteoServiceOptions.setTemperatureDT(value);
 					break;
 				case DataType.ALTITUDE:
@@ -71,10 +68,11 @@ public class JPanelSettings extends JPanel
 				default:
 					break;
 				}
+			afficheurServiceMOO.setMeteoServiceOptions(meteoServiceOptions);
 			}
 		catch (RemoteException e)
 			{
-			// TODO Auto-generated catch block
+			System.err.println("RemoteException -  afficheurServiceMOO.getMeteoServiceOptions()");
 			e.printStackTrace();
 			}
 		}
@@ -94,8 +92,7 @@ public class JPanelSettings extends JPanel
 	private void geometry()
 		{
 
-		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED),
-				"ParamÃ¨tres");
+		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Paramètres");
 		title.setTitleJustification(TitledBorder.RIGHT);
 		this.setBorder(title);
 
@@ -143,8 +140,7 @@ public class JPanelSettings extends JPanel
 	private JPanelSliderLine sliderDeltaAltitude;
 	private JPanelSliderLine sliderDeltaPression;
 
+	//Input
 	private AfficheurServiceMOO afficheurServiceMOO;
-
-	private final static int POOLING_DELAY = 500000;
 
 	}

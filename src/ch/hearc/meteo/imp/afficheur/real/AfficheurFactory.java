@@ -41,6 +41,7 @@ public class AfficheurFactory implements AfficheurFactory_I
 			}
 		else
 			{
+//			System.out.println("Dans createOnCentralPC - afficheurServiceMOO: " + afficheurServiceMOO);
 			System.out.println("TITLE : "+affichageOptions.getTitre());
 			AfficheurService afficheurLocal = new AfficheurService(affichageOptions, meteoServiceRemote);
 			afficheurCentral.addStation(affichageOptions.getTitre(), afficheurLocal);

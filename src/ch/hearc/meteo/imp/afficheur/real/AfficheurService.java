@@ -24,16 +24,18 @@ public class AfficheurService implements AfficheurService_I
 	 */
 	public AfficheurService(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
+		
 		afficheurServiceMOO = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
+		System.out.println("Dans AfficheurService - afficheurServiceMOO: " + afficheurServiceMOO);
 		jframestationmeteo = new JFrameStationMeteo(afficheurServiceMOO);
+		connected = true;
+		jframestationmeteo.setConnected(connected);
 
 		Thread threadPoolingOptions = new Thread(new Runnable()
 			{
-
 				@Override
 				public void run()
 					{
-
 					while(true)
 						{
 						MeteoServiceOptions option;
@@ -44,16 +46,16 @@ public class AfficheurService implements AfficheurService_I
 							}
 						catch (RemoteException e)
 							{
-							// TODO Auto-generated catch block
-							e.printStackTrace();
+							System.out.println("I LOST THE LOCAL PC, I AM SO SAD");
+							connected = false;
+							jframestationmeteo.setConnected(connected);
+//							e.printStackTrace();
 							}
-
 						attendre(1000); //disons
 						}
 					}
 			});
 
-//		threadSimulationChangementDt.start();
 		threadPoolingOptions.start(); // update gui
 
 		}
@@ -62,28 +64,48 @@ public class AfficheurService implements AfficheurService_I
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-	@Override public void printAltitude(MeteoEvent event)
+	@Override
+	public void printAltitude(MeteoEvent event)
 		{
 		afficheurServiceMOO.printAltitude(event);
 		jframestationmeteo.refresh();
 		}
 
-	@Override public void printTemperature(MeteoEvent event)
+	@Override
+	public void printTemperature(MeteoEvent event)
 		{
 		afficheurServiceMOO.printTemperature(event);
 		jframestationmeteo.refresh();
 		}
 
-	@Override public void printPression(MeteoEvent event)
+	@Override
+	public void printPression(MeteoEvent event)
 		{
 		afficheurServiceMOO.printPression(event);
 		jframestationmeteo.refresh();
 		}
 
-	@Override public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
+	@Override
+	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
 		jframestationmeteo.updateMeteoServiceOptions(meteoServiceOptions);
 		}
+
+	public JPanelStationMeteo getPanelStationMeteo()
+		{
+		this.jframestationmeteo.setVisible(false);
+		return jframestationmeteo.getPanelStationMeteo();
+		}
+
+	public boolean checkConnected()
+	{
+	return connected;
+	}
+
+
+	/*------------------------------------------------------------------*\
+	|*							Methodes Private						*|
+	\*------------------------------------------------------------------*/
 
 	private static void attendre(long delay)
 		{
@@ -97,16 +119,6 @@ public class AfficheurService implements AfficheurService_I
 			}
 		}
 
-	public JPanelStationMeteo getPanelStationMeteo()
-	{
-		this.jframestationmeteo.setVisible(false);
-		return jframestationmeteo.getPanelStationMeteo();
-	}
-
-	/*------------------------------------------------------------------*\
-	|*							Methodes Private						*|
-	\*------------------------------------------------------------------*/
-
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
@@ -116,4 +128,6 @@ public class AfficheurService implements AfficheurService_I
 
 	//Tools
 	private JFrameStationMeteo jframestationmeteo;
+
+	private boolean connected;
 	}

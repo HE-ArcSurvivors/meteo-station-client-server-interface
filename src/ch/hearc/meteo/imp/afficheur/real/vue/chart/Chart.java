@@ -45,11 +45,7 @@ public class Chart extends JPanel
 		DateAxis axis = (DateAxis)plot.getDomainAxis();
 		axis.setDateFormatOverride(new SimpleDateFormat("hh:mm:ss"));
 
-//		plot.setRangePannable(true);
-//		plot.setRangeGridlinesVisible(true);
-//		plot.setBackgroundAlpha(1);
 		plot.setBackgroundPaint(Color.DARK_GRAY);
-
 
 		lineChart.getLegend().setVisible(false);
 		lineChart.setBackgroundPaint( new Color(255,255,255,0) );

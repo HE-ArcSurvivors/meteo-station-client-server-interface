@@ -6,9 +6,9 @@ import java.awt.FlowLayout;
 import javax.swing.Box;
 import javax.swing.JPanel;
 
-import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.JPanelSettings;
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.altitude.JPanelAltitude;
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.barometre.JPanelBarometre;
+import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.settings.JPanelSettings;
 import ch.hearc.meteo.imp.afficheur.real.vue.layout.atom.thermometre.JPanelThermometre;
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
@@ -22,9 +22,9 @@ public class JPanelTabOverview extends JPanel
 
 	public JPanelTabOverview(AfficheurServiceMOO afficheurServiceMOO)
 		{
-		jpanelthermometre = new JPanelThermometre(afficheurServiceMOO.getStatTemperature(), afficheurServiceMOO.getListTemperature());
-		jpanelaltitude = new JPanelAltitude(afficheurServiceMOO.getStatAltitude(), afficheurServiceMOO.getListAltitude());
-		jpanelbarometre = new JPanelBarometre(afficheurServiceMOO.getStatPression(), afficheurServiceMOO.getListPression());
+		jpanelthermometre = new JPanelThermometre(afficheurServiceMOO.getStatTemperature());
+		jpanelaltitude = new JPanelAltitude(afficheurServiceMOO.getStatAltitude());
+		jpanelbarometre = new JPanelBarometre(afficheurServiceMOO.getStatPression());
 		jpanelsettings = new JPanelSettings(afficheurServiceMOO);
 
 		geometry();
@@ -79,7 +79,6 @@ public class JPanelTabOverview extends JPanel
 
 		// JComponent : add
 		add(boxV);
-
 		}
 
 	private void control()
@@ -89,6 +88,7 @@ public class JPanelTabOverview extends JPanel
 
 	private void appearance()
 		{
+		// rien
 		}
 
 	/*------------------------------------------------------------------*\

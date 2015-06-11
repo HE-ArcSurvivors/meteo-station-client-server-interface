@@ -32,20 +32,23 @@ public class JPanelStationMeteoCentral extends JPanel
 		geometry();
 		control();
 		appearance();
+
+		launchThread();
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-
 	public void refresh()
 		{
+		cleanPanel();
 		mapStation.get(jlistStation.getSelectedValue()).refresh();
 		}
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
+		cleanPanel();
 		mapStation.get(jlistStation.getSelectedValue()).updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
@@ -74,6 +77,7 @@ public class JPanelStationMeteoCentral extends JPanel
 		jlistStation.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
 		jlistStation.addListSelectionListener(new ListSelectionListener()
 			{
+
 				@Override
 				public void valueChanged(ListSelectionEvent le)
 					{
@@ -81,7 +85,7 @@ public class JPanelStationMeteoCentral extends JPanel
 					if (idx != -1)
 						{
 						Object[] tab = mapStation.keySet().toArray();
-						for(JPanelStationMeteo element : mapStation.values())
+						for(JPanelStationMeteo element:mapStation.values())
 							{
 							element.setVisible(false);
 							}
@@ -93,17 +97,11 @@ public class JPanelStationMeteoCentral extends JPanel
 
 		JScrollPane listScroller = new JScrollPane(jlistStation);
 		listScroller.setPreferredSize(new Dimension(250, 80));
-			// Layout : Specification
-			{
-			BorderLayout layout = new BorderLayout();
-			setLayout(layout);
 
-			add(listScroller, BorderLayout.WEST);
-			// flowlayout.setHgap(20);
-			// flowlayout.setVgap(20);
-			}
+		layout = new BorderLayout();
+		setLayout(layout);
+		add(listScroller, BorderLayout.WEST);
 
-		// JComponent : add
 		}
 
 	private void control()
@@ -119,8 +117,8 @@ public class JPanelStationMeteoCentral extends JPanel
 	public void addStation(String nom, JPanelStationMeteo jpanel)
 		{
 		nb++;
-		String name = "Station "+nb+": "+nom;
-		mapStation.put(name,jpanel);
+		String name = "Station " + nb + ": " + nom;
+		mapStation.put(name, jpanel);
 		listModel.addElement(name);
 
 		jpanel.setVisible(false);
@@ -128,6 +126,56 @@ public class JPanelStationMeteoCentral extends JPanel
 
 		updateUI();
 		revalidate();
+		}
+
+	private void cleanPanel()
+		{
+		for(String stationName:mapStation.keySet())
+			{
+			JPanelStationMeteo station = mapStation.get(stationName);
+			if (!station.checkConnected())
+				{
+				if (layout.getLayoutComponent(BorderLayout.CENTER) == station)
+					{
+					remove(station);
+					repaint();
+					}
+				mapStation.remove(stationName);
+
+				listModel.removeElement(stationName);
+				}
+			}
+		revalidate();
+		repaint();
+		}
+
+	private void launchThread()
+		{
+		Thread threadCleaning = new Thread(new Runnable()
+			{
+
+				@Override
+				public void run()
+					{
+
+					while(true)
+						{
+						cleanPanel();
+
+						try
+							{
+							Thread.sleep(1000);
+							}
+						catch (InterruptedException e)
+							{
+							e.printStackTrace();
+							}
+
+						}
+					}
+			});
+
+		threadCleaning.start();
 		}
 
 	/*------------------------------------------------------------------*\
@@ -139,6 +187,7 @@ public class JPanelStationMeteoCentral extends JPanel
 	private Map<String, JPanelStationMeteo> mapStation;
 
 	private DefaultListModel<Object> listModel;
+	private BorderLayout layout;
 
 	// Inputs
 	private AfficheurServiceMOO afficheurServiceMOO;
