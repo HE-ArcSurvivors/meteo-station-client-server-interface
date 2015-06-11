@@ -47,7 +47,6 @@ public class AfficheurService implements AfficheurService_I
 							System.out.println("I LOST THE LOCAL PC, I AM SO SAD");
 							connected = false;
 							jframestationmeteo.setConnected(connected);
-							// TODO ADD A RED ALERT ?
 //							e.printStackTrace();
 							}
 

@@ -28,7 +28,7 @@ public class JPanelSettings extends JPanel
 		geometry();
 		control();
 		appearance();
-	
+
 		}
 
 
@@ -92,7 +92,7 @@ public class JPanelSettings extends JPanel
 	private void geometry()
 		{
 
-		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "ParamÃ¨tres");
+		TitledBorder title = BorderFactory.createTitledBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED), "Paramètres");
 		title.setTitleJustification(TitledBorder.RIGHT);
 		this.setBorder(title);
 
