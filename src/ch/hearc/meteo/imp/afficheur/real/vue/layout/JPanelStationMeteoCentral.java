@@ -32,20 +32,23 @@ public class JPanelStationMeteoCentral extends JPanel
 		geometry();
 		control();
 		appearance();
+
+		launchThread();
 		}
 
 	/*------------------------------------------------------------------*\
 	|*							Methodes Public							*|
 	\*------------------------------------------------------------------*/
 
-
 	public void refresh()
 		{
+		cleanPanel();
 		mapStation.get(jlistStation.getSelectedValue()).refresh();
 		}
 
 	public void updateMeteoServiceOptions(MeteoServiceOptions meteoServiceOptions)
 		{
+		cleanPanel();
 		mapStation.get(jlistStation.getSelectedValue()).updateMeteoServiceOptions(meteoServiceOptions);
 		}
 
@@ -81,7 +84,7 @@ public class JPanelStationMeteoCentral extends JPanel
 					if (idx != -1)
 						{
 						Object[] tab = mapStation.keySet().toArray();
-						for(JPanelStationMeteo element : mapStation.values())
+						for(JPanelStationMeteo element:mapStation.values())
 							{
 							element.setVisible(false);
 							}
@@ -119,8 +122,8 @@ public class JPanelStationMeteoCentral extends JPanel
 	public void addStation(String nom, JPanelStationMeteo jpanel)
 		{
 		nb++;
-		String name = "Station "+nb+": "+nom;
-		mapStation.put(name,jpanel);
+		String name = "Station " + nb + ": " + nom;
+		mapStation.put(name, jpanel);
 		listModel.addElement(name);
 
 		jpanel.setVisible(false);
@@ -129,6 +132,50 @@ public class JPanelStationMeteoCentral extends JPanel
 		updateUI();
 		revalidate();
 		}
+
+	private void cleanPanel()
+		{
+		for(String stationName:mapStation.keySet())
+			{
+			JPanelStationMeteo station = mapStation.get(stationName);
+			if (!station.tryAfficheurService())
+				{
+				mapStation.remove(stationName);
+				listModel.removeElement(stationName);
+				}
+			}
+		revalidate();
+		repaint();
+		}
+
+	private void launchThread()
+	{
+		Thread threadCleaning = new Thread(new Runnable()
+			{
+
+				@Override
+				public void run()
+					{
+
+					while(true)
+						{
+						cleanPanel();
+
+						try
+							{
+							Thread.sleep(1000);
+							}
+						catch (InterruptedException e)
+							{
+							e.printStackTrace();
+							}
+
+						}
+					}
+			});
+
+		threadCleaning.start();
+	}
 
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|

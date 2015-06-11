@@ -88,6 +88,12 @@ public class JPanelStationMeteo extends JPanel
 		// rien
 		}
 
+	public boolean tryAfficheurService()
+		{
+		//TODO NEED TO CHECK IF THE STATION IS STILL CONNECTED
+		return true;
+		}
+
 	/*------------------------------------------------------------------*\
 	|*							Attributs Private						*|
 	\*------------------------------------------------------------------*/
