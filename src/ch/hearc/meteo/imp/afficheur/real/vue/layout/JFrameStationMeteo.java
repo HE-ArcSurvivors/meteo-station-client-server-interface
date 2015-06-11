@@ -2,15 +2,11 @@
 package ch.hearc.meteo.imp.afficheur.real.vue.layout;
 
 import java.awt.BorderLayout;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.rmi.RemoteException;
 
 import javax.swing.JFrame;
 
 import ch.hearc.meteo.imp.afficheur.simulateur.moo.AfficheurServiceMOO;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
-import ch.hearc.meteo.spec.com.meteo.exception.MeteoServiceException;
 
 public class JFrameStationMeteo extends JFrame
 	{
@@ -76,30 +72,30 @@ public class JFrameStationMeteo extends JFrame
 
 	private void control()
 		{
-		addWindowListener(new WindowAdapter()
-			{
-
-				@Override
-				public void windowClosing(WindowEvent we)
-					{
-					try
-						{
-						afficheurServiceMOO.getMeteoServiceRemote().disconnect();
-						afficheurServiceMOO.getMeteoServiceRemote().stop();
-						}
-					catch (RemoteException e)
-						{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						}
-					catch (MeteoServiceException e)
-						{
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-						}
-					//TODO A PROPER EXIT LINKED WITH CENTRAL PC HERE
-					}
-			});
+//		addWindowListener(new WindowAdapter()
+//			{
+//				@Override
+//				public void windowClosing(WindowEvent we)
+//					{
+//					try
+//						{
+//						afficheurServiceMOO.getMeteoServiceRemote().disconnect();
+//						afficheurServiceMOO.getMeteoServiceRemote().stop();
+//						}
+//					catch (RemoteException e)
+//						{
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//						}
+//					catch (MeteoServiceException e)
+//						{
+//						// TODO Auto-generated catch block
+//						e.printStackTrace();
+//						}
+//					//TODO A PROPER EXIT LINKED WITH CENTRAL PC HERE
+//					}
+//			});
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		}
 
 	private void appearance()
