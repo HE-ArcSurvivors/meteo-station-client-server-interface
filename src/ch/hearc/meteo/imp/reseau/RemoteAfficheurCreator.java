@@ -63,6 +63,7 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 				meteoServiceWrapper = (MeteoServiceWrapper_I)RmiTools.connectionRemoteObjectBloquant(meteoServiceRmiURL, 500, 5);
 			} catch (RemoteException e1) {
 				// TODO Auto-generated catch block
+				System.out.println("meteoServiceRmiURL catched: "+meteoServiceRmiURL);
 				e1.printStackTrace();
 			}
 
@@ -87,8 +88,6 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			// share afficheurService from PCCentral
 			AfficheurServiceWrapper afficheurServiceWrapper = new AfficheurServiceWrapper(
 					afficheurService);
-			
-		
 			
 			RmiURL rmiURLAfficheurService = rmiUrl();
 			
@@ -148,10 +147,8 @@ public class RemoteAfficheurCreator implements RemoteAfficheurCreator_I {
 			AffichageOptions affichageOptions,
 			MeteoServiceWrapper_I meteoServiceRemote) {
 
-
 		AfficheurService_I afficheurService = new AfficheurFactory().createOnCentralPC(affichageOptions, meteoServiceRemote);
 //		AfficheurService_I afficheurService = new AfficheurFactory().createOnLocalPC(affichageOptions, meteoServiceRemote);
-
 
 		return afficheurService;
 

@@ -24,7 +24,9 @@ public class AfficheurService implements AfficheurService_I
 	 */
 	public AfficheurService(AffichageOptions affichageOptions, MeteoServiceWrapper_I meteoServiceRemote)
 		{
+		
 		afficheurServiceMOO = new AfficheurServiceMOO(affichageOptions, meteoServiceRemote);
+		System.out.println("Dans AfficheurService - afficheurServiceMOO: " + afficheurServiceMOO);
 		jframestationmeteo = new JFrameStationMeteo(afficheurServiceMOO);
 
 		Thread threadPoolingOptions = new Thread(new Runnable()
