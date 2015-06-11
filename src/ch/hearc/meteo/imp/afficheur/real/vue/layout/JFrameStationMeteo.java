@@ -95,7 +95,7 @@ public class JFrameStationMeteo extends JFrame
 //					//TODO A PROPER EXIT LINKED WITH CENTRAL PC HERE
 //					}
 //			});
-		setDefaultCloseOperation(EXIT_ON_CLOSE);
+//		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		}
 
 	private void appearance()

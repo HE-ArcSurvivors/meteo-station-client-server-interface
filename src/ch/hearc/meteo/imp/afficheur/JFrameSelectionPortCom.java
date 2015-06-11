@@ -195,7 +195,7 @@ public class JFrameSelectionPortCom extends JFrame
 			PCLocal pc = new PCLocal(meteoServiceOptions, portcom, affichageOptions, rmiUrl);
 			pc.run();
 
-			this.setVisible(false);
+//			this.setVisible(false);
 			}
 		catch (Exception e)
 			{
