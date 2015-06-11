@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import ch.hearc.meteo.imp.com.real.MeteoFactory;
 import ch.hearc.meteo.imp.com.real.port.MeteoPortDetectionServiceFactory;
 import ch.hearc.meteo.imp.reseau.RemoteAfficheurCreator;
+import ch.hearc.meteo.imp.use.remote.PropertiesSingleton;
 import ch.hearc.meteo.imp.use.remote.pclocal.PCLocal;
 import ch.hearc.meteo.spec.afficheur.AffichageOptions;
 import ch.hearc.meteo.spec.com.meteo.MeteoServiceOptions;
@@ -173,26 +174,13 @@ public class JFrameSelectionPortCom extends JFrame
 			{
 			int dataToPrint = 3;
 
-			MeteoService_I meteoService = (new MeteoFactory()).create(portcom);
 			MeteoServiceOptions meteoServiceOptions = new MeteoServiceOptions(800, 1000, 1200);
-
-			//Get Properties from config file
-			FileInputStream fis = new FileInputStream(FILE_NAME);
-			BufferedInputStream bis = new BufferedInputStream(fis);
-			Properties property = new Properties();
-			property.load(bis);
-			String ipAddress = property.getProperty(IP_ADDRESS);
-			InetAddress inetIpAddress = InetAddress.getByName(ipAddress);
-			String moduleName = property.getProperty(MODULE_NAME);
-			bis.close();
-			fis.close();
-
-			RmiURL rmiUrl = new RmiURL(RemoteAfficheurCreator.RMI_ID, inetIpAddress, RemoteAfficheurCreator.RMI_PORT);
-			String moduleTitle = moduleName + ": " + RmiTools.getLocalHost() + " " + meteoService.getPort();
-
-			AffichageOptions affichageOptions = new AffichageOptions(dataToPrint, moduleTitle);
-
-			PCLocal pc = new PCLocal(meteoServiceOptions, portcom, affichageOptions, rmiUrl);
+			String ipServer = PropertiesSingleton.getInstance().getIpServer();
+			InetAddress inetIpAddress = InetAddress.getByName(ipServer);
+			RmiURL rmiUrl = new RmiURL(RemoteAfficheurCreator.RMI_ID, inetIpAddress,
+					RemoteAfficheurCreator.RMI_PORT);
+			PCLocal pc = new PCLocal(meteoServiceOptions,portcom,null,rmiUrl);
+			
 			pc.run();
 
 			this.setVisible(false);
@@ -224,10 +212,5 @@ public class JFrameSelectionPortCom extends JFrame
 
 	private static final int BUTTON_WIDTH = 100;
 	private static final int BUTTON_HEIGHT = 25;
-
-	// Static tools
-	private static final String IP_ADDRESS = "IP_ADDRESS";
-	private static final String MODULE_NAME = "MODULE_NAME";
-	private static final String FILE_NAME = "./settings.properties";
 
 	}
